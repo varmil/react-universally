@@ -112,7 +112,6 @@ function webpackConfigFactory({ target, mode }, { json }) {
     entry: merge(
       {
         main: removeEmpty([
-          ifDevClient('react-hot-loader/patch'),
           ifDevClient(`webpack-hot-middleware/client?reload=true&path=http://localhost:${process.env.CLIENT_DEVSERVER_PORT}/__webpack_hmr`),
           path.resolve(appRootPath, `./src/${target}/index.js`),
         ]),
@@ -268,11 +267,6 @@ function webpackConfigFactory({ target, mode }, { json }) {
                 'transform-object-rest-spread',
                 'transform-class-properties',
               ],
-              env: {
-                development: {
-                  plugins: ['react-hot-loader/babel'],
-                },
-              },
             },
             ifServer({
               // We are running a node 6 server which has support for almost
