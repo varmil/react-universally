@@ -4,6 +4,7 @@ import React from 'react';
 import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
 import App from '../components/App';
+var path = require('path');
 
 function handleError(err) {
   // TODO: Error handling, do we return an Error component here?
@@ -11,17 +12,33 @@ function handleError(err) {
   console.log(err); // eslint-disable-line no-console
 }
 
-function resolveIndexComponent(nextState, cb) {
-  System.import('../components/Home')
-    .then(module => cb(null, module.default))
-    .catch(handleError);
+function loadRoute(cb) {
+  return (module) => cb(null, module.default);
 }
 
-function resolveAboutComponent(nextState, cb) {
-  System.import('../components/About')
-    .then(module => cb(null, module.default))
-    .catch(handleError);
+// FIXME: path.resolve()でも無理。やはりサーバ側での実行時解決は無理なのか
+function systemImport(modulePath) {
+  // switch load function depending on IS_SERVER
+  // On server side, require() supports only literal, not dynamic module loading...
+
+  return (location, cb) => {
+    System.import(path.resolve(modulePath) )
+      .then(module => cb(null, module.default))
+      .catch(handleError);
+  };
 }
+
+// function resolveIndex(nextState, cb) {
+//   System.import('../components/Home')
+//     .then(module => cb(null, module.default))
+//     .catch(handleError);
+// }
+
+// function resolveAbout(nextState, cb) {
+//   System.import('../components/About')
+//     .then(module => cb(null, module.default))
+//     .catch(handleError);
+// }
 
 /**
  * Our routes.
@@ -34,8 +51,8 @@ function resolveAboutComponent(nextState, cb) {
  */
 const routes = (
   <Route path="/" component={App}>
-    <IndexRoute getComponent={resolveIndexComponent} />
-    <Route path="about" getComponent={resolveAboutComponent} />
+    <IndexRoute getComponent={systemImport('src/shared/components/Home')} />
+    <Route path="about" getComponent={systemImport('src/shared/components/About')} />
   </Route>
 );
 
