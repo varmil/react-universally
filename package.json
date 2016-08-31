@@ -1,11 +1,6 @@
 {
   "name": "react-universally",
   "version": "3.3.1",
-  "description": "A starter kit giving you the minimum requirements for a production ready universal react application.",
-  "main": "build/server/main.js",
-  "engines": {
-    "node": "~6.3.1"
-  },
   "scripts": {
     "typecheck": "flow",
     "lint": "eslint src",
@@ -14,25 +9,7 @@
     "build": "npm run clean && webpack --env.mode production --config ./tools/webpack/client.config.js && webpack --env.mode production --config ./tools/webpack/server.config.js",
     "start": "node build/server/main.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ctrlplusb/react-universally.git"
-  },
-  "keywords": [
-    "react",
-    "boilerplate",
-    "starter kit",
-    "universal",
-    "javascript",
-    "express",
-    "webpack"
-  ],
-  "author": "Sean Matheson <sean@ctrlplusb.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ctrlplusb/react-universally/issues"
-  },
-  "homepage": "https://github.com/ctrlplusb/react-universally#readme",
   "dependencies": {
     "app-root-path": "1.3.0",
     "compression": "1.6.2",
