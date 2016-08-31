@@ -9,6 +9,6 @@
 module.exports = Object
   .keys(process.env)
   .reduce((env, key) => {
-    env['process.env.' + key] = JSON.stringify(process.env[key]);
+    env[key] = JSON.stringify(process.env[key]);
     return env;
   }, {});

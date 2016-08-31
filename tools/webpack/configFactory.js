@@ -170,12 +170,14 @@ function webpackConfigFactory({ target, mode }, { json }) {
       // If the value isn’t a string, it will be stringified (including functions).
       // If the value is an object all keys are removeEmpty the same way.
       // If you prefix typeof to the key, it’s only removeEmpty for typeof calls.
-      new webpack.DefinePlugin(Object.assign(
-        // NOTE: The NODE_ENV key is especially important for production
-        // builds as React relies on process.env.NODE_ENV for optimizations.
-        { 'process.envNODE_ENV': JSON.stringify(mode) },
-        require('./env')
-      )),
+      new webpack.DefinePlugin({
+        'process.env': Object.assign(
+          // NOTE: The NODE_ENV key is especially important for production
+          // builds as React relies on process.env.NODE_ENV for optimizations.
+          { 'NODE_ENV': JSON.stringify(mode) },
+          require('./env')
+        )
+      }),
 
       ifClient(
         // Generates a JSON file containing a map of all the output files for
@@ -236,6 +238,15 @@ function webpackConfigFactory({ target, mode }, { json }) {
       ),
     ]),
     module: {
+      // First, run the linter.
+      // It's important to do this before Babel processes the JS.
+      preLoaders: [
+        {
+          test: /\.js$/,
+          loader: 'eslint',
+          include: path.resolve(appRootPath, './src'),
+        }
+      ],
       loaders: [
         // Javascript
         {
@@ -323,6 +334,11 @@ function webpackConfigFactory({ target, mode }, { json }) {
           })
         ),
       ],
+    },
+    // Point ESLint to our predefined config.
+    eslint: {
+      configFile: path.join(__dirname, 'eslint.js'),
+      useEslintrc: false
     },
   };
 }

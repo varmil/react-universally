@@ -27,8 +27,8 @@ function renderApp() {
       return;
     } else if (renderProps) {
       render(
-          <Router {...renderProps} />,
-          container
+        <Router {...renderProps} />,
+        container
       );
     } else {
       routerError();

@@ -1,7 +1,6 @@
 /* eslint-disable no-console,global-require,no-underscore-dangle,import/no-extraneous-dependencies,max-len */
 
 const path = require('path');
-const notifier = require('node-notifier');
 const chokidar = require('chokidar');
 const webpack = require('webpack');
 const express = require('express');
@@ -12,12 +11,6 @@ function createNotification(options = {}) {
   const title = options.title
     ? `🔥  ${options.title.toUpperCase()}`
     : undefined;
-
-  notifier.notify({
-    title,
-    message: options.message,
-    open: options.open,
-  });
 
   console.log(`==> ${title} -> ${options.message}`);
 }
