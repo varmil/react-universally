@@ -12,8 +12,6 @@ const { removeEmpty, ifElse, merge } = require('../utils');
 
 const appRootPath = appRoot.toString();
 
-const aaa = { a: 1, b:2 }
-
 // @see https://github.com/motdotla/dotenv
 dotenv.config(process.env.NOW
   // This is to support deployment to the "now" host.  See the README for more info.
