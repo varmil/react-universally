@@ -4,7 +4,6 @@ import React from 'react';
 import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
 import App from '../components/App';
-var path = require('path');
 
 function handleError(err) {
   // TODO: Error handling, do we return an Error component here?
@@ -16,29 +15,21 @@ function loadRoute(cb) {
   return (module) => cb(null, module.default);
 }
 
-// FIXME: path.resolve()でも無理。やはりサーバ側での実行時解決は無理なのか
-function systemImport(modulePath) {
-  // switch load function depending on IS_SERVER
-  // On server side, require() supports only literal, not dynamic module loading...
+// require.ensure cannot work with dynamic module paths, which leads to a lot of repetitive code
+// this is workaround
+// http://henleyedition.com/implicit-code-splitting-with-react-router-and-webpack/
 
-  return (location, cb) => {
-    System.import(path.resolve(modulePath) )
-      .then(module => cb(null, module.default))
-      .catch(handleError);
-  };
+function resolveIndex(nextState, cb) {
+  System.import('../components/Home')
+    .then(loadRoute(cb))
+    .catch(handleError);
 }
 
-// function resolveIndex(nextState, cb) {
-//   System.import('../components/Home')
-//     .then(module => cb(null, module.default))
-//     .catch(handleError);
-// }
-
-// function resolveAbout(nextState, cb) {
-//   System.import('../components/About')
-//     .then(module => cb(null, module.default))
-//     .catch(handleError);
-// }
+function resolveAbout(nextState, cb) {
+  System.import('../components/About')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
 
 /**
  * Our routes.
@@ -51,8 +42,8 @@ function systemImport(modulePath) {
  */
 const routes = (
   <Route path="/" component={App}>
-    <IndexRoute getComponent={systemImport('src/shared/components/Home')} />
-    <Route path="about" getComponent={systemImport('src/shared/components/About')} />
+    <IndexRoute getComponent={resolveIndex} />
+    <Route path="about" getComponent={resolveAbout} />
   </Route>
 );
 

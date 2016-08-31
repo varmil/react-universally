@@ -12,6 +12,8 @@ const { removeEmpty, ifElse, merge } = require('../utils');
 
 const appRootPath = appRoot.toString();
 
+const aaa = { a: 1, b:2 }
+
 // @see https://github.com/motdotla/dotenv
 dotenv.config(process.env.NOW
   // This is to support deployment to the "now" host.  See the README for more info.
@@ -153,11 +155,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
     },
     resolve: {
       // These extensions are tried when resolving a file.
-      extensions: [
-        '.js',
-        '.jsx',
-        '.json',
-      ],
+      extensions: ['.js', '.jsx', '.json'],
     },
     plugins: removeEmpty([
       // We use this so that our generated [chunkhash]'s are only different if
@@ -174,23 +172,12 @@ function webpackConfigFactory({ target, mode }, { json }) {
       // If the value isn’t a string, it will be stringified (including functions).
       // If the value is an object all keys are removeEmpty the same way.
       // If you prefix typeof to the key, it’s only removeEmpty for typeof calls.
-      new webpack.DefinePlugin({
-        'process.env': {
-          // NOTE: The NODE_ENV key is especially important for production
-          // builds as React relies on process.env.NODE_ENV for optimizations.
-          NODE_ENV: JSON.stringify(mode),
-          // All the below items match the config items in our .env file. Go
-          // to the .env_example for a description of each key.
-          SERVER_PORT: JSON.stringify(process.env.SERVER_PORT),
-          CLIENT_DEVSERVER_PORT: JSON.stringify(process.env.CLIENT_DEVSERVER_PORT),
-          DISABLE_SSR: JSON.stringify(process.env.DISABLE_SSR),
-          SERVER_BUNDLE_OUTPUT_PATH: JSON.stringify(process.env.SERVER_BUNDLE_OUTPUT_PATH),
-          CLIENT_BUNDLE_OUTPUT_PATH: JSON.stringify(process.env.CLIENT_BUNDLE_OUTPUT_PATH),
-          CLIENT_BUNDLE_ASSETS_FILENAME: JSON.stringify(process.env.CLIENT_BUNDLE_ASSETS_FILENAME),
-          CLIENT_BUNDLE_HTTP_PATH: JSON.stringify(process.env.CLIENT_BUNDLE_HTTP_PATH),
-          CLIENT_BUNDLE_CACHE_MAXAGE: JSON.stringify(process.env.CLIENT_BUNDLE_CACHE_MAXAGE),
-        },
-      }),
+      new webpack.DefinePlugin(Object.assign(
+        // NOTE: The NODE_ENV key is especially important for production
+        // builds as React relies on process.env.NODE_ENV for optimizations.
+        { 'process.envNODE_ENV': JSON.stringify(mode) },
+        require('./env')
+      )),
 
       ifClient(
         // Generates a JSON file containing a map of all the output files for
