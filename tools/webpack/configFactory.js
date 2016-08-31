@@ -259,10 +259,14 @@ function webpackConfigFactory({ target, mode }, { json }) {
           ],
           query: merge(
             {
-              plugins: [
+              plugins: removeEmpty([
                 'transform-object-rest-spread',
                 'transform-class-properties',
-              ],
+                // Remove unnecessary React propTypes from the production build.
+                ifProd('transform-react-remove-prop-types'),
+                // Optimization: hoist JSX that never changes out of render()
+                ifProd('transform-react-constant-elements'),
+              ]),
             },
             ifServer({
               // We are running a node 6 server which has support for almost
@@ -298,8 +302,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
             // a base64 representation.
             limit: 10000,
             // We only emit files when building a client bundle, for the server
-            // bundles this will just make sure any file imports will not fall
-            // over.
+            // bundles this will just make sure any file imports will not fall over.
             emitFile: isClient,
           },
         },
