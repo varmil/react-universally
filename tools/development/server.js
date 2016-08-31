@@ -287,7 +287,7 @@ const hotServers = new HotServers();
 // Any changes to our webpack config builder will cause us to restart our
 // hot servers.
 const watcher = chokidar.watch(
-  path.resolve(__dirname, '../webpack/configFactory.js')
+  path.resolve(__dirname, '../webpack/**/*.js')
 );
 watcher.on('ready', () => {
   watcher.on('change', () => {
