@@ -238,15 +238,6 @@ function webpackConfigFactory({ target, mode }, { json }) {
       ),
     ]),
     module: {
-      // First, run the linter.
-      // It's important to do this before Babel processes the JS.
-      preLoaders: [
-        {
-          test: /\.js$/,
-          loader: 'eslint',
-          include: path.resolve(appRootPath, './src'),
-        }
-      ],
       loaders: [
         // Javascript
         {
@@ -337,11 +328,6 @@ function webpackConfigFactory({ target, mode }, { json }) {
           })
         ),
       ],
-    },
-    // Point ESLint to our predefined config.
-    eslint: {
-      configFile: path.join(__dirname, 'eslint.js'),
-      useEslintrc: false
     },
   };
 }
