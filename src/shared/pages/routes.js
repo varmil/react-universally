@@ -1,11 +1,8 @@
 /* @flow */
-
 import React from 'react';
 import { Router, Route, RouterContext, IndexRoute } from 'react-router';
-// import App from '../components/App';
-import App from '../containers/App';
+import App from './App';
 import { Provider } from 'react-redux';
-
 
 function handleError(err) {
   // TODO: Error handling, do we return an Error component here?
@@ -22,13 +19,13 @@ function loadRoute(cb) {
 // http://henleyedition.com/implicit-code-splitting-with-react-router-and-webpack/
 
 function resolveIndex(nextState, cb) {
-  System.import('../components/Home')
+  System.import('./Home')
     .then(loadRoute(cb))
     .catch(handleError);
 }
 
 function resolveAbout(nextState, cb) {
-  System.import('../components/About')
+  System.import('./About')
     .then(loadRoute(cb))
     .catch(handleError);
 }

@@ -11,8 +11,8 @@ export default function auth(state = initialState, action) {
     case ActionTypes.AUTH_SET_IS_LOGGED_IN:
       return {
         ...state,
-        isPrepared: action.value,
-        isLoggedIn: action.value
+        isPrepared: action.bool,
+        isLoggedIn: action.bool
       };
     default:
       return state;

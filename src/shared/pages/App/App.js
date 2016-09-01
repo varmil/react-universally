@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import * as AuthActions from '../actions/auth';
-
 import Link from 'react-router/lib/Link';
 import Helmet from 'react-helmet';
-
 import 'normalize.css/normalize.css';
 
-// TODO: move these files
-import '../components/App/globals.css';
-import logo from '../components/App/logo.png';
+import * as AuthActions from '../../actions/auth';
+import './globals.css';
+import logo from './logo.png';
 
 const websiteDescription =
   'A starter kit giving you the minimum requirements for a production ready ' +
@@ -19,7 +16,7 @@ const websiteDescription =
 // This component is mounted on Initial Loading
 class App extends Component {
   componentWillMount() {
-    const { /*params, dispatch,*/ onComponentWillMount } = this.props
+    const { /*params,*/ /*dispatch,*/ onComponentWillMount } = this.props
     // 非同期通信。ユーザログイン情報をfetch。ローディングし終わるまでは、ロード画面を表示し続ける。
     // それによって、App以下のComponentsではほぼ認証情報をローカルから取得できる前提で処理をかける。
     // https://github.com/nabeliwo/jwt-react-redux-auth-example/blob/master/src/containers/App.jsx
@@ -28,9 +25,10 @@ class App extends Component {
     onComponentWillMount()
   }
 
+// TODO: remove layout
+
   render() {
-    console.info('state in render', this.state)
-    return /*this.state.auth.isPrepared*/ true ?
+    return this.props.isPrepared ?
     (
       <MuiThemeProvider>
         <div style={{ padding: '10px' }}>
@@ -81,10 +79,17 @@ class App extends Component {
 // See: http://qiita.com/193/items/7ff650616dd8f34804f4
 // redux-thunkなのかredux-promiseなのかredux-sagaなのか、それともredux#bindActionCreatorsをやめるのか
 
+// ここで非同期APIを叩くのも誤りではない
+// http://stackoverflow.com/questions/34570758/why-do-we-need-middleware-for-async-flow-in-redux
+
+// まさにここがAction Creatorにあたる。非同期APIを叩いて、必要に応じてactionをdispatchする役割。
+// stateが取れればベストなんだが… react-thunkを使えということらしい
+// https://github.com/reactjs/react-redux/issues/211
+
 const AppContainer = connect(
-  (state) => ({
-    isPrepared: state.auth.isPrepared,
-  }),
+  (state) => {
+     return Object.assign(state.auth)
+   },
 
   (dispatch) => ({
     onComponentWillMount: () => {

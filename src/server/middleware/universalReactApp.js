@@ -1,12 +1,10 @@
 /* @flow */
 
 import type { Middleware } from 'express';
-import React from 'react';
-import RouterContext from 'react-router/lib/RouterContext';
 import createMemoryHistory from 'react-router/lib/createMemoryHistory';
 import match from 'react-router/lib/match';
 import render from '../htmlPage/render';
-import routes, { createServerApp } from '../../shared/routes';
+import routes, { createServerApp } from '../../shared/pages/routes';
 import { DISABLE_SSR } from '../config';
 import { IS_DEVELOPMENT } from '../../shared/config';
 
@@ -41,10 +39,10 @@ function universalReactAppMiddleware(request, response) {
       // You can check renderProps.components or renderProps.routes for
       // your "not found" component or route respectively, and send a 404 as
       // below, if you're using a catch-all route.
-
-      const app = createServerApp(configureStore({}), renderProps);
-      // const html = render(<RouterContext {...renderProps} />);
-      const html = render(app);
+      const store = configureStore()
+      const app = createServerApp(store, renderProps);
+      const initialState = store.getState();
+      const html = render(app, initialState);
       response.status(200).send(html);
     } else {
       response.status(404).send('Not found');
