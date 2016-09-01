@@ -5,7 +5,9 @@ import { render } from 'react-dom';
 import Router from 'react-router/lib/Router';
 import browserHistory from 'react-router/lib/browserHistory';
 import match from 'react-router/lib/match';
-import routes from '../shared/routes';
+import routes, { createClientApp } from '../shared/routes';
+
+import configureStore from '../shared/store/configureStore';
 
 // Get the DOM Element that will host our React application.
 const container = document.querySelector('#app');
@@ -27,7 +29,8 @@ function renderApp() {
       return;
     } else if (renderProps) {
       render(
-        <Router {...renderProps} />,
+        // <Router {...renderProps} />,
+        createClientApp(configureStore({}), browserHistory),
         container
       );
     } else {

@@ -6,9 +6,11 @@ import RouterContext from 'react-router/lib/RouterContext';
 import createMemoryHistory from 'react-router/lib/createMemoryHistory';
 import match from 'react-router/lib/match';
 import render from '../htmlPage/render';
-import routes from '../../shared/routes';
+import routes, { createServerApp } from '../../shared/routes';
 import { DISABLE_SSR } from '../config';
 import { IS_DEVELOPMENT } from '../../shared/config';
+
+import configureStore from '../../shared/store/configureStore';
 
 /**
  * An express middleware that is capabable of doing React server side rendering.
@@ -40,7 +42,9 @@ function universalReactAppMiddleware(request, response) {
       // your "not found" component or route respectively, and send a 404 as
       // below, if you're using a catch-all route.
 
-      const html = render(<RouterContext {...renderProps} />);
+      const app = createServerApp(configureStore({}), renderProps);
+      // const html = render(<RouterContext {...renderProps} />);
+      const html = render(app);
       response.status(200).send(html);
     } else {
       response.status(404).send('Not found');

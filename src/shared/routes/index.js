@@ -1,9 +1,11 @@
 /* @flow */
 
 import React from 'react';
-import Route from 'react-router/lib/Route';
-import IndexRoute from 'react-router/lib/IndexRoute';
-import App from '../components/App';
+import { Router, Route, RouterContext, IndexRoute } from 'react-router';
+// import App from '../components/App';
+import App from '../containers/App';
+import { Provider } from 'react-redux';
+
 
 function handleError(err) {
   // TODO: Error handling, do we return an Error component here?
@@ -46,5 +48,21 @@ const routes = (
     <Route path="about" getComponent={resolveAbout} />
   </Route>
 );
+
+const withReduxProvider = (store, children) => {
+  return (
+    <Provider store={store}>
+      {children}
+    </Provider>
+  );
+};
+
+export const createClientApp = (store, history) => {
+  return withReduxProvider(store, <Router history={history}>{routes}</Router>);
+};
+
+export const createServerApp = (store, props) => {
+  return withReduxProvider(store, <RouterContext {...props}/>);
+};
 
 export default routes;
