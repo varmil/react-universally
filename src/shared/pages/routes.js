@@ -1,4 +1,5 @@
 /* @flow */
+
 import React from 'react';
 import { Router, Route, RouterContext, IndexRoute } from 'react-router';
 import App from './App';
@@ -54,12 +55,12 @@ const withReduxProvider = (store, children) => {
   );
 };
 
-export const createClientApp = (store, history) => {
-  return withReduxProvider(store, <Router history={history}>{routes}</Router>);
+export const createClientApp = (store, renderProps) => {
+  return withReduxProvider(store, <Router {...renderProps} />);
 };
 
-export const createServerApp = (store, props) => {
-  return withReduxProvider(store, <RouterContext {...props}/>);
+export const createServerApp = (store, renderProps) => {
+  return withReduxProvider(store, <RouterContext {...renderProps}/>);
 };
 
 export default routes;
