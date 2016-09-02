@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import Link from 'react-router/lib/Link';
 import Helmet from 'react-helmet';
 import 'normalize.css/normalize.css';
 
-import * as AuthActions from '../../actions/auth';
+import Header from '../../components/Header';
+import API from '../../api';
+import * as authActions from '../../actions/auth';
 import './globals.css';
-import logo from './logo.png';
 
 const websiteDescription =
   'A starter kit giving you the minimum requirements for a production ready ' +
@@ -15,23 +15,33 @@ const websiteDescription =
 
 // This component is mounted on Initial Loading
 class App extends Component {
+  static fetchData({ params, dispatch }) {
+    return API.fetchUser().then((message) => {
+      dispatch(authActions.setIsLoggedIn(true))
+    })
+  }
+
   componentWillMount() {
-    const { /*params,*/ /*dispatch,*/ onComponentWillMount } = this.props
+    const { params, dispatch } = this.props;
     // 非同期通信。ユーザログイン情報をfetch。ローディングし終わるまでは、ロード画面を表示し続ける。
     // それによって、App以下のComponentsではほぼ認証情報をローカルから取得できる前提で処理をかける。
     // https://github.com/nabeliwo/jwt-react-redux-auth-example/blob/master/src/containers/App.jsx
 
     // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
-    onComponentWillMount()
+    if (true) { // 取得済みかどうか
+      App.fetchData({ params, dispatch });
+    }
   }
 
-// TODO: remove layout
+  componentWillUpdate(nextProps, nextState) {
+    console.info('componentWillUpdate', nextProps, nextState)
+  }
 
   render() {
-    return this.props.isPrepared ?
+    return this.props.auth.isPrepared ?
     (
       <MuiThemeProvider>
-        <div style={{ padding: '10px' }}>
+        <div>
           {/*
             All of the following will be injected into our page header.
             @see https://github.com/nfl/react-helmet
@@ -48,23 +58,9 @@ class App extends Component {
             ]}
           />
 
-          <div style={{ textAlign: 'center' }}>
-            <img src={logo} alt="Logo" style={{ width: '100px' }} />
-            <h1>React, Universally</h1>
-            <strong>
-              {websiteDescription}
-            </strong>
-          </div>
-          <div>
-            <ul>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/about">About</Link></li>
-            </ul>
+          <Header title={this.props.location.pathname} />
 
-          </div>
-          <div>
-            {this.props.children}
-          </div>
+          {this.props.children}
         </div>
       </MuiThemeProvider>
     )
@@ -86,22 +82,10 @@ class App extends Component {
 // stateが取れればベストなんだが… react-thunkを使えということらしい
 // https://github.com/reactjs/react-redux/issues/211
 
-const AppContainer = connect(
-  (state) => {
-     return Object.assign(state.auth)
-   },
+// もっとSimpleにハンドラはContainer内に自分でメソッド切ればいいじゃん？stateも使えるし。
 
-  (dispatch) => ({
-    onComponentWillMount: () => {
-      // ホントはここでバリデーション
-      setTimeout(() => {
-        dispatch(AuthActions.setIsLoggedIn(true))
-      }, 1000)
-    },
-    handleSubmit: () => {
-      // 非同期処理は別モジュールに委譲
-    },
-  })
+const AppContainer = connect(
+  (state) => state
 )(App)
 
 export default AppContainer

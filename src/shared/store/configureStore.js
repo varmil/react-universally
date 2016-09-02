@@ -1,5 +1,5 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import rootReducer from '../reducers';
+import { createStore, applyMiddleware, compose } from 'redux'
+import rootReducer from '../reducers'
 
 const enhancer = compose(
   // Middleware you want to use in development:
