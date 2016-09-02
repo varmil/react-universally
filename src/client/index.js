@@ -2,12 +2,17 @@
 
 import { render } from 'react-dom';
 import browserHistory from 'react-router/lib/browserHistory';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import match from 'react-router/lib/match';
 import routes, { createClientApp } from '../shared/pages/routes';
 import configureStore from '../shared/store/configureStore';
 
 // Get the DOM Element that will host our React application.
 const container = document.querySelector('#app');
+
+// Needed for onTouchTap, not needed on server ?
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
 
 function routerError(error) {
   // TODO: Error handling.

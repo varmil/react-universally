@@ -1,5 +1,6 @@
-import ActionTypes from '../constants/ActionTypes'
+import { createAction } from 'redux-actions'
+import { Auth } from '../constants/ActionTypes'
 
-export function setIsLoggedIn(bool) {
-  return { type: ActionTypes.AUTH_SET_IS_LOGGED_IN, bool }
-}
+export let setIsLoggedIn = createAction(Auth.SET_IS_LOGGED_IN, (bool) => {
+  return { isLoggedIn: bool, isPrepared: true }
+})
