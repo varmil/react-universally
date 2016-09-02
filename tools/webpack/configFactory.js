@@ -262,7 +262,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
             ifServer({
               // We are running a node 6 server which has support for almost
               // all of the ES2015 syntax, therefore we only transpile JSX.
-              presets: ['react'],
+              presets: ['react', 'stage-0'],
             }),
             ifClient({
               // For our clients code we will need to transpile our JS into
@@ -273,6 +273,8 @@ function webpackConfigFactory({ target, mode }, { json }) {
                 // Webpack 2 includes support for es2015 imports, therefore we
                 // disable the modules processing.
                 ['es2015', { modules: false }],
+                // ES7
+                'stage-0',
               ],
             })
           ),

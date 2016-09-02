@@ -1,12 +1,13 @@
 import { createTypes, async } from 'redux-action-types'
 
 export const Auth = createTypes('auth',
-  'SET_IS_LOGGED_IN'
+  'SET_IS_PREPARED',
+  'SET_IS_LOGGED_IN',
 )
 
-export const Form = createTypes('form',
-  'CHANGE_TEXT',
-  'SEND',
+export const SearchForm = createTypes('form',
+  'SET_AREA',
+  'SET_GENRE',
 )
 
 export const Crud = createTypes('crud',

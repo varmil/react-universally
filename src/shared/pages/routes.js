@@ -31,6 +31,12 @@ function resolveAbout(nextState, cb) {
     .catch(handleError);
 }
 
+function resolveSearchTop(nextState, cb) {
+  System.import('./SearchTop')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
+
 /**
  * Our routes.
  *
@@ -44,6 +50,10 @@ const routes = (
   <Route path="/" component={App}>
     <IndexRoute getComponent={resolveIndex} />
     <Route path="about" getComponent={resolveAbout} />
+
+    <Route path="search" >
+      <Route path="top" getComponent={resolveSearchTop} />
+    </Route>
   </Route>
 );
 

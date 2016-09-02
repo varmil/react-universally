@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Helmet from 'react-helmet';
 import 'normalize.css/normalize.css';
 
-import Header from '../../components/Header';
+import Header from '../../containers/Header';
 import API from '../../api';
 import * as authActions from '../../actions/auth';
 import './globals.css';
@@ -17,7 +17,7 @@ const websiteDescription =
 class App extends Component {
   static fetchData({ params, dispatch }) {
     return API.fetchUser().then((message) => {
-      dispatch(authActions.setIsLoggedIn(true))
+      dispatch(authActions.setIsPrepared(true))
     })
   }
 
@@ -35,6 +35,10 @@ class App extends Component {
 
   componentWillUpdate(nextProps, nextState) {
     console.info('componentWillUpdate', nextProps, nextState)
+  }
+
+  onLoginButtonTap(event) {
+    console.log(event)
   }
 
   render() {
@@ -58,7 +62,10 @@ class App extends Component {
             ]}
           />
 
-          <Header title={this.props.location.pathname} />
+          <Header
+            location={this.props.location}
+            onLoginButtonTap={this.onLoginButtonTap}
+          />
 
           {this.props.children}
         </div>

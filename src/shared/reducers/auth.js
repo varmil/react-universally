@@ -8,9 +8,12 @@ const initialState = {
 };
 
 export default handleActions({
+  [Auth.SET_IS_PREPARED]: (state, action) => ({
+    ...state,
+    isPrepared: action.payload.isPrepared
+  }),
   [Auth.SET_IS_LOGGED_IN]: (state, action) => ({
     ...state,
-    isPrepared: action.payload.isPrepared,
     isLoggedIn: action.payload.isLoggedIn
   }),
 }, initialState);
