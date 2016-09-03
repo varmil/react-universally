@@ -8,7 +8,7 @@ const api = axios.create({
 export default {
   fetchUser: (userId) => {
     return new Promise((resolve, reject) => {
-      setTimeout(() => resolve('USER IS FOOBAR'), 1000)
+      setTimeout(() => resolve('USER IS FOOBAR'), 300)
     })
   },
 

@@ -1,0 +1,15 @@
+.paper {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.textField {
+    width: 45% !important;
+    font-size: 12px !important;
+}
+
+.mapsIcon {
+    margin-right: 5px;
+    width: 17px !important;
+    height: 17px !important;
+}
