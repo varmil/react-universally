@@ -6,6 +6,7 @@
     "clean": "rimraf build",
     "development": "node ./tools/development/server",
     "build": "npm run clean && webpack --env.mode production --config ./tools/webpack/client.config.js && webpack --env.mode production --config ./tools/webpack/server.config.js",
+    "analyze": "npm run clean && webpack --env.mode production --config ./tools/webpack/client.config.js --json | webpack-bundle-size-analyzer",
     "start": "node build/server/main.js"
   },
   "license": "MIT",
