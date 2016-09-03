@@ -43,6 +43,12 @@ function resolveSearchRegular(nextState, cb) {
     .catch(handleError);
 }
 
+function resolveRestaurantList(nextState, cb) {
+  System.import('./RestaurantList')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
+
 /**
  * Our routes.
  *
@@ -57,9 +63,13 @@ const routes = (
     <IndexRoute getComponent={resolveIndex} />
     <Route path="about" getComponent={resolveAbout} />
 
-    <Route path="search" >
+    <Route path="search">
       <Route path="top" getComponent={resolveSearchTop} />
       <Route path="regular" getComponent={resolveSearchRegular} />
+    </Route>
+
+    <Route path="restaurant">
+      <Route path="list" getComponent={resolveRestaurantList} />
     </Route>
   </Route>
 );

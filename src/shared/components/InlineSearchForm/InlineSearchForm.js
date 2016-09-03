@@ -9,18 +9,27 @@ class InlineSearchForm extends Component {
     const props = this.props
     return (
       <Paper className={`base-paper ${styles.paper}`} zDepth={1}>
-        <TextField
-          className={styles.textField}
-          hintText={<span><MapsPlace className={styles.mapsIcon} />東京都、銀座</span>}
-          value={props.areaFormValue}
-          onChange={props.onChangeAreaForm}
-        />
-        <TextField
-          className={styles.textField}
-          hintText={<span><MapsRestaurant className={styles.mapsIcon} />店名、ラーメン</span>}
-          value={props.genreFormValue}
-          onChange={props.onChangeGenreForm}
-        />
+        <span>
+          <MapsPlace className={styles.mapsIcon} />
+          <TextField
+            className={styles.textField}
+            hintText={<span>東京都、銀座</span>}
+            value={props.areaFormValue}
+            onChange={props.onChangeAreaForm}
+          />
+        </span>
+
+        <span style={{ width: '5%', display: 'inline-block' }}></span>
+
+        <span>
+          <MapsRestaurant className={styles.mapsIcon} />
+          <TextField
+            className={styles.textField}
+            hintText={<span>店名、ラーメン</span>}
+            value={props.genreFormValue}
+            onChange={props.onChangeGenreForm}
+          />
+        </span>
       </Paper>
     )
   }

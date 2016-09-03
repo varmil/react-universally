@@ -16,4 +16,9 @@
 
 .mapsIcon {
     margin-right: 15px;
+    display: inline !important;
+}
+
+.textField {
+    width: 80% !important;
 }
