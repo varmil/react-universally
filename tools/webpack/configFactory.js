@@ -307,7 +307,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
           // css loader.
           ifServer({
             loaders: [
-              'css-loader/locals',
+              'css-loader/locals?modules',
             ],
           }),
           // For a production client build we use the ExtractTextPlugin which
@@ -316,7 +316,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
           ifProdClient({
             loader: ExtractTextPlugin.extract({
               notExtractLoader: 'style-loader',
-              loader: 'css-loader',
+              loader: 'css-loader?modules',
             }),
           }),
           // For a development client we will use a straight style & css loader
@@ -325,7 +325,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
           ifDevClient({
             loaders: [
               'style-loader',
-              { loader: 'css-loader', query: { sourceMap: true } },
+              { loader: 'css-loader', query: { sourceMap: true, modules: true } },
             ],
           })
         ),

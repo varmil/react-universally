@@ -1,0 +1,15 @@
+.fixedBottom {
+    position: fixed;
+    bottom: 20px;
+    left: 3%;
+    width: 94%;
+}
+
+.container {
+    margin: 10px auto;
+    width: 90%;
+}
+
+.areaAndGenre {
+    margin-bottom: 20px;
+}

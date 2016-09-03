@@ -1,0 +1,15 @@
+.searchFormContainer {
+    margin: 0 auto;
+}
+
+.pen {
+    position: fixed;
+    bottom: 20px;
+    right: 90px;
+}
+
+.camera {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}

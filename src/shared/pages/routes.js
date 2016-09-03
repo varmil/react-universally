@@ -37,6 +37,12 @@ function resolveSearchTop(nextState, cb) {
     .catch(handleError);
 }
 
+function resolveSearchRegular(nextState, cb) {
+  System.import('./SearchRegular')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
+
 /**
  * Our routes.
  *
@@ -53,6 +59,7 @@ const routes = (
 
     <Route path="search" >
       <Route path="top" getComponent={resolveSearchTop} />
+      <Route path="regular" getComponent={resolveSearchRegular} />
     </Route>
   </Route>
 );

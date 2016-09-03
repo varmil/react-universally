@@ -3,10 +3,10 @@ import { Paper, TextField } from 'material-ui';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 
 const paperStyle = {
-  padding: '20px',
-  margin: 10,
+  padding: '20px 0px',
   textAlign: 'center',
   display: 'inline-block',
+  width: '100%',
 }
 
 const formStyle = {

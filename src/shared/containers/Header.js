@@ -2,24 +2,28 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
-import { AppBar, ListItem, List, Divider, FlatButton, Tabs, Tab } from 'material-ui';
-import ContentInbox from 'material-ui/svg-icons/content/inbox';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
-import ActionInfo from 'material-ui/svg-icons/action/info';
+import { AppBar, FlatButton, IconButton, Tabs, Tab } from 'material-ui';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import ActionPermMedia from 'material-ui/svg-icons/action/perm-media';
 import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
+import NavArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 
+const REFERER_PATH = '/search/top'
 
 class Header extends Component {
   static propTypes = {
     title: PropTypes.string
   }
 
-  onListItemTaped(link) {
+  onTapListItem(link) {
     // Programmatically navigate using react router
     // http://stackoverflow.com/questions/31079081/programmatically-navigate-using-react-router
     this.props.router.push(link);
+  }
+
+  onTapArrowBack(e) {
+    e.preventDefault()
+    this.props.router.push(REFERER_PATH)
   }
 
   createLoginButton() {
@@ -46,25 +50,11 @@ class Header extends Component {
       return (
         <AppBar
           title={location.pathname}
+          iconElementLeft={<IconButton onTouchTap={::this.onTapArrowBack}><NavArrowBack /></IconButton>}
           iconElementRight={this.createLoginButton()}
         />
       )
     }
-  }
-
-  debug() {
-    return(
-      <div>
-        <List>
-          <ListItem onTouchTap={this.onListItemTaped.bind(this, "/")} primaryText="To Home" leftIcon={<ContentInbox />} />
-          <ListItem onTouchTap={this.onListItemTaped.bind(this, "/about")} primaryText="To About" leftIcon={<ActionGrade />} />
-        </List>
-        <Divider />
-        <List>
-          <ListItem primaryText="All mail" rightIcon={<ActionInfo />} />
-        </List>
-      </div>
-    )
   }
 
   // TODO: header typeの切り替えをどうやるか？URLを見て？ --> this.props.location

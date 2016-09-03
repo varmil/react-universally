@@ -8,6 +8,8 @@ export const Auth = createTypes('auth',
 export const SearchForm = createTypes('form',
   'SET_AREA',
   'SET_GENRE',
+  'SET_LOWER_LIMIT_BUDGET',
+  'SET_UPPER_LIMIT_BUDGET',
 )
 
 export const Crud = createTypes('crud',

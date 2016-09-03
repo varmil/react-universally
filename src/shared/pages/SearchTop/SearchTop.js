@@ -1,36 +1,35 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
+import { withRouter } from 'react-router'
 
 import { List, ListItem } from 'material-ui/List';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import ContentCreate from 'material-ui/svg-icons/content/create';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import ActionCameraEnhance from 'material-ui/svg-icons/action/camera-enhance';
-import ActionNoteAdd from 'material-ui/svg-icons/action/note-add';
 
 import InlineSearchForm from '../../components/InlineSearchForm'
 import * as searchFormActions from '../../actions/searchForm'
-
-const penStyle = {
-  position: 'fixed',
-  bottom: 20,
-  right: 90,
-};
-
-const cameraStyle = {
-  position: 'fixed',
-  bottom: 20,
-  right: 20,
-};
+import styles from './index.css'
 
 class SearchTop extends Component {
   onChangeAreaForm(e) {
+    e.preventDefault()
     this.props.dispatch(searchFormActions.setArea(e.target.value))
   }
 
   onChangeGenreForm(e) {
+    e.preventDefault()
     this.props.dispatch(searchFormActions.setGenre(e.target.value))
+  }
+
+  onTapListItem(e, link) {
+    e.preventDefault()
+    // Programmatically navigate using react router
+    // http://stackoverflow.com/questions/31079081/programmatically-navigate-using-react-router
+    this.props.router.push(link)
   }
 
   render() {
@@ -39,7 +38,7 @@ class SearchTop extends Component {
       <div>
         <Helmet title="SearchTop" />
 
-        <div style={{ margin: '0 auto', textAlign: 'center' }}>
+        <div className={styles.searchFormContainer}>
           <InlineSearchForm
             areaFormValue={area}
             genreFormValue={genre}
@@ -49,14 +48,14 @@ class SearchTop extends Component {
         </div>
 
         <List>
-          <ListItem primaryText="エリア・駅・条件からお店を探す" leftIcon={<ContentInbox />} />
+          <ListItem onTouchTap={(e) => this.onTapListItem(e, '/search/regular')} primaryText="エリア・駅・条件からお店を探す" leftIcon={<ContentInbox />} />
           <ListItem primaryText="現在地周辺からお店を探す" leftIcon={<ActionGrade />} />
         </List>
 
-        <FloatingActionButton secondary={true} style={penStyle}>
-          <ActionNoteAdd />
+        <FloatingActionButton secondary={true} className={styles.pen}>
+          <ContentCreate />
         </FloatingActionButton>
-        <FloatingActionButton secondary={true} style={cameraStyle}>
+        <FloatingActionButton secondary={true} className={styles.camera}>
         <ActionCameraEnhance />
         </FloatingActionButton>
       </div>
@@ -64,5 +63,6 @@ class SearchTop extends Component {
   }
 }
 
-const SearchTopContainer = connect(state => state.searchForm)(SearchTop)
+const DecoratedSearchTop = withRouter(SearchTop);
+const SearchTopContainer = connect(state => state.searchForm)(DecoratedSearchTop)
 export default SearchTopContainer
