@@ -56,7 +56,7 @@ class SearchTop extends Component {
           <ContentCreate />
         </FloatingActionButton>
         <FloatingActionButton secondary={true} className={styles.camera}>
-        <ActionCameraEnhance />
+          <ActionCameraEnhance />
         </FloatingActionButton>
       </div>
     )

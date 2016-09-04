@@ -1,0 +1,18 @@
+.fixedBottom {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+}
+
+.raisedButton {
+    position: relative;
+    width: 75%;
+    float: left;
+    margin-left: 3%;
+}
+
+.floatButton {
+    position: relative;
+    float: right;
+    margin-right: 3%;
+}

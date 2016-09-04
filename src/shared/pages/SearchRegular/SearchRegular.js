@@ -87,5 +87,7 @@ class SearchRegular extends Component {
 }
 
 const DecoratedSearchRegular = withRouter(SearchRegular);
-const SearchRegularContainer = connect(state => state)(DecoratedSearchRegular)
+const SearchRegularContainer = connect(
+  state => ({ searchForm: state.searchForm })
+)(DecoratedSearchRegular)
 export default SearchRegularContainer

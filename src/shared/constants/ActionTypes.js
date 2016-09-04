@@ -12,6 +12,15 @@ export const SearchForm = createTypes('form',
   'SET_UPPER_LIMIT_BUDGET',
 )
 
+export const Restaurants = createTypes('restaurants',
+  'REPLACE_RESTAURANTS',
+  'ADD_RESTAURANTS',
+)
+
+export const Restaurant = createTypes('restaurant',
+  'SET',
+)
+
 export const Crud = createTypes('crud',
   async('LOAD'),
   async('SAVE'),
