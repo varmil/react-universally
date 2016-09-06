@@ -1,0 +1,9 @@
+.reviewCount {
+    margin-left: 10px;
+    font-size: 60%;
+}
+
+.adjustRatingLine {
+    position: relative;
+    top: -4px;
+}

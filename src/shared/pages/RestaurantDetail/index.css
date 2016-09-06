@@ -1,0 +1,28 @@
+/* 左右の余白 */
+.leftAndRightMargin {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.rstName {
+  color: #111111;
+  font-size: 114%;
+  text-shadow: 0 1px 1px #ffffff;
+  margin-bottom: 15px;
+  padding: 15px 0;
+}
+
+.paperHeader {
+  background-color: #FCF9E7 !important;
+  padding: 10px 0 10px 10px;
+}
+
+.gridListContainer {
+  width: 320px;
+  margin: 0 auto;
+}
+
+.readMore {
+  text-align: center;
+  margin: 15px auto;
+}

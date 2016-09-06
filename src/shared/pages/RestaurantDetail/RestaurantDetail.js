@@ -13,8 +13,10 @@ import * as restaurantDetailActions from '../../actions/restaurantDetail'
 
 class RestaurantDetail extends Component {
   static fetchData({ params, dispatch }) {
+    dispatch(restaurantDetailActions.fetchStart())
     return API.fetchRestaurantDetail(params).then((data) => {
       dispatch(restaurantDetailActions.set(data))
+      dispatch(restaurantDetailActions.fetchSuccess())
     })
   }
 
@@ -40,6 +42,17 @@ class RestaurantDetail extends Component {
     const currentState = this.state
     // this.setState({ ...currentState, tabsValue: value })
     this.props.router.push(`${currentState.basePath}${value}`)
+  }
+
+  createContent() {
+    const props = this.props
+    return props.restaurantDetail.nowLoading ? (
+      <div>"NOW LOADING CONTENT"</div>
+    )
+    :
+    (
+      <div>{props.children}</div>
+    )
   }
 
   render() {
@@ -68,11 +81,11 @@ class RestaurantDetail extends Component {
           />
         </Tabs>
 
-        {this.props.children}
+        {this.createContent()}
       </div>
     )
   }
 }
 
 const DecoratedRestaurantDetail = withRouter(RestaurantDetail)
-export default connect()(DecoratedRestaurantDetail)
+export default connect(state => ({ restaurantDetail: state.restaurantDetail }))(DecoratedRestaurantDetail)

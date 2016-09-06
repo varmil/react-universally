@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 import { Paper, Divider, Table, TableBody, TableRow, TableRowColumn } from 'material-ui';
 import MapsPinDrop from 'material-ui/svg-icons/maps/pin-drop'
 import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money'
-import CommTextsms from 'material-ui/svg-icons/communication/textsms';
-import { grey300 } from 'material-ui/styles/colors';
 
 import FiveStar from '../FiveStar'
+import ReviewCount from '../ReviewCount'
 import styles from './index.css'
 
 class RestaurantListItem extends Component {
@@ -21,9 +20,7 @@ class RestaurantListItem extends Component {
 
         <div className={styles.ratingLine}>
           <FiveStar rating={data.rating} />
-          <span className={`${styles.adjustRatingLine} ${styles.reviewCount}`}>
-            {<CommTextsms color={grey300} style={{ width: '20px', height: '20px' }} />}{data.review}
-          </span>
+          <ReviewCount count={data.review} />
         </div>
 
         <div className={styles.thumbnailContainer}>

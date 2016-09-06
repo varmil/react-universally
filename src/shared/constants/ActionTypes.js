@@ -29,8 +29,10 @@ export const Restaurant = createTypes('restaurant',
  * RestaurantDetail用Action
  * Webなので、ここが入り口になりうるためListとは別のStoreで管理する
  */
- export const RestaurantDetail = createTypes('restaurant',
-   'SET',
+ export const RestaurantDetail = createTypes('restaurantDetail',
+  // データフェッチ用
+  async('FETCH'),
+  'SET',
  )
 
 export const Crud = createTypes('crud',

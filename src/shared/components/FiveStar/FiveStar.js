@@ -18,7 +18,7 @@ export default (props) => {
         readonly={true}
         initialRate={props.rating}
       />
-      <span className={`${styles.adjustRatingLine} ${styles.ratingLabel}`}>{props.rating.toFixed(2)}</span>
+      <span className={`${styles.adjustRatingLine} ${styles.ratingLabel}`}>{(props.rating) ? props.rating.toFixed(2) : ''}</span>
     </span>
   )
 }
