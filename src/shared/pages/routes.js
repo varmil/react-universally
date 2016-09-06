@@ -61,6 +61,12 @@ function resolveRestaurantDetailTop(nextState, cb) {
     .catch(handleError);
 }
 
+function resolveRestaurantDetailPhoto(nextState, cb) {
+  System.import('./RestaurantDetail/Photo')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
+
 /**
  * Our routes.
  *
@@ -84,6 +90,7 @@ const routes = (
       <Route path="list" getComponent={resolveRestaurantList} />
       <Route path="detail/:restaurantId" getComponent={resolveRestaurantDetail}>
         <IndexRoute getComponent={resolveRestaurantDetailTop} />
+        <Route path="photo" getComponent={resolveRestaurantDetailPhoto} />
       </Route>
     </Route>
 

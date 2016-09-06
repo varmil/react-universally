@@ -22,6 +22,9 @@ const BOTTOM_NAVIGATION_HEIGHT = 50
 const BOTTOM_NAVIGATION_PHONE = 0
 const BOTTOM_NAVIGATION_SHARE = 1
 
+// HACK: pathをconstで書くのはどうなのか…
+const BASE_PATH = '/restaurant/detail'
+
 class RestaurantDetail extends Component {
   static fetchData({ params, dispatch }) {
     dispatch(restaurantDetailActions.fetchStart())
@@ -34,9 +37,9 @@ class RestaurantDetail extends Component {
   constructor(props) {
     super(props);
     // HACK: basePathはImmutableな値なのでstateに入れたくないが他の方法を知らない
-    let pathname = props.location.pathname
-    pathname = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
-    this.state = { tabsValue: '', basePath: pathname }
+    // let pathname = props.location.pathname
+    // pathname = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
+    this.state = { tabsValue: '' }
   }
 
   // TODO: ここがエントリーポイントになった際にサーバからデータフェッチ。restaurantDetail Storeを更新
@@ -50,9 +53,10 @@ class RestaurantDetail extends Component {
   }
 
   onChangeTabs(value) {
-    const currentState = this.state
+    const { restaurantId } = this.props.params
+    // const currentState = this.state
     // this.setState({ ...currentState, tabsValue: value })
-    this.props.router.push(`${currentState.basePath}${value}`)
+    this.props.router.push(`${BASE_PATH}/${restaurantId}/${value}`)
   }
 
   onTapBottomNavigation(type) {
@@ -99,17 +103,17 @@ class RestaurantDetail extends Component {
           <Tab
             icon={<ImagePhotoCamera />}
             label="PHOTO"
-            value='/photo'
+            value='photo'
           />
           <Tab
             icon={<MapsPinDrop />}
             label="ACCESS"
-            value='/access'
+            value='access'
           />
           <Tab
             icon={<EditorCoupon />}
             label="COUPON"
-            value='/coupon'
+            value='coupon'
           />
         </Tabs>
 
