@@ -55,6 +55,12 @@ function resolveRestaurantDetail(nextState, cb) {
     .catch(handleError);
 }
 
+function resolveRestaurantDetailTop(nextState, cb) {
+  System.import('./RestaurantDetail/Top')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
+
 /**
  * Our routes.
  *
@@ -76,7 +82,9 @@ const routes = (
 
     <Route path="restaurant">
       <Route path="list" getComponent={resolveRestaurantList} />
-      <Route path="detail/:restaurantId" getComponent={resolveRestaurantDetail}　/>
+      <Route path="detail/:restaurantId" getComponent={resolveRestaurantDetail}>
+        <IndexRoute getComponent={resolveRestaurantDetailTop} />
+      </Route>
     </Route>
 
   </Route>

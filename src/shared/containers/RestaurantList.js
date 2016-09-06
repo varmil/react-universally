@@ -23,7 +23,7 @@ class RestaurantList extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    console.info('componentWillUpdate', nextProps, nextState)
+    // console.info('componentWillUpdate', nextProps, nextState)
   }
 
   onTapItem(e, restaurantId) {

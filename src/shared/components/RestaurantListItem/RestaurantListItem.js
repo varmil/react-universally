@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import StarRating from 'react-rating';
 
 import { Paper, Divider, Table, TableBody, TableRow, TableRowColumn } from 'material-ui';
 import MapsPinDrop from 'material-ui/svg-icons/maps/pin-drop'
 import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money'
-import Star from 'material-ui/svg-icons/toggle/star';
 import CommTextsms from 'material-ui/svg-icons/communication/textsms';
-import { grey300, yellow700 } from 'material-ui/styles/colors';
+import { grey300 } from 'material-ui/styles/colors';
 
+import FiveStar from '../FiveStar'
 import styles from './index.css'
 
 class RestaurantListItem extends Component {
@@ -21,8 +20,7 @@ class RestaurantListItem extends Component {
         <h6>{`${data.area} / ${data.genre}`}</h6>
 
         <div className={styles.ratingLine}>
-          <StarRating empty={<Star color={grey300} />} full={<Star color={yellow700} />} readonly={true} initialRate={data.rating} />
-          <span className={`${styles.adjustRatingLine} ${styles.ratingLabel}`}>{data.rating.toFixed(2)}</span>
+          <FiveStar rating={data.rating} />
           <span className={`${styles.adjustRatingLine} ${styles.reviewCount}`}>
             {<CommTextsms color={grey300} style={{ width: '20px', height: '20px' }} />}{data.review}
           </span>

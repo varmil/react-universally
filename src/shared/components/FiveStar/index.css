@@ -1,0 +1,8 @@
+.ratingLabel {
+  color: #e10000
+}
+
+.adjustRatingLine {
+    position: relative;
+    top: -4px;
+}
