@@ -1,3 +1,10 @@
+/* 共通部分 */
+.bottomNavIcon {
+  margin: 0 auto;
+}
+
+
+/* TOP */
 /* 左右の余白 */
 .leftAndRightMargin {
   margin-left: 10px;
@@ -8,7 +15,11 @@
   color: #111111;
   font-size: 114%;
   text-shadow: 0 1px 1px #ffffff;
-  padding: 15px 0;
+  padding: 15px 0 10px;
+}
+
+.topPageFiveStar {
+  margin-bottom: 10px;
 }
 
 .paperHeader {

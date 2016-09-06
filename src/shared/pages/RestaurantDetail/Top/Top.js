@@ -15,11 +15,11 @@ import ReviewListItem from '../../../components/ReviewListItem'
 
 class Top extends Component {
 
-  createReadMoreButton(text) {
+  createReadMoreButton(label) {
     return (
       <div className={`${styles.readMore}`}>
         <RaisedButton
-          label="See All Photos"
+          label={label}
           labelPosition="before"
           primary={true}
           icon={<ChevronRight />}
@@ -65,21 +65,20 @@ class Top extends Component {
         <Paper>
           <div className={styles.leftAndRightMargin}>
             <h2 className={styles.rstName}>{name}</h2>
-
-            <FiveStar rating={rating} />
-            <ReviewCount count={reviewCount} />
+            <div className={styles.topPageFiveStar}>
+              <FiveStar rating={rating} />
+              <ReviewCount count={reviewCount} />
+            </div>
           </div>
 
-
           {this.createPostedPhotoContent()}
-
 
 
           <Paper className={styles.paperHeader}>
             口コミ
           </Paper>
           {postedReviews.map((review, index) => (
-            <ReviewListItem key={`review${index}`} rating={rating} />
+            <ReviewListItem key={`review${index}`} rating={review.rating} />
           ))}
           {this.createReadMoreButton('See All Reviews')}
 
