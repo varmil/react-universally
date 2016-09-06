@@ -56,6 +56,4 @@ function createEntity(index) {
 
 const list = _.range(1, 10).reduce((cur, id) => Object.assign(cur, createEntity(id)), {})
 
-export default {
-  list: list
-}
+export default list

@@ -5,20 +5,9 @@ const initialListState = {
   dict: {},
 };
 
-const initialItemState = {
-  id: 0,
-  name: '',
-  area: '',
-  genre: '',
-  rating: undefined,
-  lowerLimitBudget: undefined,
-  upperLimitBudget: undefined,
-};
 
 
-
-
-const item = (state = initialItemState, actionType, payload) => {
+const restaurant = (state = {}, actionType, payload) => {
   switch (actionType) {
     case Restaurant.SET:
       return payload
@@ -35,7 +24,7 @@ export default handleActions({
     const restaurants = action.payload.restaurants
 
     const dict = Object.keys(restaurants).reduce((previous, id) => {
-      previous[id] = item(undefined, Restaurant.SET, restaurants[id])
+      previous[id] = restaurant(undefined, Restaurant.SET, restaurants[id])
       return previous
     }, {})
 

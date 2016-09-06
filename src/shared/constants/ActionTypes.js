@@ -5,6 +5,7 @@ export const Auth = createTypes('auth',
   'SET_IS_LOGGED_IN',
 )
 
+
 export const SearchForm = createTypes('form',
   'SET_AREA',
   'SET_GENRE',
@@ -12,14 +13,25 @@ export const SearchForm = createTypes('form',
   'SET_UPPER_LIMIT_BUDGET',
 )
 
+/**
+ * RestaurantListコンテナ用Action
+ */
 export const Restaurants = createTypes('restaurants',
   'REPLACE_RESTAURANTS',
   'ADD_RESTAURANTS',
 )
-
 export const Restaurant = createTypes('restaurant',
   'SET',
 )
+
+
+/**
+ * RestaurantDetail用Action
+ * Webなので、ここが入り口になりうるためListとは別のStoreで管理する
+ */
+ export const RestaurantDetail = createTypes('restaurant',
+   'SET',
+ )
 
 export const Crud = createTypes('crud',
   async('LOAD'),

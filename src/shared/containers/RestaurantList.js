@@ -8,7 +8,7 @@ import * as restaurantsActions from '../actions/restaurants'
 
 class RestaurantList extends Component {
   static fetchData({ params, dispatch }) {
-    return API.fetchRestaurantList().then((data) => {
+    return API.fetchRestaurantList(params).then((data) => {
       dispatch(restaurantsActions.replaceRestaurants(data))
     })
   }
