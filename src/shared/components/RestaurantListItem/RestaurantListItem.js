@@ -11,6 +11,8 @@ import { grey300, yellow700 } from 'material-ui/styles/colors';
 import styles from './index.css'
 
 class RestaurantListItem extends Component {
+
+
   render() {
     const { onTapItem, data } = this.props
     return (
@@ -20,7 +22,7 @@ class RestaurantListItem extends Component {
 
         <div className={styles.ratingLine}>
           <StarRating empty={<Star color={grey300} />} full={<Star color={yellow700} />} readonly={true} initialRate={data.rating} />
-          <span className={`${styles.adjustRatingLine} ${styles.ratingLabel}`}>{data.rating}</span>
+          <span className={`${styles.adjustRatingLine} ${styles.ratingLabel}`}>{data.rating.toFixed(2)}</span>
           <span className={`${styles.adjustRatingLine} ${styles.reviewCount}`}>
             {<CommTextsms color={grey300} style={{ width: '20px', height: '20px' }} />}{data.review}
           </span>
