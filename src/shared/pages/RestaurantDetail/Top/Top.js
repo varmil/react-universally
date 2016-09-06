@@ -11,8 +11,23 @@ import {indigo500} from 'material-ui/styles/colors';
 import styles from '../index.css'
 import FiveStar from '../../../components/FiveStar'
 import ReviewCount from '../../../components/ReviewCount'
+import ReviewListItem from '../../../components/ReviewListItem'
 
 class Top extends Component {
+
+  createReadMoreButton(text) {
+    return (
+      <div className={`${styles.readMore}`}>
+        <RaisedButton
+          label="See All Photos"
+          labelPosition="before"
+          primary={true}
+          icon={<ChevronRight />}
+          style={styles.button}
+        />
+      </div>
+    )
+  }
 
   createPostedPhotoContent() {
     const { postedPhotos } = this.props.restaurantDetail.data
@@ -36,23 +51,13 @@ class Top extends Component {
             ))}
           </GridList>
         </div>
-
-        <div className={`${styles.readMore}`}>
-          <RaisedButton
-            label="See All Photos"
-            labelPosition="before"
-            primary={true}
-            icon={<ChevronRight />}
-            style={styles.button}
-          />
-        </div>
-
+        {this.createReadMoreButton('See All Photos')}
       </div>
     )
   }
 
   render() {
-    const { name, rating, reviewCount, address, tel } = this.props.restaurantDetail.data
+    const { name, rating, reviewCount, postedReviews, address, tel } = this.props.restaurantDetail.data
     return (
       <div>
         <Helmet title="RestaurantDetailTop" />
@@ -69,9 +74,14 @@ class Top extends Component {
           {this.createPostedPhotoContent()}
 
 
+
           <Paper className={styles.paperHeader}>
             口コミ
           </Paper>
+          {postedReviews.map((review, index) => (
+            <ReviewListItem key={`review${index}`} rating={rating} />
+          ))}
+          {this.createReadMoreButton('See All Reviews')}
 
 
           <Paper className={styles.paperHeader}>

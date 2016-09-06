@@ -10,7 +10,7 @@ export default {
   upperLimitBudget: 2999,
   distance: 173,
 
-  // URL...
+  // TOPにある数枚の画像データ
   postedPhotos: [
     { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/53211/150x150_square_53211251.jpg' },
     { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/53211/150x150_square_53211248.jpg' },
@@ -18,7 +18,13 @@ export default {
     { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/47148/150x150_square_47148673.jpg' },
     { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/43874/150x150_square_43874911.jpg' },
   ],
-  postedReviews: [{}, {}],
+
+  // 口コミ
+  postedReviews: [
+    { title: '', rating: 3.33, author: '', isAuthenticated: true, postDate: '', visitDate: '' },
+    { title: '', rating: 3.33, author: '', isAuthenticated: true, postDate: '', visitDate: '' },
+    { title: '', rating: 3.33, author: '', isAuthenticated: true, postDate: '', visitDate: '' },
+  ],
 
   tel: '090-1234-5678',
   address: '東京都渋谷区道玄坂2-29-5 渋谷プライム　５Ｆ'
