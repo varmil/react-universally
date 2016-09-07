@@ -1,3 +1,4 @@
+import { find } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
@@ -36,10 +37,12 @@ class RestaurantDetail extends Component {
 
   constructor(props) {
     super(props);
-    // HACK: basePathはImmutableな値なのでstateに入れたくないが他の方法を知らない
-    // let pathname = props.location.pathname
-    // pathname = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
-    this.state = { tabsValue: '' }
+
+    // HACK: URLを無理やりパースして、現在どのタブをアクティブにするべきか判定
+    const splitedPathname = props.location.pathname.split('/')
+    const tabsValue = find(['photo', 'access', 'coupon'], (e) => splitedPathname.indexOf(e) !== -1)
+
+    this.state = { tabsValue }
   }
 
   // TODO: ここがエントリーポイントになった際にサーバからデータフェッチ。restaurantDetail Storeを更新
@@ -52,11 +55,11 @@ class RestaurantDetail extends Component {
     }
   }
 
-  onChangeTabs(value) {
+  onChangeTabs(tabsValue) {
     const { restaurantId } = this.props.params
-    // const currentState = this.state
-    // this.setState({ ...currentState, tabsValue: value })
-    this.props.router.push(`${BASE_PATH}/${restaurantId}/${value}`)
+    const currentState = this.state
+    this.setState({ ...currentState, tabsValue })
+    this.props.router.push(`${BASE_PATH}/${restaurantId}/${tabsValue}`)
   }
 
   onTapBottomNavigation(type) {
