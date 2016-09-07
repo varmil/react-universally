@@ -8,12 +8,28 @@ import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 import MapsPlace from 'material-ui/svg-icons/maps/place'
 import {indigo500} from 'material-ui/styles/colors';
 
+import API from '../../../api'
 import styles from '../index.css'
+import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import FiveStar from '../../../components/FiveStar'
 import ReviewCount from '../../../components/ReviewCount'
 import ReviewListItem from '../../../components/ReviewListItem'
 
 class Top extends Component {
+  static fetchData({ params, dispatch }) {
+    return API.fetchRestaurantDetailTop(params).then((data) => {
+      dispatch(restaurantDetailActions.setTop(data))
+    })
+  }
+
+  componentWillMount() {
+    const { params, dispatch } = this.props
+
+    // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
+    if (true) {
+      Top.fetchData({ params, dispatch })
+    }
+  }
 
   createReadMoreButton(label) {
     return (
@@ -30,7 +46,7 @@ class Top extends Component {
   }
 
   createPostedPhotoContent() {
-    const { postedPhotos } = this.props.restaurantDetail.data
+    const postedPhotos = this.props.top.postedPhotos || []
 
     return (
       <div>
@@ -57,7 +73,9 @@ class Top extends Component {
   }
 
   render() {
-    const { name, rating, reviewCount, postedReviews, address, tel } = this.props.restaurantDetail.data
+    const { name, rating, reviewCount, address, tel } = this.props.common
+    const postedReviews = this.props.top.postedReviews || []
+
     return (
       <div>
         <Helmet title="RestaurantDetailTop" />
@@ -115,4 +133,7 @@ class Top extends Component {
 }
 
 // NOTE: We must watch the prop "restaurantDetail.nowLoading", so get it for props
-export default connect(state => ({ restaurantDetail: state.restaurantDetail }))(Top)
+export default connect(state => ({
+  common: state.restaurantDetail.common,
+  top: state.restaurantDetail.top
+}))(Top)

@@ -32,7 +32,9 @@ export const Restaurant = createTypes('restaurant',
  export const RestaurantDetail = createTypes('restaurantDetail',
   // データフェッチ用
   async('FETCH'),
-  'SET',
+  'SET_COMMON',
+  'SET_TOP',
+  'SET_PHOTO',
  )
 
 export const Crud = createTypes('crud',

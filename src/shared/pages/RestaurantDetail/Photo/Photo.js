@@ -2,23 +2,40 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 
-import { Paper, DropDownMenu, List, ListItem, GridList, GridTile, RaisedButton } from 'material-ui'
+import { Paper, DropDownMenu, GridList, GridTile, } from 'material-ui'
 import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 import MenuItem from 'material-ui/MenuItem';
 
+import API from '../../../api'
 import styles from '../index.css'
+import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 
 const ICON_HEIGHT = 24
 const TOOLBAR_HEIGHT = 40
 const TOOLBAR_HEIGHT_PX = `${TOOLBAR_HEIGHT}px`
 
 class Photo extends Component {
+  static fetchData({ params, dispatch }) {
+    return API.fetchRestaurantDetailPhoto(params).then((data) => {
+      dispatch(restaurantDetailActions.setPhoto(data))
+    })
+  }
+
   constructor(props) {
      super(props);
      this.state = { value: 1 }
    }
 
-   handleChange = (event, index, value) => this.setState({value});
+   componentWillMount() {
+     const { params, dispatch } = this.props
+
+     // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
+     if (true) {
+       Photo.fetchData({ params, dispatch })
+     }
+   }
+
+  handleChange = (event, index, value) => this.setState({ value });
 
   createToolbar() {
     return (
@@ -47,7 +64,7 @@ class Photo extends Component {
   }
 
   createPostedPhotoContent() {
-    const { postedPhotos } = this.props.restaurantDetail.data
+    const photoList = this.props.photo.list || []
 
     return (
       <div>
@@ -57,7 +74,7 @@ class Photo extends Component {
             cols={3}
             style={styles.gridList}
           >
-            {postedPhotos.map((photo, index) => (
+            {photoList.map((photo, index) => (
               <GridTile key={photo.src}>
                 <img src={photo.src} role='presentation' />
               </GridTile>
@@ -69,7 +86,6 @@ class Photo extends Component {
   }
 
   render() {
-    const { name, rating, reviewCount, postedReviews, address, tel } = this.props.restaurantDetail.data
     return (
       <div>
         <Helmet title="RestaurantDetailPhoto" />
@@ -83,4 +99,6 @@ class Photo extends Component {
 }
 
 // NOTE: We must watch the prop "restaurantDetail.nowLoading", so get it for props
-export default connect(state => ({ restaurantDetail: state.restaurantDetail }))(Photo)
+export default connect(state => ({
+  photo: state.restaurantDetail.photo
+}))(Photo)

@@ -26,12 +26,15 @@ const BOTTOM_NAVIGATION_SHARE = 1
 // HACK: pathをconstで書くのはどうなのか…
 const BASE_PATH = '/restaurant/detail'
 
+// Tabs
+const TABS = ['photo', 'access', 'coupon']
+
 class RestaurantDetail extends Component {
   static fetchData({ params, dispatch }) {
-    dispatch(restaurantDetailActions.fetchStart())
-    return API.fetchRestaurantDetail(params).then((data) => {
-      dispatch(restaurantDetailActions.set(data))
-      dispatch(restaurantDetailActions.fetchSuccess())
+    // dispatch(restaurantDetailActions.fetchStart())
+    return API.fetchRestaurantDetailCommon(params).then((data) => {
+      dispatch(restaurantDetailActions.setCommon(data))
+      // dispatch(restaurantDetailActions.fetchSuccess())
     })
   }
 
@@ -40,12 +43,11 @@ class RestaurantDetail extends Component {
 
     // HACK: URLを無理やりパースして、現在どのタブをアクティブにするべきか判定
     const splitedPathname = props.location.pathname.split('/')
-    const tabsValue = find(['photo', 'access', 'coupon'], (e) => splitedPathname.indexOf(e) !== -1)
+    const tabsValue = find(TABS, (e) => splitedPathname.indexOf(e) !== -1)
 
     this.state = { tabsValue }
   }
 
-  // TODO: ここがエントリーポイントになった際にサーバからデータフェッチ。restaurantDetail Storeを更新
   componentWillMount() {
     const { params, dispatch } = this.props
 
@@ -68,13 +70,16 @@ class RestaurantDetail extends Component {
 
   createContent() {
     const props = this.props
-    return props.restaurantDetail.nowLoading ? (
-      <div>"NOW LOADING CONTENT"</div>
-    )
-    :
-    (
-      <div>{props.children}</div>
-    )
+
+    return (<div>{props.children}</div>)
+
+    // return props.nowLoading ? (
+    //   <div>"NOW LOADING CONTENT"</div>
+    // )
+    // :
+    // (
+    //   <div>{props.children}</div>
+    // )
   }
 
   createBottomNavigation() {
@@ -129,4 +134,4 @@ class RestaurantDetail extends Component {
 }
 
 const DecoratedRestaurantDetail = withRouter(RestaurantDetail)
-export default connect(state => ({ restaurantDetail: state.restaurantDetail }))(DecoratedRestaurantDetail)
+export default connect(state => ({ nowLoading: state.restaurantDetail.nowLoading }))(DecoratedRestaurantDetail)

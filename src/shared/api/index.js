@@ -1,6 +1,6 @@
 import axios from 'axios'
 import stubRestaurantList from '../stub/restaurantList'
-import stubRestaurantDetail from '../stub/restaurantDetail'
+import * as stubRestaurantDetail from '../stub/restaurantDetail'
 
 // STUB DATA START
 const RESOLVE_WAIT_MS = 200
@@ -31,9 +31,23 @@ export default {
   },
 
   // TODO: ひとまずstubデータを返却する
-  fetchRestaurantDetail: (params) => {
+  fetchRestaurantDetailCommon: (params) => {
     return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(STUB_RESTAURANT_DETAIL), RESOLVE_WAIT_MS)
+      setTimeout(() => resolve(STUB_RESTAURANT_DETAIL.common), RESOLVE_WAIT_MS)
+    })
+  },
+
+  // TODO: ひとまずstubデータを返却する
+  fetchRestaurantDetailTop: (params) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(STUB_RESTAURANT_DETAIL.top), RESOLVE_WAIT_MS)
+    })
+  },
+
+  // TODO: ひとまずstubデータを返却する
+  fetchRestaurantDetailPhoto: (params) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(STUB_RESTAURANT_DETAIL.photo), RESOLVE_WAIT_MS)
     })
   },
 
