@@ -49,7 +49,7 @@ class SearchTop extends Component {
 
         <List>
           <ListItem onTouchTap={(e) => this.onTapListItem(e, '/search/regular')} primaryText="エリア・駅・条件からお店を探す" leftIcon={<ContentInbox />} />
-          <ListItem primaryText="現在地周辺からお店を探す" leftIcon={<ActionGrade />} />
+          <ListItem onTouchTap={(e) => this.onTapListItem(e, '/search/map')} primaryText="現在地周辺からお店を探す" leftIcon={<ActionGrade />} />
         </List>
 
         <FloatingActionButton secondary={true} className={styles.pen}>

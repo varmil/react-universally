@@ -1,0 +1,169 @@
+@charset "utf-8";
+/* 食べログの地図画面から取得 */
+/* 店舗一覧マップ */
+
+/* =====[ map-box ]===== */
+:global #map-box {
+	width: 100%;
+	position: static;
+	border-top: solid 1px #cbcbcb;
+}
+:global #map-canvas {
+	width: 100%;
+	position: absolute;
+}
+:global #map-footer {
+	width: 100%;
+	height: 15px;
+	background: #ffffff;
+}
+:global #restaurant-info {
+	width: 100%;
+	position: absolute;
+	display: none;
+}
+/* ======== [ 選択したお店 オン 地図 ] ========= */
+:global .rst-popup-box {
+	background-color: #ffffff;
+}
+:global .rst-popup-box a.rst-selected {
+	overflow: hidden;
+	display: block;
+	padding: 2px;
+	min-height: 50px;
+	width: 100%;
+	color: #444444;
+	background: #ffffff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAcCAYAAAAN3M1lAAAA3ElEQVR42s3X0QrCIBTG8aGsBwu6MYqiKIrFoifpzc0DBWO4qWfnOyn8b3b1A50cG2NMM6oNrSLfs/LeixRD9aEXF4eA2VAXen9j4aRhhLoOUGycJIzWOYJi4aRhpxlYEU56K2kdJHCov3IxDgWjdktwSBjluDg0jI3TgFGbUpwWjFqX4DRhRThtmKsR5mrcym0GqtU+/KmL9jlGacBYKDRsn0D1UygULGfCmEX9a+x5pFCIQfGYQHU5KO3ROhuF2srLBMrW8Hwb4u6lKOR18XvG3Tgo9D1muShJ2AeEsk0kN/641AAAAABJRU5ErkJggg==) no-repeat 100% 50%;
+	background-size: 19px 14px;
+}
+:global .rst-popup-box img {
+	display: block;
+	float: left;
+	width: 50px;
+	height: 50px;
+}
+:global .rst-popup-box .rst-info {
+	width: 70%;
+	float: left;
+	margin-left: 8px;
+	height: 50px;
+  font-size: 11px;
+}
+:global .rst-popup-box .rst-info p {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+  margin: 0;
+}
+:global .rst-popup-box .rst-info .rst-title {
+	width: 100%;
+	margin-top: 1px;
+	font-weight: bold;
+}
+:global .rst-popup-box .rst-info .rst-ag {
+	width: 100%;
+	font-size: 79%;
+	color: #999999;
+}
+:global .rst-popup-box .rst-info .rst-score {
+	overflow: hidden;
+	margin-top: 2px;
+	font-weight: bold;
+	color: #ff0000;
+}
+:global .close-popup {
+	float: right;
+	width: 16px;
+	height: 16px;
+	padding: 8px;
+	border: 1px solid #999999;
+	background-color: #999999;
+	background: -webkit-gradient(linear, left top, left bottom, from(#949494), color-stop(75%, #a1a1a1), to(#a1a1a1));
+	-webkit-border-bottom-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	-webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4) inset;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.4) inset;
+}
+:global .close-popup a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	font-weight: bold;
+	font-size: 107%;
+	color: #ffffff;
+	border: 1px solid #ffffff;
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
+}
+
+/* score */
+:global .rst-score span {
+	display: block;
+	float: left;
+	width: 15px;
+	height: 15px;
+	margin-right: 1px;
+	text-indent: -10000px;
+	overflow: hidden;
+	background: url('https://tabelog.ssl.k-img.com/images/smartphone/icons/icons_ratingstar_s_2x.png') no-repeat 0 0;
+	-webkit-background-size: 166px 15px;
+	background-size: 166px 15px;
+}
+@media only screen and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 1) {
+	.rating-box dl.rating dd span {
+		background-image: url('https://tabelog.ssl.k-img.com/images/smartphone/icons/icons_ratingstar_s.png');
+	}
+}
+:global .rst-score .score0 span {
+	color: #595960;
+	text-indent: 0px;
+	text-align: center;
+	background: none;
+}
+:global .rst-score .score10 span:nth-child(1),
+:global .rst-score .score15 span:nth-child(1),
+:global .rst-score .score20 span:nth-child(1),
+:global .rst-score .score20 span:nth-child(2),
+:global .rst-score .score25 span:nth-child(1),
+:global .rst-score .score25 span:nth-child(2),
+:global .rst-score .score30 span:nth-child(1),
+:global .rst-score .score30 span:nth-child(2),
+:global .rst-score .score30 span:nth-child(3) {
+	background-position: -30px 0;
+}
+:global .rst-score .score15 span:nth-child(2),
+:global .rst-score .score25 span:nth-child(3) {
+	background-position: -15px 0;
+}
+:global .rst-score .score35 span,
+:global .rst-score .score40 span {
+	background-position: -60px 0;
+}
+:global .rst-score .score35 span:nth-child(4){
+	background-position: -45px 0;
+}
+:global .rst-score .score35 span:nth-child(5),
+:global .rst-score .score40 span:nth-child(5) {
+	background-position: 0 0;
+}
+:global .rst-score .score45 span,
+:global .rst-score .score50 span {
+	background-position: -90px 0;
+}
+:global .rst-score .score45 span:nth-child(5) {
+	background-position: -75px 0;
+}
+:global .rst-score b {
+	display: block;
+	float: left;
+	margin: 0px 4px;
+	color: #13131e;
+	line-height: 16px;
+	font-family: Arial;
+	font-size: 114%;
+	font-weight: bold;
+}
+:global .rst-score mark b {
+	color: #e10000;
+}
+/**** score end ****/
