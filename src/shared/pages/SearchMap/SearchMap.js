@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Paper } from 'material-ui';
+import { filter } from 'lodash';
 
 import styles from './index.css'
 import markers from '../../stub/markers'
-// import env  from './.env'
 import GoogleMap from 'google-map-react'
 import MapMarker from '../../components/MapMarker'
 
@@ -38,16 +38,35 @@ export default class SimpleMapPage extends Component {
   }
 
   constructor(props) {
-    super(props);
-    this.state = { popInfo: undefined }
     console.warn('key', URL_KEYS.key)
+    super(props);
+
+    // TODO: stateではなくstoreで管理すべきだろう
+    this.state = { popInfo: undefined, markers: this.findInitialMarkers() }
+  }
+
+  // XXX
+  findInitialMarkers() {
+    return markers.Markers.slice(0, 20)
+  }
+
+  // XXX 本当はサーバ側でDBから取得
+  fetchMarkers(center, bounds) {
+    const latIsIn = (lat) => lat >= bounds.se.lat && lat <= bounds.nw.lat
+    const lngIsIn = (lng) => lng >= bounds.nw.lng && lng <= bounds.se.lng
+
+    return filter(markers.Markers, (marker, index) => {
+      return latIsIn(marker.lat) && lngIsIn(marker.lng)
+    })
   }
 
   // onClick({x, y, lat, lng, event}) {
   // }
 
   onChange({ center, zoom, bounds }) {
-    console.log(center, bounds)
+    // TODO: 見つけたmarkersをstateにset。本当はmarkers-storeとか使うべきかも。
+    const markers = this.fetchMarkers(center, bounds).slice(0, 20)
+    this.setState({ markers: markers })
   }
 
   onTapMarker(id) {
@@ -70,7 +89,7 @@ export default class SimpleMapPage extends Component {
             onChange={this.onChange.bind(this)}
           >
 
-          {markers.Markers.map((marker, index) =>
+          {this.state.markers.map((marker, index) =>
             <MapMarker key={index} onTouchTap={() => this.onTapMarker(index)} lat={marker.lat} lng={marker.lng} text={index.toString()} />
           )}
           </GoogleMap>
