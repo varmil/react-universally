@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Helmet from 'react-helmet';
 import 'normalize.css/normalize.css';
@@ -12,6 +13,15 @@ import './globals.css';
 const websiteDescription =
   'A starter kit giving you the minimum requirements for a production ready ' +
   'universal react application.';
+
+const muiTheme = getMuiTheme({
+  appBar: {
+    height: 48, // Instead of 64
+  },
+})
+
+
+
 
 // This component is mounted on Initial Loading
 class App extends Component {
@@ -44,7 +54,7 @@ class App extends Component {
   render() {
     return this.props.auth.isPrepared ?
     (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={muiTheme}>
         <div>
           {/*
             All of the following will be injected into our page header.
