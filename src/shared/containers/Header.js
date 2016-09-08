@@ -52,6 +52,7 @@ class Header extends Component {
           title={location.pathname}
           iconElementLeft={<IconButton onTouchTap={::this.onTapArrowBack}><NavArrowBack /></IconButton>}
           iconElementRight={this.createLoginButton()}
+          titleStyle={{ fontSize: 13 }}
         />
       )
     }

@@ -18,6 +18,10 @@ import {
   PUBLIC_DIR_PATH,
 } from './config';
 
+// Warning: Material-UI: userAgent should be supplied in the muiTheme context for server-side rendering.
+// http://stackoverflow.com/questions/35481084/react-starter-kit-and-material-ui-useragent-should-be-supplied-in-the-muitheme
+// global.navigator = { userAgent: 'all' }
+
 // Create our express based server.
 const app = express();
 

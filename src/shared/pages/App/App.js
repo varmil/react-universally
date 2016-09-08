@@ -15,6 +15,7 @@ const websiteDescription =
   'universal react application.';
 
 const muiTheme = getMuiTheme({
+  // userAgent: 'all',
   appBar: {
     height: 48, // Instead of 64
   },
