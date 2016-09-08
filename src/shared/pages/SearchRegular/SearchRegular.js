@@ -8,6 +8,7 @@ import MapsPlace from 'material-ui/svg-icons/maps/place'
 import MapsRestaurant from 'material-ui/svg-icons/maps/restaurant'
 
 import * as searchFormActions from '../../actions/searchForm'
+import IconTextField from '../../components/IconTextField'
 import styles from './index.css'
 
 class SearchRegular extends Component {
@@ -69,10 +70,16 @@ class SearchRegular extends Component {
                 hintText="店名、ラーメン"
                 value={genre}
                 onChange={::this.onChangeGenreForm}
-                fullWidth={true}
               />
             </div>
           </div>
+
+          <IconTextField
+            leftIcon={<MapsPlace className={styles.mapsIcon} />}
+            hintText="東京都、銀座"
+            value={area}
+            onChange={::this.onChangeAreaForm}
+          />
 
           <h4>予算</h4>
 
