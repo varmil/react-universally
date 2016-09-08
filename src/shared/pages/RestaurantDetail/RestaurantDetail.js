@@ -41,9 +41,7 @@ class RestaurantDetail extends Component {
   constructor(props) {
     super(props);
 
-    // HACK: URLを無理やりパースして、現在どのタブをアクティブにするべきか判定
-    const splitedPathname = props.location.pathname.split('/')
-    const tabsValue = find(TABS, (e) => splitedPathname.indexOf(e) !== -1)
+    const tabsValue = this.getCurrentTabsValue(props.location.pathname)
 
     this.state = { tabsValue }
   }
@@ -55,6 +53,12 @@ class RestaurantDetail extends Component {
     if (true) {
       RestaurantDetail.fetchData({ params, dispatch })
     }
+  }
+
+  getCurrentTabsValue(pathname) {
+    // HACK: URLを無理やりパースして、現在どのタブをアクティブにするべきか判定
+    const splitedPathname = pathname.split('/')
+    return find(TABS, (e) => splitedPathname.indexOf(e) !== -1)
   }
 
   onChangeTabs(tabsValue) {
@@ -83,6 +87,9 @@ class RestaurantDetail extends Component {
   }
 
   createBottomNavigation() {
+    // アクセス画面ではGoogle Mapを使うのでフッターを消す
+    if (this.getCurrentTabsValue(this.props.location.pathname) === 'access') return null
+
     return (
       <Paper style={{ position: 'fixed', bottom: 0, width: '100%', height: BOTTOM_NAVIGATION_HEIGHT }} zDepth={1}>
         <BottomNavigation>

@@ -88,10 +88,9 @@ export default class SimpleMapPage extends Component {
             defaultZoom={this.props.zoom}
             onChange={this.onChange.bind(this)}
           >
-
-          {this.state.markers.map((marker, index) =>
-            <MapMarker key={index} onTouchTap={() => this.onTapMarker(index)} lat={marker.lat} lng={marker.lng} text={index.toString()} />
-          )}
+            {this.state.markers.map((marker, index) =>
+              <MapMarker key={index} onTouchTap={() => this.onTapMarker(index)} lat={marker.lat} lng={marker.lng} text={index.toString()} />
+            )}
           </GoogleMap>
         </div>
 
