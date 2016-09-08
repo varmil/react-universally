@@ -36,7 +36,7 @@ const containerStyle = {
 class Access extends Component {
   render() {
     // block
-    if (!this.props.center.lat || !this.props.center.lng) return null;
+    if (!this.props.center.lat || !this.props.center.lng) return
 
     return (
       <div>
