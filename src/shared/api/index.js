@@ -17,28 +17,24 @@ export default {
     })
   },
 
-  // TODO: ひとまずstubデータを返却する
-  fetchRestaurantList: (params) => {
-    return api.get('/restaurant/list', params)
+  fetchRestaurantList: (query, params) => {
+    return api.get('/restaurant/list', { params: query })
   },
 
-  // TODO: ひとまずstubデータを返却する
-  fetchRestaurantDetailCommon: (params) => {
-    return api.get('/restaurant/detail/common', params)
+  fetchRestaurantDetailCommon: (query, params) => {
+    return api.get(`/restaurant/detail/${params.restaurantId}/common`, { params: query })
   },
 
-  // TODO: ひとまずstubデータを返却する
-  fetchRestaurantDetailTop: (params) => {
-    return api.get('/restaurant/detail/top', params)
+  fetchRestaurantDetailTop: (query, params) => {
+    return api.get(`/restaurant/detail/${params.restaurantId}/top`, { params: query })
   },
 
-  // TODO: ひとまずstubデータを返却する
-  fetchRestaurantDetailPhoto: (params) => {
-    return api.get('/restaurant/detail/photo', params)
+  fetchRestaurantDetailPhoto: (query, params) => {
+    return api.get(`/restaurant/detail/${params.restaurantId}/photo`, { params: query })
   },
 
   // Example:
-  getUser: (login) => api.get(`/users/${login}`),
+  // getUser: (login) => api.get(`/users/${login}`),
   // getToken: (login, password) => api.post('/auth/token', {
   //   login,
   //   password,

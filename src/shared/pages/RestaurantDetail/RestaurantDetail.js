@@ -31,9 +31,9 @@ const BASE_PATH = '/restaurant/detail'
 const TABS = ['photo', 'access', 'coupon']
 
 class RestaurantDetail extends Component {
-  static fetchData({ params, dispatch }) {
+  static fetchData(query, params, dispatch) {
     // dispatch(restaurantDetailActions.fetchStart())
-    return API.fetchRestaurantDetailCommon(params)
+    return API.fetchRestaurantDetailCommon(query, params)
       .then(({ data }) => {
         dispatch(restaurantDetailActions.setCommon(data))
         // dispatch(restaurantDetailActions.fetchSuccess())
@@ -44,20 +44,27 @@ class RestaurantDetail extends Component {
       })
   }
 
+  static contextTypes = {
+    location: React.PropTypes.object,
+    params: React.PropTypes.object,
+  }
+
+
+
+
   constructor(props) {
-    super(props);
-
+    super(props)
     const tabsValue = this.getCurrentTabsValue(props.location.pathname)
-
     this.state = { tabsValue }
   }
 
   componentWillMount() {
-    const { params, dispatch } = this.props
+    const { dispatch } = this.props
+    const { location, params } = this.context
 
     // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
     if (true) {
-      RestaurantDetail.fetchData({ params, dispatch })
+      RestaurantDetail.fetchData(location.query, params, dispatch)
     }
   }
 

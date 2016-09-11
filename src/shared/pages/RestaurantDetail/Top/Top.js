@@ -18,8 +18,8 @@ import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
 
 class Top extends Component {
-  static fetchData({ params, dispatch }) {
-    return API.fetchRestaurantDetailTop(params)
+  static fetchData(query, params, dispatch) {
+    return API.fetchRestaurantDetailTop(query, params)
       .then(({ data }) => {
         dispatch(restaurantDetailActions.setTop(data))
       })
@@ -28,12 +28,21 @@ class Top extends Component {
       })
   }
 
+  static contextTypes = {
+    location: React.PropTypes.object,
+    params: React.PropTypes.object,
+  }
+
+
+
+
   componentWillMount() {
-    const { params, dispatch } = this.props
+    const { dispatch } = this.props
+    const { location, params } = this.context
 
     // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
     if (true) {
-      Top.fetchData({ params, dispatch })
+      Top.fetchData(location.query, params, dispatch)
     }
   }
 

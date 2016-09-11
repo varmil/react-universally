@@ -6,6 +6,7 @@ const router = express.Router()
 import restaurantList from '../../stub/restaurantList'
 import * as stubRestaurantDetail from '../../stub/restaurantDetail'
 
+
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
   console.log('Time: ', Date.now())
@@ -19,19 +20,22 @@ router.get('/', (req, res) => {
 })
 
 router.get('/restaurant/list', (req, res) => {
+  console.log(req.query)
   res.json(restaurantList)
 })
 
-router.get('/restaurant/detail/common', (req, res) => {
+router.get('/restaurant/detail/:id/common', (req, res) => {
+  console.log(req.params)
   res.json(stubRestaurantDetail.common)
 })
 
-router.get('/restaurant/detail/top', (req, res) => {
+router.get('/restaurant/detail/:id/top', (req, res) => {
   res.json(stubRestaurantDetail.top)
 })
 
-router.get('/restaurant/detail/photo', (req, res) => {
+router.get('/restaurant/detail/:id/photo', (req, res) => {
   res.json(stubRestaurantDetail.photo)
 })
+
 
 export default router

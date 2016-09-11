@@ -16,8 +16,8 @@ const TOOLBAR_HEIGHT = 40
 const TOOLBAR_HEIGHT_PX = `${TOOLBAR_HEIGHT}px`
 
 class Photo extends Component {
-  static fetchData({ params, dispatch }) {
-    return API.fetchRestaurantDetailPhoto(params)
+  static fetchData(query, params, dispatch) {
+    return API.fetchRestaurantDetailPhoto(query, params)
       .then(({ data }) => {
         dispatch(restaurantDetailActions.setPhoto(data))
       })
@@ -26,17 +26,26 @@ class Photo extends Component {
       })
   }
 
+  static contextTypes = {
+    location: React.PropTypes.object,
+    params: React.PropTypes.object,
+  }
+
+
+
+
   constructor(props) {
      super(props);
      this.state = { value: 1 }
    }
 
    componentWillMount() {
-     const { params, dispatch } = this.props
+     const { dispatch } = this.props
+     const { location, params } = this.context
 
      // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
      if (true) {
-       Photo.fetchData({ params, dispatch })
+       Photo.fetchData(location.query, params, dispatch)
      }
    }
 

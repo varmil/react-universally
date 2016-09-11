@@ -9,6 +9,7 @@ import express from 'express';
 import compression from 'compression';
 import hpp from 'hpp';
 import helmet from 'helmet';
+
 import universalReactAppMiddleware from './middleware/universalReactApp';
 import apiRouterMiddleware from './middleware/router/api';
 import {
@@ -18,10 +19,6 @@ import {
   SERVER_PORT,
   PUBLIC_DIR_PATH,
 } from './config';
-
-// Warning: Material-UI: userAgent should be supplied in the muiTheme context for server-side rendering.
-// http://stackoverflow.com/questions/35481084/react-starter-kit-and-material-ui-useragent-should-be-supplied-in-the-muitheme
-// global.navigator = { userAgent: 'all' }
 
 // Create our express based server.
 const app = express();
@@ -51,6 +48,15 @@ app.use(helmet.noSniff());
 
 // Response compression.
 app.use(compression());
+
+// This is needed for material-ui server rendering... ?
+// https://github.com/callemall/material-ui/pull/2172#issuecomment-157404901
+app.use(function(req, res, next) {
+  global.navigator = {
+    userAgent: req.headers['user-agent']
+  }
+  next()
+})
 
 // Configure static serving of our webpack bundled client files.
 app.use(

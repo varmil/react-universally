@@ -1,9 +1,9 @@
 /* @flow */
 
 import React from 'react';
-import { Router, Route, RouterContext, IndexRoute } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 import App from './App';
-import { Provider } from 'react-redux';
+
 
 function handleError(err) {
   // TODO: Error handling, do we return an Error component here?
@@ -110,22 +110,6 @@ const routes = (
     </Route>
 
   </Route>
-);
-
-const withReduxProvider = (store, children) => {
-  return (
-    <Provider store={store}>
-      {children}
-    </Provider>
-  );
-};
-
-export const createClientApp = (store, renderProps) => {
-  return withReduxProvider(store, <Router {...renderProps} />);
-};
-
-export const createServerApp = (store, renderProps) => {
-  return withReduxProvider(store, <RouterContext {...renderProps}/>);
-};
+)
 
 export default routes;

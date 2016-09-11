@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Helmet from 'react-helmet';
 import 'normalize.css/normalize.css';
 
@@ -10,37 +8,44 @@ import API from '../../api';
 import * as authActions from '../../actions/auth';
 import './globals.css';
 
+
 const websiteDescription =
   'A starter kit giving you the minimum requirements for a production ready ' +
   'universal react application.';
 
-const muiTheme = getMuiTheme({
-  // userAgent: navigator['userAgent'],
-  appBar: {
-    height: 48, // Instead of 64
-  },
-}, { userAgent: '' })
-
-
-
 
 // This component is mounted on Initial Loading
 class App extends Component {
-  static fetchData({ params, dispatch }) {
+  static fetchData(query, params, dispatch) {
     return API.fetchUser().then((message) => {
       dispatch(authActions.setIsPrepared(true))
     })
   }
 
+  // https://github.com/reactjs/react-router/blob/master/upgrade-guides/v2.0.0.md#accessing-location
+  // あまり良くないが、Child Route Componentで props.location, props.paramsのように
+  // データを取得したいのでcontextを利用する。そもそもrouter contextから呼べるようにすべき（3.0で入るかも）
+  // https://github.com/reactjs/react-router/issues/3325
+  // ======================================
+  static childContextTypes = {
+    location: React.PropTypes.object,
+    params: React.PropTypes.object,
+  }
+
+  getChildContext() {
+    return { location: this.props.location, params: this.props.params }
+  }
+  // context END =============================================================
+
   componentWillMount() {
-    const { params, dispatch } = this.props;
+    const { location, params, dispatch } = this.props;
     // 非同期通信。ユーザログイン情報をfetch。ローディングし終わるまでは、ロード画面を表示し続ける。
     // それによって、App以下のComponentsではほぼ認証情報をローカルから取得できる前提で処理をかける。
     // https://github.com/nabeliwo/jwt-react-redux-auth-example/blob/master/src/containers/App.jsx
 
     // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
-    if (true) { // 取得済みかどうか
-      App.fetchData({ params, dispatch });
+    if (true) {
+      App.fetchData(location.query, params, dispatch)
     }
   }
 
@@ -55,32 +60,30 @@ class App extends Component {
   render() {
     return this.props.auth.isPrepared ?
     (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <div>
-          {/*
-            All of the following will be injected into our page header.
-            @see https://github.com/nfl/react-helmet
-          */}
-          <Helmet
-            htmlAttributes={{ lang: 'en' }}
-            titleTemplate="React Universally - %s"
-            defaultTitle="React Universally"
-            meta={[
-              { name: 'description', content: websiteDescription },
-            ]}
-            script={[
-              { src: 'https://cdn.polyfill.io/v2/polyfill.min.js', type: 'text/javascript' },
-            ]}
-          />
+      <div>
+        {/*
+          All of the following will be injected into our page header.
+          @see https://github.com/nfl/react-helmet
+        */}
+        <Helmet
+          htmlAttributes={{ lang: 'en' }}
+          titleTemplate="React Universally - %s"
+          defaultTitle="React Universally"
+          meta={[
+            { name: 'description', content: websiteDescription },
+          ]}
+          script={[
+            { src: 'https://cdn.polyfill.io/v2/polyfill.min.js', type: 'text/javascript' },
+          ]}
+        />
 
-          <Header
-            location={this.props.location}
-            onLoginButtonTap={this.onLoginButtonTap}
-          />
+        <Header
+          location={this.props.location}
+          onLoginButtonTap={this.onLoginButtonTap}
+        />
 
-          {this.props.children}
-        </div>
-      </MuiThemeProvider>
+        {this.props.children}
+      </div>
     )
     :
     (
