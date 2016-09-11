@@ -27,6 +27,9 @@ function universalReactAppMiddleware(request, response) {
 
   const history = createMemoryHistory(request.originalUrl);
 
+  // This is needed for material-ui server rendering... ?
+  // global.navigator = { userAgent: request.headers['user-agent'] };
+
   // Server side handling of react-router.
   // Read more about this here:
   // https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md

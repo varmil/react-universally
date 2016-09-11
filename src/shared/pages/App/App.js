@@ -15,11 +15,11 @@ const websiteDescription =
   'universal react application.';
 
 const muiTheme = getMuiTheme({
-  // userAgent: 'all',
+  // userAgent: navigator['userAgent'],
   appBar: {
     height: 48, // Instead of 64
   },
-})
+}, { userAgent: '' })
 
 
 
