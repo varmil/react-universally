@@ -9,6 +9,7 @@ import MenuItem from 'material-ui/MenuItem';
 import API from '../../../api'
 import styles from '../index.css'
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
+import * as errorsActions from '../../../actions/errors'
 
 const ICON_HEIGHT = 24
 const TOOLBAR_HEIGHT = 40
@@ -16,9 +17,13 @@ const TOOLBAR_HEIGHT_PX = `${TOOLBAR_HEIGHT}px`
 
 class Photo extends Component {
   static fetchData({ params, dispatch }) {
-    return API.fetchRestaurantDetailPhoto(params).then((data) => {
-      dispatch(restaurantDetailActions.setPhoto(data))
-    })
+    return API.fetchRestaurantDetailPhoto(params)
+      .then(({ data }) => {
+        dispatch(restaurantDetailActions.setPhoto(data))
+      })
+      .catch((reason) => {
+        dispatch(errorsActions.push(reason))
+      })
   }
 
   constructor(props) {

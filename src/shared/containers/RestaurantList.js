@@ -10,7 +10,7 @@ import * as errorsActions from '../actions/errors'
 class RestaurantList extends Component {
   static fetchData({ params, dispatch }) {
     return API.fetchRestaurantList(params)
-      .then((data) => {
+      .then(({ data }) => {
         dispatch(restaurantsActions.replaceRestaurants(data))
       })
       .catch((reason) => {

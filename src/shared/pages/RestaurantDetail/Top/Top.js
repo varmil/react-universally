@@ -10,16 +10,22 @@ import {indigo500} from 'material-ui/styles/colors';
 
 import API from '../../../api'
 import styles from '../index.css'
-import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import FiveStar from '../../../components/FiveStar'
 import ReviewCount from '../../../components/ReviewCount'
 import ReviewListItem from '../../../components/ReviewListItem'
 
+import * as restaurantDetailActions from '../../../actions/restaurantDetail'
+import * as errorsActions from '../../../actions/errors'
+
 class Top extends Component {
   static fetchData({ params, dispatch }) {
-    return API.fetchRestaurantDetailTop(params).then((data) => {
-      dispatch(restaurantDetailActions.setTop(data))
-    })
+    return API.fetchRestaurantDetailTop(params)
+      .then(({ data }) => {
+        dispatch(restaurantDetailActions.setTop(data))
+      })
+      .catch((reason) => {
+        dispatch(errorsActions.push(reason))
+      })
   }
 
   componentWillMount() {

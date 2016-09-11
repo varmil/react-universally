@@ -3,7 +3,8 @@ import express from 'express'
 const router = express.Router()
 
 // STUB
-import * as restaurantList from '../../../shared/stub/restaurantList'
+import restaurantList from '../../stub/restaurantList'
+import * as stubRestaurantDetail from '../../stub/restaurantDetail'
 
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
@@ -11,26 +12,26 @@ router.use(function timeLog(req, res, next) {
   next()
 })
 
+
 // define the home page route
 router.get('/', (req, res) => {
   res.json('Birds home page')
 })
 
 router.get('/restaurant/list', (req, res) => {
-  const stub = restaurantList.default
-  res.json(stub)
+  res.json(restaurantList)
 })
 
 router.get('/restaurant/detail/common', (req, res) => {
-  res.json('About birds')
+  res.json(stubRestaurantDetail.common)
 })
 
 router.get('/restaurant/detail/top', (req, res) => {
-  res.json('About birds')
+  res.json(stubRestaurantDetail.top)
 })
 
 router.get('/restaurant/detail/photo', (req, res) => {
-  res.json('About birds')
+  res.json(stubRestaurantDetail.photo)
 })
 
 export default router

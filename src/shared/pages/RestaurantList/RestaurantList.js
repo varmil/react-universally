@@ -25,7 +25,6 @@ class RestaurantList extends Component {
   }
 
   render() {
-    console.log(this.props.searchForm)
     return (
       <div>
         <Helmet title="RestaurantList" />

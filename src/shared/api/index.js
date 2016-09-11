@@ -1,16 +1,14 @@
 import axios from 'axios'
-import * as stubRestaurantDetail from '../stub/restaurantDetail'
 
 // STUB DATA START
 const RESOLVE_WAIT_MS = 200
-
-const STUB_RESTAURANT_DETAIL = stubRestaurantDetail
 // STUB DATA END
 
 
 const api = axios.create({
   baseURL: 'http://localhost:1337/api/',
 })
+
 
 export default {
   fetchUser: (userId) => {
@@ -26,23 +24,17 @@ export default {
 
   // TODO: ひとまずstubデータを返却する
   fetchRestaurantDetailCommon: (params) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(STUB_RESTAURANT_DETAIL.common), RESOLVE_WAIT_MS)
-    })
+    return api.get('/restaurant/detail/common', params)
   },
 
   // TODO: ひとまずstubデータを返却する
   fetchRestaurantDetailTop: (params) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(STUB_RESTAURANT_DETAIL.top), RESOLVE_WAIT_MS)
-    })
+    return api.get('/restaurant/detail/top', params)
   },
 
   // TODO: ひとまずstubデータを返却する
   fetchRestaurantDetailPhoto: (params) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(STUB_RESTAURANT_DETAIL.photo), RESOLVE_WAIT_MS)
-    })
+    return api.get('/restaurant/detail/photo', params)
   },
 
   // Example:

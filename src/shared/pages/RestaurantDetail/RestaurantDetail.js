@@ -15,6 +15,7 @@ import SocialShare from 'material-ui/svg-icons/social/share'
 import styles from './index.css'
 import API from '../../api'
 import * as restaurantDetailActions from '../../actions/restaurantDetail'
+import * as errorsActions from '../../actions/errors'
 
 
 const BOTTOM_NAVIGATION_HEIGHT = 50
@@ -32,10 +33,15 @@ const TABS = ['photo', 'access', 'coupon']
 class RestaurantDetail extends Component {
   static fetchData({ params, dispatch }) {
     // dispatch(restaurantDetailActions.fetchStart())
-    return API.fetchRestaurantDetailCommon(params).then((data) => {
-      dispatch(restaurantDetailActions.setCommon(data))
-      // dispatch(restaurantDetailActions.fetchSuccess())
-    })
+    return API.fetchRestaurantDetailCommon(params)
+      .then(({ data }) => {
+        dispatch(restaurantDetailActions.setCommon(data))
+        // dispatch(restaurantDetailActions.fetchSuccess())
+      })
+      .catch((reason) => {
+        dispatch(errorsActions.push(reason))
+        // dispatch(restaurantDetailActions.fetchError())
+      })
   }
 
   constructor(props) {
