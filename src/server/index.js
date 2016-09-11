@@ -10,6 +10,7 @@ import compression from 'compression';
 import hpp from 'hpp';
 import helmet from 'helmet';
 import universalReactAppMiddleware from './middleware/universalReactApp';
+import apiRouterMiddleware from './middleware/router/api';
 import {
   CLIENT_BUNDLE_HTTP_PATH,
   CLIENT_BUNDLE_OUTPUT_PATH,
@@ -59,6 +60,9 @@ app.use(
 
 // Configure static serving of our "public" root http path static files.
 app.use(express.static(PUBLIC_DIR_PATH));
+
+// routing of API
+app.use('/api', apiRouterMiddleware);
 
 // Bind our universal react app middleware as the handler for all get requests.
 app.get('*', universalReactAppMiddleware);

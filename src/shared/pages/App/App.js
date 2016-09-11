@@ -103,7 +103,10 @@ class App extends Component {
 // もっとSimpleにハンドラはContainer内に自分でメソッド切ればいいじゃん？stateも使えるし。
 
 const AppContainer = connect(
-  (state) => ({ auth: state.auth })
+  (state) => ({
+    auth: state.auth,
+    errors: state.errors,
+})
 )(App)
 
 export default AppContainer
