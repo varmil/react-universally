@@ -14,13 +14,14 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 // }
 
 
-const withReduxProvider = (store, children) => {
+const withReduxProvider = (store, children, userAgent) => {
   // HACK: call getMuiTheme every time for rendering, but this is needed for server rendering
+  // Client side uses `navigator.userAgent`
   const muiTheme = getMuiTheme({
     appBar: {
       height: 48, // Instead of 64
     },
-  }, { userAgent: navigator.userAgent })
+  }, { userAgent: userAgent || navigator.userAgent })
 
   return (
     <MuiThemeProvider muiTheme={muiTheme}>
@@ -35,6 +36,6 @@ export const createClientApp = (store, renderProps) => {
   return withReduxProvider(store, <Router {...renderProps} />);
 }
 
-export const createServerApp = (store, renderProps) => {
-  return withReduxProvider(store, <RouterContext {...renderProps}/>);
+export const createServerApp = (store, renderProps, userAgent) => {
+  return withReduxProvider(store, <RouterContext {...renderProps}/>, userAgent);
 }

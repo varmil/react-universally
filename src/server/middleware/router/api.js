@@ -9,7 +9,7 @@ import * as stubRestaurantDetail from '../../stub/restaurantDetail'
 
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
-  console.log('Time: ', Date.now())
+  // console.log('Time: ', Date.now())
   next()
 })
 
@@ -20,12 +20,12 @@ router.get('/', (req, res) => {
 })
 
 router.get('/restaurant/list', (req, res) => {
-  console.log(req.query)
+  // console.log(req.query)
   res.json(restaurantList)
 })
 
 router.get('/restaurant/detail/:id/common', (req, res) => {
-  console.log(req.params)
+  // console.log(req.params)
   res.json(stubRestaurantDetail.common)
 })
 

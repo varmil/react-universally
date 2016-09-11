@@ -49,12 +49,8 @@ app.use(helmet.noSniff());
 // Response compression.
 app.use(compression());
 
-// This is needed for material-ui server rendering... ?
-// https://github.com/callemall/material-ui/pull/2172#issuecomment-157404901
 app.use(function(req, res, next) {
-  global.navigator = {
-    userAgent: req.headers['user-agent']
-  }
+  console.log('UA: ', req.headers['user-agent'], ' url: ', req.url)
   next()
 })
 

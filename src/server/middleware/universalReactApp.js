@@ -8,7 +8,6 @@ import routes from '../../shared/pages/routes';
 import { createServerApp } from '../../shared/utils/createApp';
 import { DISABLE_SSR } from '../config';
 import { IS_DEVELOPMENT } from '../../shared/config';
-
 import configureStore from '../../shared/store/configureStore';
 
 /**
@@ -58,7 +57,9 @@ function universalReactAppMiddleware(request, response) {
       // now all data is ready ! (store is updated)
       Promise.all(promises)
         .then(() => {
-          const app = createServerApp(store, renderProps);
+          // The UserAgent is needed for material-ui server rendering
+          // https://github.com/callemall/material-ui/pull/2172#issuecomment-157404901
+          const app = createServerApp(store, renderProps, request.headers['user-agent']);
           const initialState = store.getState();
           const html = render(app, initialState);
           response.status(200).send(html);
