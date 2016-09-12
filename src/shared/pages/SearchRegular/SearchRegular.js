@@ -12,8 +12,12 @@ import ActionLabel from 'material-ui/svg-icons/action/label-outline'
 import * as searchFormActions from '../../actions/searchForm'
 import IconTextField from '../../components/IconTextField'
 import BudgetSelectField from '../../components/BudgetSelectField'
+
 import AreaList from '../../components/AreaList'
+import GenreList from '../../components/GenreList'
 import stubArea from '../../stub/area'
+import stubGenre from '../../stub/genre'
+
 import styles from './index.css'
 
 
@@ -27,6 +31,11 @@ const dialogStyle = {
   // maxWidth: 'none',
 }
 
+const FORM_TYPE = {
+  AREA: Symbol('AREA'),
+  GENRE: Symbol('GENRE'),
+}
+
 
 class SearchRegular extends Component {
   constructor(props) {
@@ -34,12 +43,14 @@ class SearchRegular extends Component {
     this.state = { ...initialDialogState }
   }
 
-  onChangeAreaForm(e) {
-    this.props.dispatch(searchFormActions.setAreaText(e.target.value))
-  }
+  onChangeForm(e, type) {
+    e.preventDefault()
 
-  onChangeGenreForm(e) {
-    this.props.dispatch(searchFormActions.setGenreText(e.target.value))
+    if (type === FORM_TYPE.AREA) {
+      this.props.dispatch(searchFormActions.setAreaText(e.target.value))
+    } else if (type === FORM_TYPE.GENRE) {
+      this.props.dispatch(searchFormActions.setGenreText(e.target.value))
+    }
   }
 
   onChangeLowerLimitBudget(e, index, value) {
@@ -52,11 +63,13 @@ class SearchRegular extends Component {
 
 
   onTapAreaButton(e) {
+    e.preventDefault()
     const state = this.state
     this.setState({ ...state, areaDialogOpened: true })
   }
 
   onTapGenreButton(e) {
+    e.preventDefault()
     const state = this.state
     this.setState({ ...state, genreDialogOpened: true })
   }
@@ -69,6 +82,7 @@ class SearchRegular extends Component {
     })
   }
 
+
   // 本当は配列ではなくそれぞれのareaにIDを振って、ID管理のほうがパフォーマンスは良い
   onCheckArea(name, isInputChecked) {
     const { dispatch } = this.props
@@ -79,27 +93,41 @@ class SearchRegular extends Component {
     }
   }
 
+  onCheckGenre(name, isInputChecked) {
+    const { dispatch } = this.props
+    if (isInputChecked) {
+      dispatch(searchFormActions.addGenreChip(name))
+    } else {
+      dispatch(searchFormActions.removeGenreChip(name))
+    }
+  }
+
 
   handleCloseDialog() {
     const state = this.state
     this.setState({ ...state, ...initialDialogState })
   }
 
-  handleDeleteChip(e, name) {
+  handleDeleteChip(e, name, type) {
     e.preventDefault()
     const { dispatch } = this.props
-    dispatch(searchFormActions.removeAreaChip(name))
+
+    if (type === FORM_TYPE.AREA) {
+      dispatch(searchFormActions.removeAreaChip(name))
+    } else if (type === FORM_TYPE.GENRE) {
+      dispatch(searchFormActions.removeGenreChip(name))
+    }
   }
 
 
   // エリア選択、ジャンル洗濯用のChip生成
-  createChips(chips) {
+  createChips(chips, type) {
     return (
       <div>
         {chips.map(chipName =>
           <Chip
             key={chipName}
-            onRequestDelete={(e) => this.handleDeleteChip(e, chipName)}
+            onRequestDelete={(e) => this.handleDeleteChip(e, chipName, type)}
           >
             <Avatar><ActionLabel /></Avatar>
             {chipName}
@@ -123,12 +151,7 @@ class SearchRegular extends Component {
   createActions() {
     return [
       <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={::this.handleCloseDialog}
-      />,
-      <FlatButton
-        label="Submit"
+        label="OK"
         primary={true}
         keyboardFocused={true}
         onTouchTap={::this.handleCloseDialog}
@@ -140,7 +163,7 @@ class SearchRegular extends Component {
   render() {
     const { areaText, genreText, areaChip, genreChip, lowerLimitBudget, upperLimitBudget } = this.props.searchForm
     return (
-      <div>
+      <div className={styles.pageContainer}>
         <Helmet title="SearchRegular" />
 
         <div className={styles.formContainer}>
@@ -149,29 +172,27 @@ class SearchRegular extends Component {
             style={{ margin: '10px 0' }}
             leftIcon={<MapsPlace />}
             hintText="東京都、銀座"
-            onChange={::this.onChangeAreaForm}
+            onChange={(e) => this.onChangeForm(e, FORM_TYPE.AREA)}
             value={areaText}
             buttonLabel="area"
             buttonIcon={<ChevronRight />}
             onTapButton={::this.onTapAreaButton}
           />
-
-          {this.createChips(areaChip)}
+          {this.createChips(areaChip, FORM_TYPE.AREA)}
 
           <IconTextField
             id="SearchRegular-genre"
             style={{ margin: '10px 0' }}
             leftIcon={<MapsRestaurant />}
             hintText="店名、ラーメン"
-            onChange={::this.onChangeGenreForm}
+            onChange={(e) => this.onChangeForm(e, FORM_TYPE.GENRE)}
             value={genreText}
             buttonLabel="genre"
             buttonIcon={<ChevronRight />}
             onTapButton={::this.onTapGenreButton}
           />
+          {this.createChips(genreChip, FORM_TYPE.GENRE)}
         </div>
-
-        {this.createChips(genreChip)}
 
         <Divider />
 
@@ -194,6 +215,18 @@ class SearchRegular extends Component {
           autoScrollBodyContent={true}
         >
           <AreaList subheader="Phnom Penh" data={stubArea} checkedItems={areaChip} onCheck={::this.onCheckArea} />
+        </Dialog>
+
+        <Dialog
+          title="Select Genre"
+          actions={this.createActions()}
+          modal={false}
+          contentStyle={dialogStyle}
+          open={this.state.genreDialogOpened}
+          onRequestClose={::this.handleCloseDialog}
+          autoScrollBodyContent={true}
+        >
+          <GenreList subheader="Food" data={stubGenre} checkedItems={genreChip} onCheck={::this.onCheckGenre} />
         </Dialog>
       </div>
     )

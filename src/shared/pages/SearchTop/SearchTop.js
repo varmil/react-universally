@@ -34,15 +34,15 @@ class SearchTop extends Component {
   }
 
   render() {
-    const { area, genre } = this.props
+    const { areaText, genreText } = this.props
     return (
       <div>
         <Helmet title="SearchTop" />
 
         <div className={styles.searchFormContainer}>
           <InlineSearchForm
-            areaFormValue={area}
-            genreFormValue={genre}
+            areaFormValue={areaText}
+            genreFormValue={genreText}
             onChangeAreaForm={::this.onChangeAreaForm}
             onChangeGenreForm={::this.onChangeGenreForm}
           />

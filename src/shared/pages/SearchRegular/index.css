@@ -1,3 +1,7 @@
+.pageContainer {
+    margin-bottom: 100px;
+}
+
 .fixedBottom {
     position: fixed;
     bottom: 20px;

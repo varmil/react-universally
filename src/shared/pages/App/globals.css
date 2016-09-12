@@ -17,6 +17,7 @@ html {
  * maybe should use autoprefixer... ?
  *https://github.com/callemall/material-ui/issues/4008
  */
+button[type=button],
 div[type=button],
 span[type=button],
 a[type=button] {
