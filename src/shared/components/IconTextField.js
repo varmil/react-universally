@@ -8,6 +8,10 @@ const textFieldStyle = {
   width: '75%'
 }
 
+const hintStyle = {
+  fontSize: 13
+}
+
 const rightButton = {
 }
 
@@ -18,7 +22,9 @@ export default (props) => {
       <Box auto style={{ textAlign: 'left' }}>
         <span style={{ position: 'relative', top: '6px' }}>{props.leftIcon}</span>
         <TextField
+          id={props.id}
           style={textFieldStyle}
+          hintStyle={hintStyle}
           hintText={props.hintText}
           value={props.value}
           onChange={props.onChange}

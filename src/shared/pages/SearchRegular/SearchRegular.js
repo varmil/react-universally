@@ -10,6 +10,7 @@ import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 
 import * as searchFormActions from '../../actions/searchForm'
 import IconTextField from '../../components/IconTextField'
+import BudgetSelectField from '../../components/BudgetSelectField'
 import styles from './index.css'
 
 class SearchRegular extends Component {
@@ -39,11 +40,11 @@ class SearchRegular extends Component {
 
   createBudgetSelectField(value, onChange, floatingLabelText) {
     return (
-      <SelectField value={value} onChange={onChange} floatingLabelText={floatingLabelText}>
-        <MenuItem value={1} primaryText="1,000" />
-        <MenuItem value={2} primaryText="2,000" />
-        <MenuItem value={3} primaryText="3,000" />
-      </SelectField>
+      <BudgetSelectField
+        id={`SearchRegular-budget-${floatingLabelText.replace(/ /g,'')}`}
+        value={value}
+        onChange={onChange}
+        floatingLabelText={floatingLabelText} />
     )
   }
 
@@ -55,6 +56,7 @@ class SearchRegular extends Component {
 
         <div className={styles.formContainer}>
           <IconTextField
+            id="SearchRegular-area"
             style={{ margin: '10px 0' }}
             leftIcon={<MapsPlace />}
             hintText="東京都、銀座"
@@ -65,6 +67,7 @@ class SearchRegular extends Component {
           />
 
           <IconTextField
+            id="SearchRegular-genre"
             style={{ margin: '10px 0' }}
             leftIcon={<MapsRestaurant />}
             hintText="店名、ラーメン"
@@ -79,9 +82,8 @@ class SearchRegular extends Component {
 
         <div className={styles.formContainer}>
           <Subheader>Budget</Subheader>
-
-          {this.createBudgetSelectField(lowerLimitBudget, ::this.onChangeLowerLimitBudget, "下限")}
-          {this.createBudgetSelectField(upperLimitBudget, ::this.onChangeUpperLimitBudget, "上限")}
+          {this.createBudgetSelectField(lowerLimitBudget, ::this.onChangeLowerLimitBudget, "lower limit")}
+          {this.createBudgetSelectField(upperLimitBudget, ::this.onChangeUpperLimitBudget, "upper limit")}
         </div>
 
           <RaisedButton onTouchTap={::this.onTapSearchButton} className={styles.fixedBottom} label="検索" secondary={true} />
