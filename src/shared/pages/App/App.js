@@ -38,19 +38,17 @@ class App extends Component {
   // context END =============================================================
 
   componentWillMount() {
-    const { location, params, dispatch } = this.props;
+    const { location, params, dispatch, auth } = this.props;
     // 非同期通信。ユーザログイン情報をfetch。ローディングし終わるまでは、ロード画面を表示し続ける。
     // それによって、App以下のComponentsではほぼ認証情報をローカルから取得できる前提で処理をかける。
     // https://github.com/nabeliwo/jwt-react-redux-auth-example/blob/master/src/containers/App.jsx
-
-    // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
-    if (true) {
+    if (! auth.isPrepared) {
       App.fetchData(location.query, params, dispatch)
     }
   }
 
   componentWillUpdate(nextProps, nextState) {
-    console.info('componentWillUpdate', nextProps, nextState)
+    console.info('willUpdate', nextProps, nextState)
   }
 
   onLoginButtonTap(event) {
