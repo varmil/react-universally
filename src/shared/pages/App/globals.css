@@ -11,6 +11,19 @@ html {
     padding: 0;
 }
 
+
+/**
+ * [EnhancedButton] Should not apply type="button" when not rendering a <button> element
+ * maybe should use autoprefixer... ?
+ *https://github.com/callemall/material-ui/issues/4008
+ */
+div[type=button],
+span[type=button],
+a[type=button] {
+  -webkit-appearance: none;
+}
+
+
 :global .base-paper {
     padding: 20px;
     display: inline-block;

@@ -3,22 +3,30 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
 
-import { Dialog, FlatButton, Divider, Subheader, RaisedButton } from 'material-ui'
+import { Avatar, Dialog, FlatButton, Divider, Subheader, RaisedButton, Chip } from 'material-ui'
 import MapsPlace from 'material-ui/svg-icons/maps/place'
 import MapsRestaurant from 'material-ui/svg-icons/maps/restaurant'
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
+import ActionLabel from 'material-ui/svg-icons/action/label-outline'
 
 import * as searchFormActions from '../../actions/searchForm'
 import IconTextField from '../../components/IconTextField'
 import BudgetSelectField from '../../components/BudgetSelectField'
+import AreaList from '../../components/AreaList'
+import stubArea from '../../stub/area'
 import styles from './index.css'
 
 
-const initialDialogState = { areaDialogOpened: false, genreDialogOpened: false }
+const initialDialogState = {
+  areaDialogOpened: false,
+  genreDialogOpened: false,
+}
+
 const dialogStyle = {
   width: '98%',
   // maxWidth: 'none',
 }
+
 
 class SearchRegular extends Component {
   constructor(props) {
@@ -27,11 +35,11 @@ class SearchRegular extends Component {
   }
 
   onChangeAreaForm(e) {
-    this.props.dispatch(searchFormActions.setArea(e.target.value))
+    this.props.dispatch(searchFormActions.setAreaText(e.target.value))
   }
 
   onChangeGenreForm(e) {
-    this.props.dispatch(searchFormActions.setGenre(e.target.value))
+    this.props.dispatch(searchFormActions.setGenreText(e.target.value))
   }
 
   onChangeLowerLimitBudget(e, index, value) {
@@ -61,12 +69,45 @@ class SearchRegular extends Component {
     })
   }
 
+  // 本当は配列ではなくそれぞれのareaにIDを振って、ID管理のほうがパフォーマンスは良い
+  onCheckArea(name, isInputChecked) {
+    const { dispatch } = this.props
+    if (isInputChecked) {
+      dispatch(searchFormActions.addAreaChip(name))
+    } else {
+      dispatch(searchFormActions.removeAreaChip(name))
+    }
+  }
 
-  handleCloseDialog = () => {
+
+  handleCloseDialog() {
     const state = this.state
     this.setState({ ...state, ...initialDialogState })
   }
 
+  handleDeleteChip(e, name) {
+    e.preventDefault()
+    const { dispatch } = this.props
+    dispatch(searchFormActions.removeAreaChip(name))
+  }
+
+
+  // エリア選択、ジャンル洗濯用のChip生成
+  createChips(chips) {
+    return (
+      <div>
+        {chips.map(chipName =>
+          <Chip
+            key={chipName}
+            onRequestDelete={(e) => this.handleDeleteChip(e, chipName)}
+          >
+            <Avatar><ActionLabel /></Avatar>
+            {chipName}
+          </Chip>
+        )}
+      </div>
+    )
+  }
 
   createBudgetSelectField(value, onChange, floatingLabelText) {
     return (
@@ -78,25 +119,26 @@ class SearchRegular extends Component {
     )
   }
 
+  // Dialog用のボタン生成
   createActions() {
     return [
       <FlatButton
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleCloseDialog}
+        onTouchTap={::this.handleCloseDialog}
       />,
       <FlatButton
         label="Submit"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleCloseDialog}
+        onTouchTap={::this.handleCloseDialog}
       />,
     ]
   }
 
 
   render() {
-    const { area, genre, lowerLimitBudget, upperLimitBudget } = this.props.searchForm
+    const { areaText, genreText, areaChip, genreChip, lowerLimitBudget, upperLimitBudget } = this.props.searchForm
     return (
       <div>
         <Helmet title="SearchRegular" />
@@ -108,11 +150,13 @@ class SearchRegular extends Component {
             leftIcon={<MapsPlace />}
             hintText="東京都、銀座"
             onChange={::this.onChangeAreaForm}
-            value={area}
+            value={areaText}
             buttonLabel="area"
             buttonIcon={<ChevronRight />}
             onTapButton={::this.onTapAreaButton}
           />
+
+          {this.createChips(areaChip)}
 
           <IconTextField
             id="SearchRegular-genre"
@@ -120,12 +164,14 @@ class SearchRegular extends Component {
             leftIcon={<MapsRestaurant />}
             hintText="店名、ラーメン"
             onChange={::this.onChangeGenreForm}
-            value={genre}
+            value={genreText}
             buttonLabel="genre"
             buttonIcon={<ChevronRight />}
             onTapButton={::this.onTapGenreButton}
           />
         </div>
+
+        {this.createChips(genreChip)}
 
         <Divider />
 
@@ -144,9 +190,10 @@ class SearchRegular extends Component {
           modal={false}
           contentStyle={dialogStyle}
           open={this.state.areaDialogOpened}
-          onRequestClose={this.handleCloseDialog}
+          onRequestClose={::this.handleCloseDialog}
+          autoScrollBodyContent={true}
         >
-          The actions in this window were passed in as an array of React objects.
+          <AreaList subheader="Phnom Penh" data={stubArea} checkedItems={areaChip} onCheck={::this.onCheckArea} />
         </Dialog>
       </div>
     )

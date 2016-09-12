@@ -7,8 +7,12 @@ export const Auth = createTypes('auth',
 
 
 export const SearchForm = createTypes('form',
-  'SET_AREA',
-  'SET_GENRE',
+  'SET_AREA_TEXT',
+  'SET_GENRE_TEXT',
+  'ADD_AREA_CHIP',
+  'REMOVE_AREA_CHIP',
+  'ADD_GENRE_CHIP',
+  'REMOVE_GENRE_CHIP',
   'SET_LOWER_LIMIT_BUDGET',
   'SET_UPPER_LIMIT_BUDGET',
 )

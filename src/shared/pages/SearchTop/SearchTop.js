@@ -18,12 +18,12 @@ import styles from './index.css'
 class SearchTop extends Component {
   onChangeAreaForm(e) {
     e.preventDefault()
-    this.props.dispatch(searchFormActions.setArea(e.target.value))
+    this.props.dispatch(searchFormActions.setAreaText(e.target.value))
   }
 
   onChangeGenreForm(e) {
     e.preventDefault()
-    this.props.dispatch(searchFormActions.setGenre(e.target.value))
+    this.props.dispatch(searchFormActions.setGenreText(e.target.value))
   }
 
   onTapListItem(e, link) {
