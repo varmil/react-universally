@@ -37,6 +37,7 @@ export default (props) => {
           primary={true}
           icon={props.buttonIcon}
           style={rightButton}
+          onTouchTap={props.onTapButton}
         />
       </Box>
     </Flex>
