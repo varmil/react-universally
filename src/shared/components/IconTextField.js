@@ -1,32 +1,38 @@
 import React from 'react'
 import { Flex, Box } from 'reflexbox'
-import { Paper, TextField } from 'material-ui';
+import { TextField, RaisedButton } from 'material-ui';
 
-const paperStyle = { margin: '0 auto' }
 const flexStyle = { }
 
 const textFieldStyle = {
-  width: '80%'
+  width: '75%'
 }
+
+const rightButton = {
+}
+
 
 export default (props) => {
   return(
-    <Paper onTouchTap={props.onTap} style={{ ...paperStyle, ...(props.paperStyle) }}>
-      <Flex align="center" p={0} style={{ ...flexStyle, ...(props.flexStyle) }}>
-        <Box sm={1} ml={1} style={{ textAlign: 'left' }}>
-          {props.leftIcon}
-        </Box>
-        <Box sm={8}>
-          <TextField
-            hintText={props.hintText}
-            value={props.value}
-            onChange={props.onChange}
-          />
-        </Box>
-        <Box sm={3}>
-          {props.rightIcon}
-        </Box>
-      </Flex>
-    </Paper>
+    <Flex align="center" justify="space-between" style={{ ...flexStyle, ...(props.style) }}>
+      <Box auto style={{ textAlign: 'left' }}>
+        <span style={{ position: 'relative', top: '6px' }}>{props.leftIcon}</span>
+        <TextField
+          style={textFieldStyle}
+          hintText={props.hintText}
+          value={props.value}
+          onChange={props.onChange}
+        />
+      </Box>
+      <Box>
+        <RaisedButton
+          label={props.buttonLabel}
+          labelPosition="before"
+          primary={true}
+          icon={props.buttonIcon}
+          style={rightButton}
+        />
+      </Box>
+    </Flex>
   )
 }

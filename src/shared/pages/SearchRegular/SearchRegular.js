@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
 
-import { TextField, SelectField, MenuItem, RaisedButton } from 'material-ui'
+import { Divider, Subheader, SelectField, MenuItem, RaisedButton } from 'material-ui'
 import MapsPlace from 'material-ui/svg-icons/maps/place'
 import MapsRestaurant from 'material-ui/svg-icons/maps/restaurant'
+import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 
 import * as searchFormActions from '../../actions/searchForm'
 import IconTextField from '../../components/IconTextField'
@@ -52,42 +53,38 @@ class SearchRegular extends Component {
       <div>
         <Helmet title="SearchRegular" />
 
-        <div className={styles.container}>
-          <div className={styles.areaAndGenre}>
-            <div>
-              <MapsPlace className={styles.mapsIcon} />
-              <TextField
-                className={styles.textField}
-                hintText="東京都、銀座"
-                value={area}
-                onChange={::this.onChangeAreaForm}
-              />
-            </div>
-            <div>
-              <MapsRestaurant className={styles.mapsIcon} />
-              <TextField
-                className={styles.textField}
-                hintText="店名、ラーメン"
-                value={genre}
-                onChange={::this.onChangeGenreForm}
-              />
-            </div>
-          </div>
-
+        <div className={styles.formContainer}>
           <IconTextField
-            leftIcon={<MapsPlace className={styles.mapsIcon} />}
+            style={{ margin: '10px 0' }}
+            leftIcon={<MapsPlace />}
             hintText="東京都、銀座"
+            buttonLabel="area"
+            buttonIcon={<ChevronRight />}
             value={area}
             onChange={::this.onChangeAreaForm}
           />
 
-          <h4>予算</h4>
+          <IconTextField
+            style={{ margin: '10px 0' }}
+            leftIcon={<MapsRestaurant />}
+            hintText="店名、ラーメン"
+            buttonLabel="genre"
+            buttonIcon={<ChevronRight />}
+            value={genre}
+            onChange={::this.onChangeGenreForm}
+          />
+        </div>
+
+        <Divider />
+
+        <div className={styles.formContainer}>
+          <Subheader>Budget</Subheader>
 
           {this.createBudgetSelectField(lowerLimitBudget, ::this.onChangeLowerLimitBudget, "下限")}
           {this.createBudgetSelectField(upperLimitBudget, ::this.onChangeUpperLimitBudget, "上限")}
+        </div>
 
           <RaisedButton onTouchTap={::this.onTapSearchButton} className={styles.fixedBottom} label="検索" secondary={true} />
-        </div>
       </div>
     )
   }
