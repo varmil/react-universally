@@ -16,7 +16,7 @@ import configureStore from '../../shared/store/configureStore';
 function universalReactAppMiddleware(request, response) {
   if (DISABLE_SSR) {
     if (IS_DEVELOPMENT) {
-      console.log('==> 🐌  Handling react route without SSR');  // eslint-disable-line no-console
+      console.log('==> Handling react route without SSR');  // eslint-disable-line no-console
     }
     // SSR is disabled so we will just return an empty html page and will
     // rely on the client to populate the initial react application state.
@@ -48,10 +48,10 @@ function universalReactAppMiddleware(request, response) {
       const promises = renderProps.components
         // ignore undefined the component which has no 'component' property
         .filter(c => c)
+        // NOTE: Route Componentに実装されたfetchData()しか拾ってこないので注意。
+        // Child ComponentsにfetchData()が実装されていてもSSRでは無意味になります
         .map(c => {
-          return c.fetchData ?
-            c.fetchData(query, params, dispatch) :
-            Promise.resolve('not found fetchData method')
+          return c.fetchData ? c.fetchData(query, params, dispatch) : Promise.resolve('not found fetchData method')
         })
 
       // now all data is ready ! (store is updated)

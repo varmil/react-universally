@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // STUB DATA START
-const RESOLVE_WAIT_MS = 200
+const RESOLVE_WAIT_MS = 20
 // STUB DATA END
 
 
