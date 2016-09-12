@@ -5,10 +5,49 @@ import Helmet from 'react-helmet'
 import { FloatingActionButton, RaisedButton } from 'material-ui'
 import ActionSearch from 'material-ui/svg-icons/action/search';
 
-import RestaurantListContainer from '../../containers/RestaurantList'
+import Restaurants from '../../components/RestaurantList'
 import styles from './index.css'
+import API from '../../api'
+import * as restaurantsActions from '../../actions/restaurants'
+import * as errorsActions from '../../actions/errors'
+
 
 class RestaurantList extends Component {
+  static fetchData(query, params, dispatch) {
+    return API.fetchRestaurantList(query, params)
+      .then(({ data }) => {
+        dispatch(restaurantsActions.replaceRestaurants(data))
+      })
+      .catch((reason) => {
+        dispatch(errorsActions.push(reason))
+      })
+  }
+
+  static contextTypes = {
+    location: React.PropTypes.object,
+    params: React.PropTypes.object,
+  }
+
+
+
+
+  componentWillMount() {
+    const { dispatch } = this.props
+    const { location, params } = this.context
+
+    // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
+    if (true) {
+      RestaurantList.fetchData(location.query, params, dispatch)
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    // console.info('componentWillUpdate', nextProps, nextState)
+  }
+
+
+
+
   onTapSearchButton(e) {
     e.preventDefault()
     this.props.router.push({
@@ -29,7 +68,7 @@ class RestaurantList extends Component {
       <div>
         <Helmet title="RestaurantList" />
 
-        <RestaurantListContainer />
+        <Restaurants restaurants={this.props.restaurants} />
 
         <div className={`${styles.fixedBottom}`}>
           <RaisedButton onTouchTap={::this.onTapSearchButton} className={`${styles.raisedButton}`} label={this.createBottomButtonLabel()} secondary={true} />
@@ -45,7 +84,7 @@ class RestaurantList extends Component {
 const DecoratedRestaurantList = withRouter(RestaurantList);
 export default connect(
   (state) => {
-    const { searchForm } = state
-    return { searchForm }
+    const { searchForm, restaurants } = state
+    return { searchForm, restaurants }
    }
 )(DecoratedRestaurantList)
