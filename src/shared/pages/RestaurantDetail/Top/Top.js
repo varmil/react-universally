@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
+import { isEmpty } from 'lodash'
 
 import { Paper, Divider, List, ListItem, GridList, GridTile, RaisedButton } from 'material-ui'
 import CommunicationCall from 'material-ui/svg-icons/communication/call'
@@ -37,14 +38,16 @@ class Top extends Component {
 
 
   componentWillMount() {
-    const { dispatch } = this.props
+    const { dispatch, common, top } = this.props
     const { location, params } = this.context
 
-    // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
-    if (true) {
+    if (isEmpty(top) || params.restaurantId !== common.id) {
       Top.fetchData(location.query, params, dispatch)
     }
   }
+
+
+
 
   createReadMoreButton(label) {
     return (

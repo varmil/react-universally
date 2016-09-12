@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { isEmpty } from 'lodash'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
@@ -32,17 +33,12 @@ class RestaurantList extends Component {
 
 
   componentWillMount() {
-    const { dispatch } = this.props
+    const { dispatch, restaurants } = this.props
     const { location, params } = this.context
 
-    // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
-    if (true) {
+    if (isEmpty(restaurants.dict)) {
       RestaurantList.fetchData(location.query, params, dispatch)
     }
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    // console.info('componentWillUpdate', nextProps, nextState)
   }
 
 

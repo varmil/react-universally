@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
+import { isEmpty } from 'lodash'
 
 import { Paper, DropDownMenu, GridList, GridTile, } from 'material-ui'
 import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
@@ -40,14 +41,16 @@ class Photo extends Component {
    }
 
    componentWillMount() {
-     const { dispatch } = this.props
+     const { dispatch, common, photo } = this.props
      const { location, params } = this.context
 
-     // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
-     if (true) {
+     if (isEmpty(photo) || params.restaurantId !== common.id) {
        Photo.fetchData(location.query, params, dispatch)
      }
    }
+
+
+
 
   handleChange = (event, index, value) => this.setState({ value });
 
@@ -114,5 +117,6 @@ class Photo extends Component {
 
 // NOTE: We must watch the prop "restaurantDetail.nowLoading", so get it for props
 export default connect(state => ({
-  photo: state.restaurantDetail.photo
+  common: state.restaurantDetail.common,
+  photo: state.restaurantDetail.photo,
 }))(Photo)

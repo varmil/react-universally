@@ -2,6 +2,7 @@ import { find } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
+import { isEmpty } from 'lodash'
 
 import { Paper, Tabs, Tab } from 'material-ui'
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
@@ -59,11 +60,11 @@ class RestaurantDetail extends Component {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props
+    const { dispatch, common } = this.props
     const { location, params } = this.context
 
-    // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
-    if (true) {
+    // 今見ようとしているレストランIDと、store内のレストランIDとを比較
+    if (isEmpty(common) || params.restaurantId !== common.id) {
       RestaurantDetail.fetchData(location.query, params, dispatch)
     }
   }
@@ -154,4 +155,4 @@ class RestaurantDetail extends Component {
 }
 
 const DecoratedRestaurantDetail = withRouter(RestaurantDetail)
-export default connect(state => ({ nowLoading: state.restaurantDetail.nowLoading }))(DecoratedRestaurantDetail)
+export default connect(state => ({ common: state.restaurantDetail.common }))(DecoratedRestaurantDetail)

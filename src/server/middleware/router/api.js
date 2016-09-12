@@ -25,8 +25,10 @@ router.get('/restaurant/list', (req, res) => {
 })
 
 router.get('/restaurant/detail/:id/common', (req, res) => {
-  // console.log(req.params)
-  res.json(stubRestaurantDetail.common)
+  // IDをパラメタのものに書き換えておく（仮）
+  let data = stubRestaurantDetail.common
+  data.id = req.params.id
+  res.json(data)
 })
 
 router.get('/restaurant/detail/:id/top', (req, res) => {
