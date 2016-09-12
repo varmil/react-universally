@@ -5,20 +5,34 @@ import { withRouter } from 'react-router'
 import API from '../api'
 import RestaurantListItem from '../components/RestaurantListItem'
 import * as restaurantsActions from '../actions/restaurants'
+import * as errorsActions from '../actions/errors'
 
 class RestaurantList extends Component {
-  static fetchData({ params, dispatch }) {
-    return API.fetchRestaurantList(params).then((data) => {
-      dispatch(restaurantsActions.replaceRestaurants(data))
-    })
+  static fetchData(query, params, dispatch) {
+    return API.fetchRestaurantList(query, params)
+      .then(({ data }) => {
+        dispatch(restaurantsActions.replaceRestaurants(data))
+      })
+      .catch((reason) => {
+        dispatch(errorsActions.push(reason))
+      })
   }
 
+  static contextTypes = {
+    location: React.PropTypes.object,
+    params: React.PropTypes.object,
+  }
+
+
+
+
   componentWillMount() {
-    const { params, dispatch } = this.props
+    const { dispatch } = this.props
+    const { location, params } = this.context
 
     // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
     if (true) {
-      RestaurantList.fetchData({ params, dispatch })
+      RestaurantList.fetchData(location.query, params, dispatch)
     }
   }
 
@@ -48,8 +62,13 @@ class RestaurantList extends Component {
   }
 }
 
+
 const DecoratedRestaurantList = withRouter(RestaurantList)
 const RestaurantListContainer = connect(
-  (state) => ({ restaurants: state.restaurants })
+  (state) => {
+    return {
+      restaurants: state.restaurants,
+    }
+  }
 )(DecoratedRestaurantList)
 export default RestaurantListContainer

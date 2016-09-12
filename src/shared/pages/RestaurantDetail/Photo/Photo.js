@@ -9,17 +9,30 @@ import MenuItem from 'material-ui/MenuItem';
 import API from '../../../api'
 import styles from '../index.css'
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
+import * as errorsActions from '../../../actions/errors'
 
 const ICON_HEIGHT = 24
 const TOOLBAR_HEIGHT = 40
 const TOOLBAR_HEIGHT_PX = `${TOOLBAR_HEIGHT}px`
 
 class Photo extends Component {
-  static fetchData({ params, dispatch }) {
-    return API.fetchRestaurantDetailPhoto(params).then((data) => {
-      dispatch(restaurantDetailActions.setPhoto(data))
-    })
+  static fetchData(query, params, dispatch) {
+    return API.fetchRestaurantDetailPhoto(query, params)
+      .then(({ data }) => {
+        dispatch(restaurantDetailActions.setPhoto(data))
+      })
+      .catch((reason) => {
+        dispatch(errorsActions.push(reason))
+      })
   }
+
+  static contextTypes = {
+    location: React.PropTypes.object,
+    params: React.PropTypes.object,
+  }
+
+
+
 
   constructor(props) {
      super(props);
@@ -27,11 +40,12 @@ class Photo extends Component {
    }
 
    componentWillMount() {
-     const { params, dispatch } = this.props
+     const { dispatch } = this.props
+     const { location, params } = this.context
 
      // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
      if (true) {
-       Photo.fetchData({ params, dispatch })
+       Photo.fetchData(location.query, params, dispatch)
      }
    }
 

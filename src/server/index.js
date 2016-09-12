@@ -9,7 +9,9 @@ import express from 'express';
 import compression from 'compression';
 import hpp from 'hpp';
 import helmet from 'helmet';
+
 import universalReactAppMiddleware from './middleware/universalReactApp';
+import apiRouterMiddleware from './middleware/router/api';
 import {
   CLIENT_BUNDLE_HTTP_PATH,
   CLIENT_BUNDLE_OUTPUT_PATH,
@@ -17,10 +19,6 @@ import {
   SERVER_PORT,
   PUBLIC_DIR_PATH,
 } from './config';
-
-// Warning: Material-UI: userAgent should be supplied in the muiTheme context for server-side rendering.
-// http://stackoverflow.com/questions/35481084/react-starter-kit-and-material-ui-useragent-should-be-supplied-in-the-muitheme
-// global.navigator = { userAgent: 'all' }
 
 // Create our express based server.
 const app = express();
@@ -51,6 +49,11 @@ app.use(helmet.noSniff());
 // Response compression.
 app.use(compression());
 
+app.use(function(req, res, next) {
+  console.log('UA: ', req.headers['user-agent'], ' url: ', req.url)
+  next()
+})
+
 // Configure static serving of our webpack bundled client files.
 app.use(
   CLIENT_BUNDLE_HTTP_PATH,
@@ -59,6 +62,9 @@ app.use(
 
 // Configure static serving of our "public" root http path static files.
 app.use(express.static(PUBLIC_DIR_PATH));
+
+// routing of API
+app.use('/api', apiRouterMiddleware);
 
 // Bind our universal react app middleware as the handler for all get requests.
 app.get('*', universalReactAppMiddleware);

@@ -4,10 +4,10 @@ import type { Middleware } from 'express';
 import createMemoryHistory from 'react-router/lib/createMemoryHistory';
 import match from 'react-router/lib/match';
 import render from '../htmlPage/render';
-import routes, { createServerApp } from '../../shared/pages/routes';
+import routes from '../../shared/pages/routes';
+import { createServerApp } from '../../shared/utils/createApp';
 import { DISABLE_SSR } from '../config';
 import { IS_DEVELOPMENT } from '../../shared/config';
-
 import configureStore from '../../shared/store/configureStore';
 
 /**
@@ -40,10 +40,34 @@ function universalReactAppMiddleware(request, response) {
       // your "not found" component or route respectively, and send a 404 as
       // below, if you're using a catch-all route.
       const store = configureStore()
-      const app = createServerApp(store, renderProps);
-      const initialState = store.getState();
-      const html = render(app, initialState);
-      response.status(200).send(html);
+
+      // fetch all data for initial rendering
+      const query = renderProps.location.query
+      const params = renderProps.params
+      const dispatch = store.dispatch
+      const promises = renderProps.components
+        // ignore undefined the component which has no 'component' property
+        .filter(c => c)
+        .map(c => {
+          return c.fetchData ?
+            c.fetchData(query, params, dispatch) :
+            Promise.resolve('not found fetchData method')
+        })
+
+      // now all data is ready ! (store is updated)
+      Promise.all(promises)
+        .then(() => {
+          // The UserAgent is needed for material-ui server rendering
+          // https://github.com/callemall/material-ui/pull/2172#issuecomment-157404901
+          const app = createServerApp(store, renderProps, request.headers['user-agent']);
+          const initialState = store.getState();
+          const html = render(app, initialState);
+          response.status(200).send(html);
+        })
+        .catch((reason) => {
+          console.error(reason)
+          response.status(500).json(reason);
+        })
     } else {
       response.status(404).send('Not found');
     }

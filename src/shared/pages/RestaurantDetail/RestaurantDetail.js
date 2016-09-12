@@ -15,6 +15,7 @@ import SocialShare from 'material-ui/svg-icons/social/share'
 import styles from './index.css'
 import API from '../../api'
 import * as restaurantDetailActions from '../../actions/restaurantDetail'
+import * as errorsActions from '../../actions/errors'
 
 
 const BOTTOM_NAVIGATION_HEIGHT = 50
@@ -30,28 +31,40 @@ const BASE_PATH = '/restaurant/detail'
 const TABS = ['photo', 'access', 'coupon']
 
 class RestaurantDetail extends Component {
-  static fetchData({ params, dispatch }) {
+  static fetchData(query, params, dispatch) {
     // dispatch(restaurantDetailActions.fetchStart())
-    return API.fetchRestaurantDetailCommon(params).then((data) => {
-      dispatch(restaurantDetailActions.setCommon(data))
-      // dispatch(restaurantDetailActions.fetchSuccess())
-    })
+    return API.fetchRestaurantDetailCommon(query, params)
+      .then(({ data }) => {
+        dispatch(restaurantDetailActions.setCommon(data))
+        // dispatch(restaurantDetailActions.fetchSuccess())
+      })
+      .catch((reason) => {
+        dispatch(errorsActions.push(reason))
+        // dispatch(restaurantDetailActions.fetchError())
+      })
   }
 
+  static contextTypes = {
+    location: React.PropTypes.object,
+    params: React.PropTypes.object,
+  }
+
+
+
+
   constructor(props) {
-    super(props);
-
+    super(props)
     const tabsValue = this.getCurrentTabsValue(props.location.pathname)
-
     this.state = { tabsValue }
   }
 
   componentWillMount() {
-    const { params, dispatch } = this.props
+    const { dispatch } = this.props
+    const { location, params } = this.context
 
     // TODO: Server側でもFETCH出来るように。また初期ロード時に二重通信しないようにしたい。
     if (true) {
-      RestaurantDetail.fetchData({ params, dispatch })
+      RestaurantDetail.fetchData(location.query, params, dispatch)
     }
   }
 
