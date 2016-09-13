@@ -5,6 +5,7 @@ import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
 
 import InlineSearchForm from '../../../../components/InlineSearchForm'
+import RestaurantSimpleList from '../../../../components/list/RestaurantSimpleList'
 
 import API from '../../../../api'
 import * as searchFormActions from '../../../../actions/searchForm'
@@ -54,11 +55,15 @@ class List extends Component {
     this.props.dispatch(searchFormActions.setGenreText(e.target.value))
   }
 
+  onTapRestaurant(e, restaurantId) {
+    e.preventDefault()
+    this.props.router.push(`/review/edit/${restaurantId}`)
+  }
 
 
 
   render() {
-    const { areaText, genreText } = this.props
+    const { areaText, genreText, restaurants } = this.props
     return (
       <div>
         <Helmet title="ReviewRestaurantList" />
@@ -69,6 +74,8 @@ class List extends Component {
           onChangeAreaForm={::this.onChangeAreaForm}
           onChangeGenreForm={::this.onChangeGenreForm}
         />
+
+        <RestaurantSimpleList restaurants={restaurants.dict} onTapItem={::this.onTapRestaurant} />
       </div>
     )
   }
