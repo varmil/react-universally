@@ -13,7 +13,7 @@ import API from '../../../api'
 import styles from '../index.css'
 import FiveStar from '../../../components/FiveStar'
 import ReviewCount from '../../../components/ReviewCount'
-import ReviewListItem from '../../../components/ReviewListItem'
+import ReviewListItem from '../../../components/list/ReviewListItem'
 
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'

@@ -13,8 +13,8 @@ import * as searchFormActions from '../../actions/searchForm'
 import IconTextField from '../../components/IconTextField'
 import BudgetSelectField from '../../components/BudgetSelectField'
 
-import AreaList from '../../components/AreaList'
-import GenreList from '../../components/GenreList'
+import AreaList from '../../components/list/AreaList'
+import GenreList from '../../components/list/GenreList'
 import stubArea from '../../stub/area'
 import stubGenre from '../../stub/genre'
 

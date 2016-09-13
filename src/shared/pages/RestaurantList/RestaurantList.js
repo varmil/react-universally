@@ -7,7 +7,7 @@ import { FloatingActionButton } from 'material-ui'
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import { Flex, Box } from 'reflexbox'
 
-import Restaurants from '../../components/RestaurantList'
+import Restaurants from '../../components/list/RestaurantList'
 import styles from './index.css'
 import API from '../../api'
 import * as restaurantsActions from '../../actions/restaurants'

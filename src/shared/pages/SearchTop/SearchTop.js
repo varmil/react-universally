@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
-import { withRouter } from 'react-router'
+import { withRouter, Link } from 'react-router'
 
 import { List } from 'material-ui/List';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -64,13 +64,16 @@ class SearchTop extends Component {
         </List>
 
 
-
-        <FloatingActionButton secondary={true} className={styles.pen}>
-          <ContentCreate />
-        </FloatingActionButton>
-        <FloatingActionButton secondary={true} className={styles.camera}>
-          <ActionCameraEnhance />
-        </FloatingActionButton>
+        <Link to={`/review/restaurant/list`}>
+          <FloatingActionButton secondary={true} className={styles.pen}>
+            <ContentCreate />
+          </FloatingActionButton>
+        </Link>
+        <Link to={`/review/restaurant/list`}>
+          <FloatingActionButton secondary={true} className={styles.camera}>
+            <ActionCameraEnhance />
+          </FloatingActionButton>
+        </Link>
       </div>
     )
   }

@@ -4,8 +4,8 @@ import { Paper, Divider, Table, TableBody, TableRow, TableRowColumn } from 'mate
 import MapsPinDrop from 'material-ui/svg-icons/maps/pin-drop'
 import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money'
 
-import FiveStar from '../FiveStar'
-import ReviewCount from '../ReviewCount'
+import FiveStar from '../../FiveStar'
+import ReviewCount from '../../ReviewCount'
 import styles from './index.css'
 
 class RestaurantListItem extends Component {

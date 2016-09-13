@@ -1,7 +1,7 @@
 import React from 'react'
 import { Paper } from 'material-ui';
 
-import FiveStar from '../../components/FiveStar'
+import FiveStar from '../../FiveStar'
 import styles from './index.css'
 
 // TODO: 文言propsで置き換え

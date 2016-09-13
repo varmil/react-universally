@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import RestaurantListItem from '../components/RestaurantListItem'
+import RestaurantListItem from './RestaurantListItem'
 
 
 class RestaurantList extends Component {
