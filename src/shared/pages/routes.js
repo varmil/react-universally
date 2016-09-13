@@ -31,6 +31,9 @@ function resolveAbout(nextState, cb) {
     .catch(handleError);
 }
 
+
+
+
 function resolveSearchTop(nextState, cb) {
   System.import('./SearchTop')
     .then(loadRoute(cb))
@@ -48,6 +51,8 @@ function resolveSearchMap(nextState, cb) {
     .then(loadRoute(cb))
     .catch(handleError);
 }
+
+
 
 
 function resolveRestaurantList(nextState, cb) {
@@ -80,6 +85,27 @@ function resolveRestaurantDetailAccess(nextState, cb) {
     .catch(handleError);
 }
 
+
+
+
+function resolveReviewRestaurantList(nextState, cb) {
+  System.import('./Review/Restaurant/List')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
+
+function resolveReviewEditTop(nextState, cb) {
+  System.import('./Review/Edit/Top')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
+
+function resolveReviewEditPhoto(nextState, cb) {
+  System.import('./Review/Edit/Photo')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
+
 /**
  * Our routes.
  *
@@ -106,6 +132,16 @@ const routes = (
         <IndexRoute getComponent={resolveRestaurantDetailTop} />
         <Route path="photo" getComponent={resolveRestaurantDetailPhoto} />
         <Route path="access" getComponent={resolveRestaurantDetailAccess} />
+      </Route>
+    </Route>
+
+    <Route path="review">
+      <Route path="restaurant">
+        <Route path="list" getComponent={resolveReviewRestaurantList} />
+      </Route>
+      <Route path="edit/:restaurantId">
+        <IndexRoute getComponent={resolveReviewEditTop} />
+        <Route path="photo" getComponent={resolveReviewEditPhoto} />
       </Route>
     </Route>
 

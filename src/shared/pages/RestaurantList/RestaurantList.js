@@ -3,8 +3,9 @@ import { isEmpty } from 'lodash'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
-import { FloatingActionButton, RaisedButton } from 'material-ui'
+import { FloatingActionButton } from 'material-ui'
 import ActionSearch from 'material-ui/svg-icons/action/search';
+import { Flex, Box } from 'reflexbox'
 
 import Restaurants from '../../components/RestaurantList'
 import styles from './index.css'
@@ -53,9 +54,13 @@ class RestaurantList extends Component {
 
   // TODO: Componentsに切り出すか、もっとちゃんと表示整える
   createBottomButtonLabel() {
-    const { area, genre, lowerLimitBudget } = this.props.searchForm
+    const { dict } = this.props.restaurants
+    const { areaChip, genreChip, lowerLimitBudget } = this.props.searchForm
     return (
-      `7777件 ${area} ${genre} ${lowerLimitBudget}`
+      <span>
+        {Object.keys(dict).length}件<br />
+        {areaChip.join(',')} {genreChip.join(',')} {lowerLimitBudget}
+      </span>
     )
   }
 
@@ -67,10 +72,18 @@ class RestaurantList extends Component {
         <Restaurants restaurants={this.props.restaurants} />
 
         <div className={`${styles.fixedBottom}`}>
-          <RaisedButton onTouchTap={::this.onTapSearchButton} className={`${styles.raisedButton}`} label={this.createBottomButtonLabel()} secondary={true} />
-          <FloatingActionButton onTouchTap={::this.onTapSearchButton} secondary={true} className={`${styles.floatButton}`} mini={true}>
-            <ActionSearch />
-          </FloatingActionButton>
+          <Flex align="center" justify="space-around">
+            <Box p={2} ml={2} mr={2} auto onTouchTap={::this.onTapSearchButton} className={`${styles.conditionBox}`}>
+              <span className={`${styles.conditionBoxText}`}>
+                {this.createBottomButtonLabel()}
+              </span>
+            </Box>
+            <Box mr={2}>
+              <FloatingActionButton onTouchTap={::this.onTapSearchButton} secondary={false} className={`${styles.floatButton}`} mini={true}>
+                <ActionSearch />
+              </FloatingActionButton>
+            </Box>
+          </Flex>
         </div>
       </div>
     )

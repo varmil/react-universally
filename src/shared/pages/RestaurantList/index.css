@@ -16,3 +16,19 @@
     float: right;
     margin-right: 3%;
 }
+
+.conditionBox {
+    border-radius: 2px;
+    background-color: rgba(71, 66, 64, 0.8);
+    width: 80%;
+}
+
+.conditionBoxText {
+    display: inline-block;;
+    overflow: hidden;
+    color: #ffffff;
+    font-size: 86%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
