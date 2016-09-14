@@ -6,13 +6,16 @@ import Helmet from 'react-helmet'
 import Dropzone from 'react-dropzone'
 import { Flex, Box } from 'reflexbox'
 
-import { Divider, TextField, IconButton, SelectField, MenuItem } from 'material-ui'
-import ImageAddPhoto from 'material-ui/svg-icons/image/add-a-photo';
+import { Paper, Divider, TextField, IconButton, SelectField, MenuItem, RaisedButton } from 'material-ui'
+import ImgAddPhoto from 'material-ui/svg-icons/image/add-a-photo';
 
 import API from '../../../../api'
 import * as restaurantDetailActions from '../../../../actions/restaurantDetail'
 import * as errorsActions from '../../../../actions/errors'
 import FiveStar from '../../../../components/FiveStar'
+import ImgPreviewList from '../../../../components/list/ImgPreviewList'
+
+
 
 // TODO: とりあえずcommonデータを参照
 
@@ -25,15 +28,10 @@ const containerMargin = {
 }
 
 const textFieldStyle = {
-  marginTop: 40,
-  marginBottom: 0,
+  width: '100%',
 }
 
 const iconStyles = {
-  small: {
-    width: 36,
-    height: 36,
-  },
   medium: {
     width: 48,
     height: 48,
@@ -45,11 +43,6 @@ const iconStyles = {
 }
 
 const iconButtonStyles = {
-  small: {
-    width: 72,
-    height: 72,
-    padding: 16,
-  },
   medium: {
     width: 96,
     height: 96,
@@ -66,6 +59,18 @@ const dropzoneStyle = {
   display: 'inline-block',
   backgroundColor: 'whitesmoke',
   border: '1px dashed gray',
+  marginBottom: 10
+}
+
+const bottomPaperStyle = {
+  position: 'fixed',
+  bottom: 0,
+  width: '100%'
+}
+
+const initialState = {
+  rating: undefined,
+  files: [],
 }
 
 class Top extends Component {
@@ -89,7 +94,7 @@ class Top extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { rating: undefined }
+    this.state = initialState
   }
 
   componentWillMount() {
@@ -107,12 +112,25 @@ class Top extends Component {
   onChangeRating(rate) {
     // 文字列で渡ってくる場合もあるので
     const strRate = (rate.toFixed) ? rate.toFixed(1) : rate
-    this.setState({ rating: strRate })
+    this.setState({ ...this.state, rating: strRate })
   }
 
   onDrop(files) {
     console.log('Received files: ', files);
+    this.setState({ ...this.state, files: this.state.files.concat(files) })
   }
+
+
+
+  onTapImgDelete(e, tappedFile) {
+    e.preventDefault()
+    e.stopPropagation()
+    // Remove tappedItem from state.files
+    const filtered = this.state.files.filter(f => f.preview !== tappedFile.preview )
+    this.setState({ ...this.state, files: filtered })
+  }
+
+
 
 
   createRatingMenuItem() {
@@ -127,7 +145,7 @@ class Top extends Component {
   render() {
     const { name } = this.props.common
     return (
-      <div>
+      <div style={{ marginBottom: 100 }}>
         <Helmet title="ReviewEditTop" />
 
         <h2 style={{ ...containerMargin, ...rstNameStyle}}>{name}</h2>
@@ -156,12 +174,16 @@ class Top extends Component {
 
         <Divider />
 
-        <TextField
-          id="reviewTopKuchikomi"
-          hintText={<span>口コミ本文を入れてください<br />（15,000文字以下）</span>}
-          style={{ ...containerMargin, ...textFieldStyle }}
-          hintStyle={{ fontSize: 13 }}
-        />
+        <div style={{ ...containerMargin, marginTop: 20 }}>
+          <TextField
+            id="reviewTopKuchikomi"
+            hintText={<span>口コミ本文を入れてください<br />（15,000文字以下）</span>}
+            style={textFieldStyle}
+            hintStyle={{ fontSize: 13, lineHeight: 1.4 }}
+            textareaStyle={{ fontSize: 13 }}
+            multiLine={true}
+          />
+        </div>
 
         <div style={containerMargin}>
           <Dropzone accept="image/*" onDrop={::this.onDrop} style={dropzoneStyle}>
@@ -169,10 +191,25 @@ class Top extends Component {
               iconStyle={iconStyles.medium}
               style={iconButtonStyles.medium}
             >
-              <ImageAddPhoto />
+              <ImgAddPhoto />
             </IconButton>
           </Dropzone>
+
+          {this.state.files.length > 0 ?
+            <ImgPreviewList files={this.state.files} onTapDelete={::this.onTapImgDelete} />
+          : null}
         </div>
+
+        <Paper style={bottomPaperStyle}>
+          <Flex align="center" justify="space-between" p={2} style={{}}>
+            <Box>
+              <RaisedButton label="下書き保存" style={{}} />
+            </Box>
+            <Box auto ml={1}>
+              <RaisedButton label="規約に同意して投稿" secondary={true} style={{ width: '100%' }} />
+            </Box>
+          </Flex>
+        </Paper>
       </div>
     )
   }
