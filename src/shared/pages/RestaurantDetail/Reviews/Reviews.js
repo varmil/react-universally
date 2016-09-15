@@ -9,6 +9,7 @@ import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 import API from '../../../api'
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
+import ReviewListItem from '../../../components/list/ReviewListItem'
 
 /**
  * Review List Page
@@ -40,15 +41,20 @@ class Reviews extends Component {
   }
 
   render() {
+    const postedReviews = this.props.reviews || []
+
     return (
       <div>
         <Helmet title="RestaurantDetailReviews" />
+
+        {postedReviews.map((review, index) => (
+          <ReviewListItem key={`review${index}`} {...review} />
+        ))}
       </div>
     )
   }
 }
 
-// NOTE: We must watch the prop "restaurantDetail.nowLoading", so get it for props
 export default connect(state => ({
   common: state.restaurantDetail.common,
   reviews: state.restaurantDetail.reviews,

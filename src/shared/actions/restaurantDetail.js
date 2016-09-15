@@ -21,7 +21,7 @@ export let setPhoto = createAction(RestaurantDetail.SET_PHOTO, (data) => {
   return { data }
 })
 
-export let setReviews = createAction(RestaurantDetail.SET_REVIEW, (data) => {
+export let setReviews = createAction(RestaurantDetail.SET_REVIEWS, (data) => {
   return { data }
 })
 

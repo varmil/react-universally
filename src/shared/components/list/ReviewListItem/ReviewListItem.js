@@ -4,28 +4,38 @@ import { Paper } from 'material-ui';
 import FiveStar from '../../FiveStar'
 import styles from './index.css'
 
-// TODO: 文言propsで置き換え
+function createIsAuthenticated(isAuthenticated) {
+  if (isAuthenticated) {
+    return (
+      <mark className="mark-auth-mobile">[携帯電話番号認証済]</mark>
+    )
+  } else {
+    return (
+      null
+    )
+  }
+}
 
 export default (props) => {
   return(
     <Paper className={`${styles.rvwSection}`}>
       <div className={styles.rvwData}>
-        <h3 className={styles.rvwTitle}>使い勝手がいいと思う。</h3>
+        <h3 className={styles.rvwTitle}>{props.title}</h3>
 
         <FiveStar rating={props.rating} />
 
         <p className={styles.reviewerName}>
-          by Eating woman
-          <span className="rvwr-name__count">(65)</span>
-          <mark className="mark-auth-mobile">[携帯電話番号認証済]</mark>
+          by {props.author}
+          {/* <span className="rvwr-name__count">(65)</span> */}
+          {createIsAuthenticated(props.isAuthenticated)}
         </p>
         <p className={styles.rvwDate}>
-          <span className="rvw-date__number">'16/07/02</span>
-          <span className="rvw-date__number">('16/07</span> 訪問)
+          <span className="rvw-date__number">'{props.postDate}</span>
+          <span className="rvw-date__number">('{props.visitDate}</span> 訪問)
         </p>
       </div>
       <p className={styles.rvwPhoto}>
-        <img alt="" width="70" height="70" src="https://tabelog.ssl.k-img.com/restaurant/images/Rvw/53047/100x100_square_53047488.jpg" />
+        <img role="presentation" width="70" height="70" src={props.imgSrc} />
       </p>
     </Paper>
   )

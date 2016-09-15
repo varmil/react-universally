@@ -114,7 +114,7 @@ class Top extends Component {
             口コミ
           </Paper>
           {postedReviews.map((review, index) => (
-            <ReviewListItem key={`review${index}`} rating={review.rating} />
+            <ReviewListItem key={`review${index}`} {...review} />
           ))}
           {this.createReadMoreButton('See All Reviews')}
 

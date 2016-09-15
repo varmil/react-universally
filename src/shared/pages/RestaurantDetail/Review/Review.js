@@ -48,7 +48,6 @@ class Review extends Component {
   }
 }
 
-// NOTE: We must watch the prop "restaurantDetail.nowLoading", so get it for props
 export default connect(state => ({
   common: state.restaurantDetail.common,
   review: state.restaurantDetail.review,
