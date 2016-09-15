@@ -11,7 +11,7 @@ const imgStyle = {
   objectFit: 'scale-down',
   objectPosition: 'center 0%',
   width: '100%',
-  maxHeight: '500px',
+  maxHeight: 'inherit',
 }
 
 export default class ImgDialog extends React.Component {
@@ -32,10 +32,9 @@ export default class ImgDialog extends React.Component {
           title="Image Preview"
           actions={actions}
           contentStyle={customContentStyle}
-          bodyStyle={{ marginTop: 5 }}
           onRequestClose={this.props.handleClose}
           open={this.props.open}
-          autoScrollBodyContent={true}
+          autoScrollBodyContent={false}
         >
           <img src={this.props.imgSrc} role="presentation" style={imgStyle} />
         </Dialog>
