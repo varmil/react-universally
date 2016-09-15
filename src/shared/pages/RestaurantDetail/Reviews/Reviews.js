@@ -11,13 +11,13 @@ import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
 
 /**
- * Individual Review Page
+ * Review List Page
  */
-class Review extends Component {
+class Reviews extends Component {
   static fetchData(query, params, dispatch) {
-    return API.fetchRestaurantDetailReview(query, params)
+    return API.fetchRestaurantDetailReviews(query, params)
       .then(({ data }) => {
-        dispatch(restaurantDetailActions.setReview(data))
+        dispatch(restaurantDetailActions.setReviews(data))
       })
       .catch((reason) => {
         dispatch(errorsActions.push(reason))
@@ -31,18 +31,18 @@ class Review extends Component {
 
 
   componentWillMount() {
-    const { dispatch, common, review } = this.props
+    const { dispatch, common, reviews } = this.props
     const { location, params } = this.context
 
-    if (isEmpty(review) || params.restaurantId !== common.id) {
-      Review.fetchData(location.query, params, dispatch)
+    if (isEmpty(reviews) || params.restaurantId !== common.id) {
+      Reviews.fetchData(location.query, params, dispatch)
     }
   }
 
   render() {
     return (
       <div>
-        <Helmet title="RestaurantDetailReview" />
+        <Helmet title="RestaurantDetailReviews" />
       </div>
     )
   }
@@ -51,5 +51,5 @@ class Review extends Component {
 // NOTE: We must watch the prop "restaurantDetail.nowLoading", so get it for props
 export default connect(state => ({
   common: state.restaurantDetail.common,
-  review: state.restaurantDetail.review,
-}))(Review)
+  reviews: state.restaurantDetail.reviews,
+}))(Reviews)

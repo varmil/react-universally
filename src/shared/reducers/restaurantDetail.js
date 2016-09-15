@@ -6,6 +6,8 @@ const initialState = {
   common: {},
   top: {},
   photo: {},
+  reviews: [],
+  review: {},
 }
 
 export default handleActions({
@@ -28,5 +30,13 @@ export default handleActions({
   [RestaurantDetail.SET_PHOTO]: (state, action) => {
     const data = action.payload.data
     return { ...state, photo: data }
+  },
+  [RestaurantDetail.SET_REVIEWS]: (state, action) => {
+    const data = action.payload.data
+    return { ...state, reviews: data }
+  },
+  [RestaurantDetail.SET_REVIEW]: (state, action) => {
+    const data = action.payload.data
+    return { ...state, review: data }
   },
 }, initialState);

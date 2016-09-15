@@ -50,3 +50,21 @@ export const photo = {
     { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/55523/100x100_square_55523195.jpg' },
   ]
 }
+
+// Review一覧ページ
+export const reviews = [
+  { id: 123, title: '', rating: 3.33, author: '', isAuthenticated: true, postDate: '', visitDate: '' },
+  { id: 234, title: '', rating: 3.33, author: '', isAuthenticated: true, postDate: '', visitDate: '' },
+  { id: 345, title: '', rating: 3.33, author: '', isAuthenticated: true, postDate: '', visitDate: '' },
+]
+
+// Review詳細
+export const review = {
+  id: 123,
+  title: '',
+  rating: 3.33,
+  author: '', 
+  isAuthenticated: true,
+  postDate: '',
+  visitDate: ''
+}

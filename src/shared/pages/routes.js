@@ -85,6 +85,18 @@ function resolveRestaurantDetailAccess(nextState, cb) {
     .catch(handleError);
 }
 
+function resolveRestaurantDetailReviews(nextState, cb) {
+  System.import('./RestaurantDetail/Reviews')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
+
+function resolveRestaurantDetailReview(nextState, cb) {
+  System.import('./RestaurantDetail/Review')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
+
 
 
 
@@ -128,10 +140,13 @@ const routes = (
 
     <Route path="restaurant">
       <Route path="list" getComponent={resolveRestaurantList} />
+
       <Route path="detail/:restaurantId" getComponent={resolveRestaurantDetail}>
         <IndexRoute getComponent={resolveRestaurantDetailTop} />
         <Route path="photo" getComponent={resolveRestaurantDetailPhoto} />
         <Route path="access" getComponent={resolveRestaurantDetailAccess} />
+        <Route path="reviews" getComponent={resolveRestaurantDetailReviews} />
+        <Route path="review/:reviewId" getComponent={resolveRestaurantDetailReview} />
       </Route>
     </Route>
 

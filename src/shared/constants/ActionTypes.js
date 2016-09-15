@@ -39,6 +39,8 @@ export const RestaurantDetail = createTypes('restaurantDetail',
   'SET_COMMON',
   'SET_TOP',
   'SET_PHOTO',
+  'SET_REVIEWS',
+  'SET_REVIEW',
 )
 
 

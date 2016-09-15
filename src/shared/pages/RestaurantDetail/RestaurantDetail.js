@@ -2,7 +2,7 @@ import { find } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
-import { isEmpty } from 'lodash'
+import { isEmpty, values } from 'lodash'
 
 import { Paper, Tabs, Tab } from 'material-ui'
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
@@ -29,8 +29,13 @@ const BOTTOM_NAVIGATION_SHARE = 1
 // HACK: pathをconstで書くのはどうなのか…
 const BASE_PATH = '/restaurant/detail'
 
-// Tabs
-const TABS = ['photo', 'access', 'coupon']
+// the values is URL related
+const TABS = {
+  PHOTO: 'photo',
+  REVIEWS: 'reviews',
+  ACCESS: 'access',
+  COUPON: 'coupon',
+}
 
 class RestaurantDetail extends Component {
   static fetchData(query, params, dispatch) {
@@ -73,7 +78,7 @@ class RestaurantDetail extends Component {
   getCurrentTabsValue(pathname) {
     // HACK: URLを無理やりパースして、現在どのタブをアクティブにするべきか判定
     const splitedPathname = pathname.split('/')
-    return find(TABS, (e) => splitedPathname.indexOf(e) !== -1)
+    return find(values(TABS), (e) => splitedPathname.indexOf(e) !== -1)
   }
 
   onChangeTabs(tabsValue) {
@@ -133,22 +138,22 @@ class RestaurantDetail extends Component {
           <Tab
             icon={<ImagePhotoCamera />}
             // label="PHOTO"
-            value='photo'
+            value={TABS.PHOTO}
           />
           <Tab
             icon={<MapsRateReview />}
             // label="REVIEW"
-            value='review'
+            value={TABS.REVIEWS}
           />
           <Tab
             icon={<MapsPinDrop />}
             // label="ACCESS"
-            value='access'
+            value={TABS.ACCESS}
           />
           <Tab
             icon={<EditorCoupon />}
             // label="COUPON"
-            value='coupon'
+            value={TABS.COUPON}
           />
         </Tabs>
 

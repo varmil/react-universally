@@ -39,5 +39,12 @@ router.get('/restaurant/detail/:id/photo', (req, res) => {
   res.json(stubRestaurantDetail.photo)
 })
 
+router.get('/restaurant/detail/:id/reviews', (req, res) => {
+  res.json(stubRestaurantDetail.reviews)
+})
+
+router.get('/restaurant/detail/:rstId/review/:rvwId', (req, res) => {
+  res.json(stubRestaurantDetail.review)
+})
 
 export default router

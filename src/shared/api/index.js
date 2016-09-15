@@ -33,6 +33,16 @@ export default {
     return api.get(`/restaurant/detail/${params.restaurantId}/photo`, { params: query })
   },
 
+  // the Review overview
+  fetchRestaurantDetailReviews: (query, params) => {
+    return api.get(`/restaurant/detail/${params.restaurantId}/reviews`, { params: query })
+  },
+
+  // the Individual Review Item
+  fetchRestaurantDetailReview: (query, params) => {
+    return api.get(`/restaurant/detail/${params.restaurantId}/review/${params.reviewId}`, { params: query })
+  },
+
   // Example:
   // getUser: (login) => api.get(`/users/${login}`),
   // getToken: (login, password) => api.post('/auth/token', {
