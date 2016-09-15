@@ -3,14 +3,26 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import { isEmpty } from 'lodash'
 
-import { Paper, DropDownMenu, GridList, GridTile, } from 'material-ui'
-import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
+import { Card, CardHeader, CardMedia, CardText, CardTitle, CardActions } from 'material-ui/Card'
+import { FlatButton, GridList, GridTile, Divider } from 'material-ui';
+// import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 
 import API from '../../../api'
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
 
-/**
+import FiveStar from '../../../components/FiveStar'
+import IsAuthenticated from '../../../components/review/IsAuthenticated'
+
+// const imgBoxStyle = {
+//   textAlign: 'center'
+// }
+
+const cardStyle = {
+  paddingBottom: 0
+}
+
+/*
  * Individual Review Page
  */
 class Review extends Component {
@@ -39,10 +51,71 @@ class Review extends Component {
     }
   }
 
+
+  createHeaderSubTitle() {
+    const review = this.props.review
+    return (
+      <div>
+        <IsAuthenticated bool={review.isAuthenticated} />
+      </div>
+    )
+  }
+
+  createSubTitle() {
+    const review = this.props.review
+    return (
+      <div>
+        <p>
+          <span className="rvw-date__number">'{review.postDate}</span>
+          <span className="rvw-date__number">('{review.visitDate}</span> visited)
+        </p>
+        <p>
+          {review.budget}
+        </p>
+      </div>
+    )
+  }
+
   render() {
+    const { review } = this.props
+    const imgSrc = review.imgSrc || []
     return (
       <div>
         <Helmet title="RestaurantDetailReview" />
+
+        <Card style={cardStyle}>
+          <CardHeader
+            title={review.author}
+            subtitle={this.createHeaderSubTitle()}
+            avatar={review.authorAvatar}
+          />
+
+          <CardTitle
+            title={review.title}
+            subtitle={this.createSubTitle()}
+          />
+
+          <CardText>
+            <FiveStar rating={review.rating} />
+          </CardText>
+
+          <CardText>
+            {review.comment}
+          </CardText>
+
+          <CardMedia style={{ margin: '0 20px' }}>
+            <GridList
+              cellHeight={100}
+              cols={3}
+            >
+              {imgSrc.map((src, index) => (
+                <GridTile key={src}>
+                  <img src={src} role='presentation' />
+                </GridTile>
+              ))}
+            </GridList>
+          </CardMedia>
+        </Card>
       </div>
     )
   }

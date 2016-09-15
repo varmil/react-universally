@@ -2,19 +2,8 @@ import React from 'react'
 import { Paper } from 'material-ui';
 
 import FiveStar from '../../FiveStar'
+import IsAuthenticated from '../../review/IsAuthenticated'
 import styles from './index.css'
-
-function createIsAuthenticated(isAuthenticated) {
-  if (isAuthenticated) {
-    return (
-      <mark className="mark-auth-mobile">[携帯電話番号認証済]</mark>
-    )
-  } else {
-    return (
-      null
-    )
-  }
-}
 
 export default (props) => {
   return(
@@ -27,11 +16,11 @@ export default (props) => {
         <p className={styles.reviewerName}>
           by {props.author}
           {/* <span className="rvwr-name__count">(65)</span> */}
-          {createIsAuthenticated(props.isAuthenticated)}
+          <IsAuthenticated bool={props.isAuthenticated} />
         </p>
         <p className={styles.rvwDate}>
           <span className="rvw-date__number">'{props.postDate}</span>
-          <span className="rvw-date__number">('{props.visitDate}</span> 訪問)
+          <span className="rvw-date__number">('{props.visitDate}</span> visited)
         </p>
       </div>
       <p className={styles.rvwPhoto}>

@@ -92,6 +92,42 @@ class RestaurantDetail extends Component {
     // TODO: インテント起動
   }
 
+
+  createTabs() {
+    // FIXME: matchしなかった場合、タブを表示させない。TOPでうまくうごかない。要件としては個別レビュー表示時にどうするか
+    // if (this.getCurrentTabsValue(this.props.location.pathname) === undefined) return null
+
+    return (
+      <Tabs value={this.state.tabsValue} onChange={::this.onChangeTabs}>
+        <Tab
+          icon={<MapsRestaurant />}
+          // label="TOP"
+          value=''
+        />
+        <Tab
+          icon={<ImagePhotoCamera />}
+          // label="PHOTO"
+          value={TABS.PHOTO}
+        />
+        <Tab
+          icon={<MapsRateReview />}
+          // label="REVIEW"
+          value={TABS.REVIEWS}
+        />
+        <Tab
+          icon={<MapsPinDrop />}
+          // label="ACCESS"
+          value={TABS.ACCESS}
+        />
+        <Tab
+          icon={<EditorCoupon />}
+          // label="COUPON"
+          value={TABS.COUPON}
+        />
+      </Tabs>
+    )
+  }
+
   createContent() {
     const props = this.props
 
@@ -108,7 +144,7 @@ class RestaurantDetail extends Component {
 
   createBottomNavigation() {
     // アクセス画面ではGoogle Mapを使うのでフッターを消す
-    if (this.getCurrentTabsValue(this.props.location.pathname) === 'access') return null
+    if (this.getCurrentTabsValue(this.props.location.pathname) === TABS.ACCESS) return null
 
     return (
       <Paper style={{ position: 'fixed', bottom: 0, width: '100%', height: BOTTOM_NAVIGATION_HEIGHT }} zDepth={1}>
@@ -129,33 +165,7 @@ class RestaurantDetail extends Component {
   render() {
     return (
       <div style={{ marginBottom: BOTTOM_NAVIGATION_HEIGHT }}>
-        <Tabs value={this.state.tabsValue} onChange={::this.onChangeTabs}>
-          <Tab
-            icon={<MapsRestaurant />}
-            // label="TOP"
-            value=''
-          />
-          <Tab
-            icon={<ImagePhotoCamera />}
-            // label="PHOTO"
-            value={TABS.PHOTO}
-          />
-          <Tab
-            icon={<MapsRateReview />}
-            // label="REVIEW"
-            value={TABS.REVIEWS}
-          />
-          <Tab
-            icon={<MapsPinDrop />}
-            // label="ACCESS"
-            value={TABS.ACCESS}
-          />
-          <Tab
-            icon={<EditorCoupon />}
-            // label="COUPON"
-            value={TABS.COUPON}
-          />
-        </Tabs>
+        {this.createTabs()}
 
         {this.createContent()}
 

@@ -73,10 +73,21 @@ export const reviews = copiedReviews
 // Review詳細
 export const review = {
   id: 123,
-  title: '',
-  rating: 3.33,
-  author: '',
+  title: 'ビールなどを添えて楽しめる旨いピザ。オシャレな店内で雰囲気良く楽しめるお店。',
+  rating: 3.89,
+  author: 'セシモテレビ',
   isAuthenticated: true,
-  postDate: '',
-  visitDate: ''
+  postDate: '15/08/30',
+  visitDate: "15/08",
+
+  authorAvatar: 'https://tabelog.ssl.k-img.com/user/images/Profile/547/70x70_547879.jpg?1460631756',
+  budget: 'US$10 - US$19',
+  comment: '渋谷の北側、線路の見える坂道の通り沿いにある飲食店タイプのピザ屋さん。<br>通り沿いから見えるレジカウンターでピザ、サイドメニュー、ドリンクなどをオーダーして、奥の席で食べるお店です。<br><br>ピザは1人で食べるとお腹一杯になる量で、確か26cm直径だったか。<br>ベーシックなピザが350円と超お値打ちで、トッピング有でしっかり食べたい場合でも700円前後で楽しめるのが嬉しい。<br>飲み物はソフトドリンクだけでなく海外銘柄のビールが幾つかあり、グラスワインもあります。<br><br>店内すぐにカウンター席があり、奥に広がるテーブル席はテクノのニュアンスを軽く感じるスタイリッシュなオシャレ空間。<br>洒落た男女などが談笑するテーブル席は、どことなくいい雰囲気です。<br><br>●ピザ カプリチョーザ 650円<br>ツナ、マッシュルーム、コーンの入った、チーズとトマトソースのピザ。<br>適度にモチッとしつつ厚すぎず食べやすい生地には軽い焼きの香ばしさが出ていて好印象。<br><br>チーズはとろけるチーズ系タイプでしょうか、オーソドックスな味わいですが安っぽさは出ていなくていい感じ。<br>味わいのそこそこあるコーンにツナが加わり、そこそこジューシーで楽しめます。<br><br>一人で食べると腹八分超えで不足は無いですが、飽き気味になってくるので複数人でシェアして食べるほうがいいでしょう。<br><br>●グラスワイン 赤 500円<br>酸味や渋味が抑えられていて飲みやすいグラスワインがあり、ピザとも合います。<br><br>ドリンク自体の値段はそこそこですが、昼はチャージ無しなのでワンドリンクで軽く酒を入れたいときはピッタリ。<br>付近のお店はそこそこ高いので、サッと入れるお店として重宝します。テイクアウトも可能。',
+  imgSrc: [
+    'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/41349/320x320_square_41349662.jpg',
+    'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/41349/320x320_rect_41349660.jpg',
+    'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/41349/320x320_square_41349660.jpg',
+    'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/41349/320x320_square_41349646.jpg',
+    'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/41349/320x320_square_41349651.jpg',
+  ],
 }

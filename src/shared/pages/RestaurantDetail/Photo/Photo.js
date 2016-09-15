@@ -89,7 +89,7 @@ class Photo extends Component {
           <GridList
             cellHeight={100}
             cols={3}
-            style={styles.gridList}
+            className={styles.gridList}
           >
             {photoList.map((photo, index) => (
               <GridTile key={photo.src}>

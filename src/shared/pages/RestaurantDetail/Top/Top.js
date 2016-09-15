@@ -76,7 +76,7 @@ class Top extends Component {
           <GridList
             cellHeight={100}
             cols={3}
-            style={styles.gridList}
+            className={styles.gridList}
           >
             {postedPhotos.map((photo, index) => (
               <GridTile key={photo.src}>

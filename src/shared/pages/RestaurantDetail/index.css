@@ -28,7 +28,13 @@
 }
 
 .gridListContainer {
-  width: 320px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.gridList {
+  max-width: 500px;
   margin: 0 auto;
 }
 
