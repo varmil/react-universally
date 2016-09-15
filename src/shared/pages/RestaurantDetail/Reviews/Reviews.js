@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
+import { Link } from 'react-router'
 import { isEmpty } from 'lodash'
 
 import { Paper, DropDownMenu, GridList, GridTile, } from 'material-ui'
@@ -9,7 +10,7 @@ import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 import API from '../../../api'
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
-import ReviewListItem from '../../../components/list/ReviewListItem'
+import ReviewList from '../../../components/list/ReviewList'
 
 /**
  * Review List Page
@@ -47,9 +48,7 @@ class Reviews extends Component {
       <div>
         <Helmet title="RestaurantDetailReviews" />
 
-        {postedReviews.map((review, index) => (
-          <ReviewListItem key={`review${index}`} {...review} />
-        ))}
+        <ReviewList reviews={postedReviews} restaurantId={this.props.common.id}  />
       </div>
     )
   }

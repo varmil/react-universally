@@ -13,7 +13,7 @@ import API from '../../../api'
 import styles from '../index.css'
 import FiveStar from '../../../components/FiveStar'
 import ReviewCount from '../../../components/ReviewCount'
-import ReviewListItem from '../../../components/list/ReviewListItem'
+import ReviewList from '../../../components/list/ReviewList'
 
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
@@ -91,7 +91,7 @@ class Top extends Component {
   }
 
   render() {
-    const { name, rating, reviewCount, address, tel } = this.props.common
+    const { rstId, name, rating, reviewCount, address, tel } = this.props.common
     const postedReviews = this.props.top.postedReviews || []
 
     return (
@@ -106,16 +106,13 @@ class Top extends Component {
               <ReviewCount count={reviewCount} />
             </div>
           </div>
-
           {this.createPostedPhotoContent()}
 
 
           <Paper className={styles.paperHeader}>
             口コミ
           </Paper>
-          {postedReviews.map((review, index) => (
-            <ReviewListItem key={`review${index}`} {...review} />
-          ))}
+          <ReviewList reviews={postedReviews} restaurantId={rstId} />
           {this.createReadMoreButton('See All Reviews')}
 
 
