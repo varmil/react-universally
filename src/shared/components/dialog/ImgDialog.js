@@ -16,7 +16,7 @@ const imgStyle = {
 
 export default class ImgDialog extends React.Component {
   render() {
-    if (! this.props.file) return null
+    if (! this.props.imgSrc) return null
 
     const actions = [
       <FlatButton
@@ -37,7 +37,7 @@ export default class ImgDialog extends React.Component {
           open={this.props.open}
           autoScrollBodyContent={true}
         >
-          <img src={this.props.file.preview} role="presentation" style={imgStyle} />
+          <img src={this.props.imgSrc} role="presentation" style={imgStyle} />
         </Dialog>
       </div>
     )

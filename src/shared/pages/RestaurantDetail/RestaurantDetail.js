@@ -12,6 +12,7 @@ import EditorCoupon from 'material-ui/svg-icons/editor/monetization-on';
 import MapsPinDrop from 'material-ui/svg-icons/maps/pin-drop'
 import CommunicationCall from 'material-ui/svg-icons/communication/call'
 import SocialShare from 'material-ui/svg-icons/social/share'
+import MapsRateReview from 'material-ui/svg-icons/maps/rate-review'
 
 import styles from './index.css'
 import API from '../../api'
@@ -126,22 +127,27 @@ class RestaurantDetail extends Component {
         <Tabs value={this.state.tabsValue} onChange={::this.onChangeTabs}>
           <Tab
             icon={<MapsRestaurant />}
-            label="TOP"
+            // label="TOP"
             value=''
           />
           <Tab
             icon={<ImagePhotoCamera />}
-            label="PHOTO"
+            // label="PHOTO"
             value='photo'
           />
           <Tab
+            icon={<MapsRateReview />}
+            // label="REVIEW"
+            value='review'
+          />
+          <Tab
             icon={<MapsPinDrop />}
-            label="ACCESS"
+            // label="ACCESS"
             value='access'
           />
           <Tab
             icon={<EditorCoupon />}
-            label="COUPON"
+            // label="COUPON"
             value='coupon'
           />
         </Tabs>

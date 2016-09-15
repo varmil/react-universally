@@ -74,7 +74,9 @@ export default class ImgPreviewList extends React.Component {
 
   render() {
     const props = this.props
+    const state = this.state
     const imgSize = props.imgSize || DEFAULT_IMG_SIZE
+    const imgSrc = (state.dialogFile) ? state.dialogFile.preview : undefined
     return(
       <div>
         <Flex
@@ -86,7 +88,7 @@ export default class ImgPreviewList extends React.Component {
         {props.files.map((file) => this.createItem(file, imgSize, props.onTapDelete))}
         </Flex>
 
-        <ImgDialog open={this.state.dialogOpened} handleClose={::this.handleClose} file={this.state.dialogFile}  />
+        <ImgDialog open={state.dialogOpened} handleClose={::this.handleClose} imgSrc={imgSrc}  />
       </div>
     )
   }
