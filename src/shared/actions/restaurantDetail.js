@@ -9,6 +9,8 @@ export let fetchSuccess = createAction(RestaurantDetail.FETCH_SUCCESS, () => {
   return { nowLoading: false }
 })
 
+export let setTabsValue = createAction(RestaurantDetail.SET_TABS_VALUE, (data) => data)
+
 export let setCommon = createAction(RestaurantDetail.SET_COMMON, (data) => {
   return { data }
 })

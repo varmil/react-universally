@@ -102,11 +102,11 @@ function webpackConfigFactory({ target, mode }, { json }) {
       // source maps.
       // We also want to be able to link to the source in chrome dev tools
       // whilst we are in development mode. :)
-      'source-map',
+      'eval'
       // When in production client mode we don't want any source maps to
       // decrease our payload sizes.
       // This form has almost no cost.
-      'hidden-source-map'
+      // 'hidden-source-map'
     ),
     // Define our entry chunks for our bundle.
     entry: merge(
@@ -249,6 +249,10 @@ function webpackConfigFactory({ target, mode }, { json }) {
             path.resolve(appRootPath, process.env.SERVER_BUNDLE_OUTPUT_PATH),
           ],
           query: merge(
+            {
+              // https://github.com/babel/babel-loader#babel-loader-is-slow
+              cacheDirectory: true,
+            },
             {
               plugins: removeEmpty([
                 'transform-object-rest-spread',

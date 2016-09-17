@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import { isEmpty } from 'lodash'
@@ -10,6 +11,7 @@ import MapsPlace from 'material-ui/svg-icons/maps/place'
 import {indigo500} from 'material-ui/styles/colors';
 
 import API from '../../../api'
+import TABS from '../TABS'
 import styles from '../index.css'
 import FiveStar from '../../../components/FiveStar'
 import ReviewCount from '../../../components/ReviewCount'
@@ -17,6 +19,10 @@ import ReviewList from '../../../components/list/ReviewList'
 
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
+
+
+const linkStyle = { textDecoration: 'none' }
+
 
 class Top extends Component {
   static fetchData(query, params, dispatch) {
@@ -49,16 +55,27 @@ class Top extends Component {
 
 
 
-  createReadMoreButton(label) {
+  handleChangeTab(e, linkTab) {
+    this.props.dispatch(restaurantDetailActions.setTabsValue(linkTab))
+  }
+
+
+
+  createReadMoreButton(label, linkTab) {
     return (
       <div className={`${styles.readMore}`}>
-        <RaisedButton
-          label={label}
-          labelPosition="before"
-          primary={true}
-          icon={<ChevronRight />}
-          style={styles.button}
-        />
+        <Link
+          to={`/restaurant/detail/${this.props.common.id}/${linkTab}`} style={linkStyle}
+          onClick={(e)=> this.handleChangeTab(e, linkTab)}
+        >
+          <RaisedButton
+            label={label}
+            labelPosition="before"
+            primary={true}
+            icon={<ChevronRight />}
+            style={styles.button}
+          />
+        </Link>
       </div>
     )
   }
@@ -85,13 +102,13 @@ class Top extends Component {
             ))}
           </GridList>
         </div>
-        {this.createReadMoreButton('See All Photos')}
+        {this.createReadMoreButton('See All Photos', TABS.photo)}
       </div>
     )
   }
 
   render() {
-    const { rstId, name, rating, reviewCount, address, tel } = this.props.common
+    const { id, name, rating, reviewCount, address, tel } = this.props.common
     const postedReviews = this.props.top.postedReviews || []
 
     return (
@@ -112,8 +129,10 @@ class Top extends Component {
           <Paper className={styles.paperHeader}>
             口コミ
           </Paper>
-          <ReviewList reviews={postedReviews} restaurantId={rstId} />
-          {this.createReadMoreButton('See All Reviews')}
+          <ReviewList
+            reviews={postedReviews} restaurantId={id}
+            onTap={(e) => this.handleChangeTab(e, TABS.review)} />
+          {this.createReadMoreButton('See All Reviews', TABS.reviews)}
 
 
           <Paper className={styles.paperHeader}>
@@ -129,12 +148,17 @@ class Top extends Component {
           </List>
           <Divider inset={true} />
           <List>
-            <ListItem
-              leftIcon={<MapsPlace color={indigo500} />}
-              rightIcon={<ChevronRight />}
-              primaryText={address}
-              secondaryText="Address"
-            />
+            <Link
+              to={`/restaurant/detail/${id}/access`} style={linkStyle}
+              onClick={(e)=> this.handleChangeTab(e, TABS.access)}
+            >
+              <ListItem
+                leftIcon={<MapsPlace color={indigo500} />}
+                rightIcon={<ChevronRight />}
+                primaryText={address}
+                secondaryText="Address"
+              />
+            </Link>
           </List>
 
 
@@ -150,5 +174,5 @@ class Top extends Component {
 // NOTE: We must watch the prop "restaurantDetail.nowLoading", so get it for props
 export default connect(state => ({
   common: state.restaurantDetail.common,
-  top: state.restaurantDetail.top
+  top: state.restaurantDetail.top,
 }))(Top)

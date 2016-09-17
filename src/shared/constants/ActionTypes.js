@@ -1,10 +1,5 @@
 import { createTypes, async } from 'redux-action-types'
 
-export const Header = createTypes('header',
-  'SET_TITLE',
-  'SET_LEFT_ICON',
-)
-
 
 export const Auth = createTypes('auth',
   'SET_IS_PREPARED',
@@ -42,6 +37,7 @@ export const Restaurant = createTypes('restaurant',
 export const RestaurantDetail = createTypes('restaurantDetail',
   // データフェッチ用
   async('FETCH'),
+  'SET_TABS_VALUE',
   'SET_COMMON',
   'SET_TOP',
   'SET_PHOTO',

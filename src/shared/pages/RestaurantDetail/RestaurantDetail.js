@@ -16,6 +16,7 @@ import MapsRateReview from 'material-ui/svg-icons/maps/rate-review'
 
 import styles from './index.css'
 import API from '../../api'
+import TABS from './TABS'
 import * as restaurantDetailActions from '../../actions/restaurantDetail'
 import * as errorsActions from '../../actions/errors'
 
@@ -30,17 +31,6 @@ const BOTTOM_NAVIGATION_SHARE = 1
 
 // HACK: pathをconstで書くのはどうなのか…
 const BASE_PATH = '/restaurant/detail'
-
-// the key is URL related
-// the value is consistent with tabsValue
-const TABS = {
-  photo: 'photo',
-  reviews: 'reviews',
-  // 詳細レビューは、REVIEWSタブにマッピングする
-  review: 'reviews',
-  access: 'access',
-  coupon: 'coupon',
-}
 
 class RestaurantDetail extends Component {
   static fetchData(query, params, dispatch) {
@@ -61,12 +51,6 @@ class RestaurantDetail extends Component {
 
 
 
-  constructor(props) {
-    super(props)
-    const tabsValue = this.getCurrentTabsValue(props.location.pathname)
-    this.state = { tabsValue }
-  }
-
   componentWillMount() {
     const { dispatch, common } = this.props
     const { location, params } = this.context
@@ -75,18 +59,22 @@ class RestaurantDetail extends Component {
     if (isEmpty(common) || params.restaurantId !== common.id) {
       RestaurantDetail.fetchData(location.query, params, dispatch)
     }
+
+    // tabの値をset
+    const tabsValue = this.getCurrentTabsValue(location.pathname)
+    dispatch(restaurantDetailActions.setTabsValue(tabsValue))
   }
 
   getCurrentTabsValue(pathname) {
     // HACK: URLを無理やりパースして、現在どのタブをアクティブにするべきか判定
+    // undefinedの場合、TOPのタブにフォーカスさせる
     const splitedPathname = pathname.split('/')
-    return find(TABS, (v, k) => splitedPathname.indexOf(k) !== -1)
+    return find(TABS, (v, k) => splitedPathname.indexOf(k) !== -1) || ''
   }
 
   onChangeTabs(tabsValue) {
     const { restaurantId } = this.props.params
-    const currentState = this.state
-    this.setState({ ...currentState, tabsValue })
+    this.props.dispatch(restaurantDetailActions.setTabsValue(tabsValue))
     this.props.router.push(`${BASE_PATH}/${restaurantId}/${tabsValue}`)
   }
 
@@ -96,11 +84,8 @@ class RestaurantDetail extends Component {
 
 
   createTabs() {
-    // FIXME: matchしなかった場合、タブを表示させない。TOPでうまくうごかない。要件としては個別レビュー表示時にどうするか
-    // if (this.getCurrentTabsValue(this.props.location.pathname) === undefined) return null
-
     return (
-      <Tabs value={this.state.tabsValue} onChange={::this.onChangeTabs}>
+      <Tabs value={this.props.tabsValue} onChange={::this.onChangeTabs}>
         <Tab
           icon={<MapsRestaurant />}
           // label="TOP"
@@ -180,4 +165,7 @@ class RestaurantDetail extends Component {
 }
 
 const DecoratedRestaurantDetail = withRouter(RestaurantDetail)
-export default connect(state => ({ common: state.restaurantDetail.common }))(DecoratedRestaurantDetail)
+export default connect(state => ({
+  tabsValue: state.restaurantDetail.tabsValue,
+  common: state.restaurantDetail.common,
+}))(DecoratedRestaurantDetail)

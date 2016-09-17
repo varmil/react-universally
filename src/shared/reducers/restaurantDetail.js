@@ -3,6 +3,7 @@ import { RestaurantDetail } from '../constants/ActionTypes'
 
 const initialState = {
   nowLoading: true,
+  tabsValue: '',
   common: {},
   top: {},
   photo: {},
@@ -18,6 +19,9 @@ export default handleActions({
   [RestaurantDetail.FETCH_SUCCESS]: (state, action) => {
     const nowLoading = action.payload.nowLoading
     return { ...state, nowLoading }
+  },
+  [RestaurantDetail.SET_TABS_VALUE]: (state, action) => {
+    return { ...state, tabsValue: action.payload }
   },
   [RestaurantDetail.SET_COMMON]: (state, action) => {
     const data = action.payload.data

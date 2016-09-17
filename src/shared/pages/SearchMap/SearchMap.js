@@ -7,7 +7,6 @@ import styles from './index.css'
 import markers from '../../stub/markers'
 import GoogleMap from 'google-map-react'
 
-import * as headerActions from '../../actions/header'
 
 import AppHeader from '../../containers/AppHeader'
 import MapMarker from '../../components/MapMarker'
@@ -49,10 +48,6 @@ class SearchMap extends Component {
 
     // TODO: stateではなくstoreで管理すべきだろう
     this.state = { popInfo: undefined, markers: this.findInitialMarkers() }
-  }
-
-  componentWillMount() {
-    this.props.dispatch(headerActions.setTitle("標準"))
   }
 
 

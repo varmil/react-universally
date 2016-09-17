@@ -10,6 +10,7 @@ export default (props) => {
           key={`link${index}`}
           to={`/restaurant/detail/${props.restaurantId}/review/${review.id}`}
           style={{ textDecoration: 'none' }}
+          onClick={(e)=> props.onTap(e, props.restaurantId, review.id)}
         >
           <ReviewListItem key={`review${index}`} {...review} />
         </Link>
