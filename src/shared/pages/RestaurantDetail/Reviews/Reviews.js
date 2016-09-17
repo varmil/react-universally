@@ -48,7 +48,7 @@ class Reviews extends Component {
       <div>
         <Helmet title="RestaurantDetailReviews" />
 
-        <ReviewList reviews={postedReviews} restaurantId={this.props.common.id}  />
+        <ReviewList reviews={postedReviews} restaurantId={this.props.common.id} onTap={() => {}}  />
       </div>
     )
   }
