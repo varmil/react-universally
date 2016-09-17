@@ -15,9 +15,9 @@ class RestaurantList extends Component {
     const restaurants = this.props.restaurants.dict
     return (
       <div>
-        <Flex wrap>
+        <Flex wrap justify="center">
           {Object.keys(restaurants).map(restaurantId =>
-            <Box key={`Box${restaurantId}`} sm={12} md={6} lg={4}>
+            <Box key={`Box${restaurantId}`} sm={12} md={6} lg={4} style={{ maxWidth: 400 }}>
               <RestaurantListItem
                 key={`RestaurantListItem${restaurantId}`}
                 data={restaurants[restaurantId]}

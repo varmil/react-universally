@@ -139,11 +139,13 @@ class SearchRegular extends Component {
 
   createBudgetSelectField(value, onChange, floatingLabelText) {
     return (
-      <BudgetSelectField
-        id={`SearchRegular-budget-${floatingLabelText.replace(/ /g,'')}`}
-        value={value}
-        onChange={onChange}
-        floatingLabelText={floatingLabelText} />
+      <div>
+        <BudgetSelectField
+          id={`SearchRegular-budget-${floatingLabelText.replace(/ /g,'')}`}
+          value={value}
+          onChange={onChange}
+          floatingLabelText={floatingLabelText} />
+      </div>
     )
   }
 
