@@ -13,10 +13,10 @@ import ActionCameraEnhance from 'material-ui/svg-icons/action/camera-enhance';
 import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
 import { lightBlue200 } from 'material-ui/styles/colors';
 
+import AppHeader from '../../containers/AppHeader'
 import ImgTextGrid from '../../components/ImgTextGrid'
 import InlineSearchForm from '../../components/InlineSearchForm'
 
-import * as headerActions from '../../actions/header'
 import * as searchFormActions from '../../actions/searchForm'
 import styles from './index.css'
 
@@ -25,10 +25,6 @@ const linkStyle = {
 }
 
 class SearchTop extends Component {
-  componentWillMount() {
-    this.props.dispatch(headerActions.setTitle("foodbook"))
-  }
-
   onChangeAreaForm(e) {
     e.preventDefault()
     this.props.dispatch(searchFormActions.setAreaText(e.target.value))
@@ -44,6 +40,8 @@ class SearchTop extends Component {
     return (
       <div>
         <Helmet title="SearchTop" />
+
+        <AppHeader title="foodbook" zDepth={0} />
 
         <Tabs>
           <Tab icon={<ActionSearch />} />

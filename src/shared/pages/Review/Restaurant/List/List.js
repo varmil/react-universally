@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
 
+import AppHeader from '../../../../containers/AppHeader'
 import InlineSearchForm from '../../../../components/InlineSearchForm'
 import RestaurantSimpleList from '../../../../components/list/RestaurantSimpleList'
 
@@ -11,7 +12,6 @@ import API from '../../../../api'
 
 import * as searchFormActions from '../../../../actions/searchForm'
 import * as restaurantsActions from '../../../../actions/restaurants'
-import * as headerActions from '../../../../actions/header'
 import * as errorsActions from '../../../../actions/errors'
 
 
@@ -42,8 +42,6 @@ class List extends Component {
     if (isEmpty(restaurants.dict)) {
       List.fetchData(location.query, params, dispatch)
     }
-
-    dispatch(headerActions.setTitle("投稿するお店を選ぶ"))
   }
 
 
@@ -71,6 +69,8 @@ class List extends Component {
     return (
       <div>
         <Helmet title="ReviewRestaurantList" />
+
+        <AppHeader title="投稿するお店を選ぶ" />
 
         <InlineSearchForm
           areaFormValue={areaText}

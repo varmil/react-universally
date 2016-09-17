@@ -7,11 +7,13 @@ import { FloatingActionButton } from 'material-ui'
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import { Flex, Box } from 'reflexbox'
 
+import AppHeader from '../../containers/AppHeader'
 import Restaurants from '../../components/list/RestaurantList'
+import RstSortMenu from '../../components/header/RstSortMenu'
+
 import styles from './index.css'
 import API from '../../api'
 import * as restaurantsActions from '../../actions/restaurants'
-import * as headerActions from '../../actions/header'
 import * as errorsActions from '../../actions/errors'
 
 
@@ -41,12 +43,14 @@ class RestaurantList extends Component {
     if (isEmpty(restaurants.dict)) {
       RestaurantList.fetchData(location.query, params, dispatch)
     }
-
-    this.props.dispatch(headerActions.setTitle("標準"))
   }
 
 
 
+
+  onChangeRstSortMenu(e, key, payload) {
+    console.log(e, key, payload)
+  }
 
   onTapSearchButton(e) {
     e.preventDefault()
@@ -71,6 +75,8 @@ class RestaurantList extends Component {
     return (
       <div>
         <Helmet title="RestaurantList" />
+
+        <AppHeader title={<RstSortMenu onChange={::this.onChangeRstSortMenu} />} />
 
         <Restaurants restaurants={this.props.restaurants} />
 

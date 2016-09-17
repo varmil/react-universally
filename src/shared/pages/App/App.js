@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet';
 import 'normalize.css/normalize.css';
 
-import Header from '../../containers/Header';
 import API from '../../api';
 import * as authActions from '../../actions/auth';
 import './globals.css';
@@ -51,10 +50,6 @@ class App extends Component {
     console.info('willUpdate', nextProps, nextState)
   }
 
-  onLoginButtonTap(event) {
-    console.log(event)
-  }
-
   render() {
     return this.props.auth.isPrepared ?
     (
@@ -73,11 +68,6 @@ class App extends Component {
           script={[
             { src: 'https://cdn.polyfill.io/v2/polyfill.min.js', type: 'text/javascript' },
           ]}
-        />
-
-        <Header
-          location={this.props.location}
-          onLoginButtonTap={this.onLoginButtonTap}
         />
 
         {this.props.children}

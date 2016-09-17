@@ -10,13 +10,12 @@ import { Paper, Divider, TextField, IconButton, SelectField, MenuItem, RaisedBut
 import ImgAddPhoto from 'material-ui/svg-icons/image/add-a-photo';
 
 import * as restaurantDetailActions from '../../../../actions/restaurantDetail'
-import * as headerActions from '../../../../actions/header'
 import * as errorsActions from '../../../../actions/errors'
 
 import API from '../../../../api'
+import AppHeader from '../../../../containers/AppHeader'
 import FiveStar from '../../../../components/FiveStar'
 import ImgPreviewList from '../../../../components/list/ImgPreviewList'
-
 
 
 // TODO: とりあえずcommonデータを参照
@@ -106,8 +105,6 @@ class Top extends Component {
     if (isEmpty(common) || params.restaurantId !== common.id) {
       Top.fetchData(location.query, params, dispatch)
     }
-
-    dispatch(headerActions.setTitle("口コミ・写真投稿"))
   }
 
 
@@ -151,6 +148,8 @@ class Top extends Component {
     return (
       <div style={{ marginBottom: 100 }}>
         <Helmet title="ReviewEditTop" />
+
+        <AppHeader title="口コミ・写真投稿" />
 
         <h2 style={{ ...containerMargin, ...rstNameStyle}}>{name}</h2>
 

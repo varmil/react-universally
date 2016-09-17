@@ -6,9 +6,12 @@ import { filter } from 'lodash';
 import styles from './index.css'
 import markers from '../../stub/markers'
 import GoogleMap from 'google-map-react'
-import MapMarker from '../../components/MapMarker'
 
 import * as headerActions from '../../actions/header'
+
+import AppHeader from '../../containers/AppHeader'
+import MapMarker from '../../components/MapMarker'
+import RstSortMenu from '../../components/header/RstSortMenu'
 
 
 const URL_KEYS = {
@@ -84,12 +87,19 @@ class SearchMap extends Component {
     this.setState({ popInfo: markers.Markers[id].content })
   }
 
+  onChangeRstSortMenu(e, key, payload) {
+    console.log(e, key, payload)
+  }
+
+
   // Make sure the container element has width and height.
   // The map will try to fill the parent container,
   // but if the container has no size, the map will collapse to 0 width / height.
   render() {
     return (
       <div>
+        <AppHeader title={<RstSortMenu onChange={::this.onChangeRstSortMenu} />} />
+
         <div className={styles.container}>
           <GoogleMap
             options={MAP_OPTIONS}

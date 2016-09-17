@@ -17,8 +17,9 @@ import MapsRateReview from 'material-ui/svg-icons/maps/rate-review'
 import styles from './index.css'
 import API from '../../api'
 import * as restaurantDetailActions from '../../actions/restaurantDetail'
-import * as headerActions from '../../actions/header'
 import * as errorsActions from '../../actions/errors'
+
+import AppHeader from '../../containers/AppHeader'
 
 
 const BOTTOM_NAVIGATION_HEIGHT = 50
@@ -46,7 +47,6 @@ class RestaurantDetail extends Component {
     return API.fetchRestaurantDetailCommon(query, params)
       .then(({ data }) => {
         dispatch(restaurantDetailActions.setCommon(data))
-        dispatch(headerActions.setTitle(data.name))
       })
       .catch((reason) => {
         dispatch(errorsActions.push(reason))
@@ -74,9 +74,6 @@ class RestaurantDetail extends Component {
     // 今見ようとしているレストランIDと、store内のレストランIDとを比較
     if (isEmpty(common) || params.restaurantId !== common.id) {
       RestaurantDetail.fetchData(location.query, params, dispatch)
-    } else {
-      // ローカルのstoreに既にデータが存在する場合（＝fetchしない場合）
-      dispatch(headerActions.setTitle(common.name))
     }
   }
 
@@ -170,6 +167,8 @@ class RestaurantDetail extends Component {
   render() {
     return (
       <div style={{ marginBottom: BOTTOM_NAVIGATION_HEIGHT }}>
+        <AppHeader title={this.props.common.name} zDepth={0} />
+
         {this.createTabs()}
 
         {this.createContent()}

@@ -10,10 +10,10 @@ import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 import ActionLabel from 'material-ui/svg-icons/action/label-outline'
 
 import * as searchFormActions from '../../actions/searchForm'
-import * as headerActions from '../../actions/header'
+
+import AppHeader from '../../containers/AppHeader'
 import IconTextField from '../../components/IconTextField'
 import BudgetSelectField from '../../components/BudgetSelectField'
-
 import AreaList from '../../components/list/AreaList'
 import GenreList from '../../components/list/GenreList'
 import stubArea from '../../stub/area'
@@ -42,10 +42,6 @@ class SearchRegular extends Component {
   constructor(props) {
     super(props)
     this.state = { ...initialDialogState }
-  }
-
-  componentWillMount() {
-    this.props.dispatch(headerActions.setTitle("条件入力"))
   }
 
 
@@ -172,71 +168,75 @@ class SearchRegular extends Component {
   render() {
     const { areaText, genreText, areaChip, genreChip, lowerLimitBudget, upperLimitBudget } = this.props.searchForm
     return (
-      <div className={styles.pageContainer}>
+      <div>
         <Helmet title="SearchRegular" />
 
-        <div className={styles.formContainer}>
-          <IconTextField
-            id="SearchRegular-area"
-            style={{ margin: '10px 0' }}
-            leftIcon={<MapsPlace />}
-            hintText="東京都、銀座"
-            onChange={(e) => this.onChangeForm(e, FORM_TYPE.AREA)}
-            value={areaText}
-            buttonLabel="area"
-            buttonIcon={<ChevronRight />}
-            onTapButton={::this.onTapAreaButton}
-          />
-          {this.createChips(areaChip, FORM_TYPE.AREA)}
+        <AppHeader title="条件入力" />
 
-          <IconTextField
-            id="SearchRegular-genre"
-            style={{ margin: '10px 0' }}
-            leftIcon={<MapsRestaurant />}
-            hintText="店名、ラーメン"
-            onChange={(e) => this.onChangeForm(e, FORM_TYPE.GENRE)}
-            value={genreText}
-            buttonLabel="genre"
-            buttonIcon={<ChevronRight />}
-            onTapButton={::this.onTapGenreButton}
-          />
-          {this.createChips(genreChip, FORM_TYPE.GENRE)}
+        <div className={styles.pageContainer}>
+          <div className={styles.formContainer}>
+            <IconTextField
+              id="SearchRegular-area"
+              style={{ margin: '10px 0' }}
+              leftIcon={<MapsPlace />}
+              hintText="東京都、銀座"
+              onChange={(e) => this.onChangeForm(e, FORM_TYPE.AREA)}
+              value={areaText}
+              buttonLabel="area"
+              buttonIcon={<ChevronRight />}
+              onTapButton={::this.onTapAreaButton}
+            />
+            {this.createChips(areaChip, FORM_TYPE.AREA)}
+
+            <IconTextField
+              id="SearchRegular-genre"
+              style={{ margin: '10px 0' }}
+              leftIcon={<MapsRestaurant />}
+              hintText="店名、ラーメン"
+              onChange={(e) => this.onChangeForm(e, FORM_TYPE.GENRE)}
+              value={genreText}
+              buttonLabel="genre"
+              buttonIcon={<ChevronRight />}
+              onTapButton={::this.onTapGenreButton}
+            />
+            {this.createChips(genreChip, FORM_TYPE.GENRE)}
+          </div>
+
+          <Divider />
+
+          <div className={styles.formContainer}>
+            <Subheader>Budget</Subheader>
+            {this.createBudgetSelectField(lowerLimitBudget, ::this.onChangeLowerLimitBudget, "lower limit")}
+            {this.createBudgetSelectField(upperLimitBudget, ::this.onChangeUpperLimitBudget, "upper limit")}
+          </div>
+
+          <RaisedButton onTouchTap={::this.onTapSearchButton} className={styles.fixedBottom} label="検索" secondary={true} />
+
+
+          <Dialog
+            title="Select Area"
+            actions={this.createActions()}
+            modal={false}
+            contentStyle={dialogStyle}
+            open={this.state.areaDialogOpened}
+            onRequestClose={::this.handleCloseDialog}
+            autoScrollBodyContent={true}
+          >
+            <AreaList subheader="Phnom Penh" data={stubArea} checkedItems={areaChip} onCheck={::this.onCheckArea} />
+          </Dialog>
+
+          <Dialog
+            title="Select Genre"
+            actions={this.createActions()}
+            modal={false}
+            contentStyle={dialogStyle}
+            open={this.state.genreDialogOpened}
+            onRequestClose={::this.handleCloseDialog}
+            autoScrollBodyContent={true}
+          >
+            <GenreList subheader="Food" data={stubGenre} checkedItems={genreChip} onCheck={::this.onCheckGenre} />
+          </Dialog>
         </div>
-
-        <Divider />
-
-        <div className={styles.formContainer}>
-          <Subheader>Budget</Subheader>
-          {this.createBudgetSelectField(lowerLimitBudget, ::this.onChangeLowerLimitBudget, "lower limit")}
-          {this.createBudgetSelectField(upperLimitBudget, ::this.onChangeUpperLimitBudget, "upper limit")}
-        </div>
-
-        <RaisedButton onTouchTap={::this.onTapSearchButton} className={styles.fixedBottom} label="検索" secondary={true} />
-
-
-        <Dialog
-          title="Select Area"
-          actions={this.createActions()}
-          modal={false}
-          contentStyle={dialogStyle}
-          open={this.state.areaDialogOpened}
-          onRequestClose={::this.handleCloseDialog}
-          autoScrollBodyContent={true}
-        >
-          <AreaList subheader="Phnom Penh" data={stubArea} checkedItems={areaChip} onCheck={::this.onCheckArea} />
-        </Dialog>
-
-        <Dialog
-          title="Select Genre"
-          actions={this.createActions()}
-          modal={false}
-          contentStyle={dialogStyle}
-          open={this.state.genreDialogOpened}
-          onRequestClose={::this.handleCloseDialog}
-          autoScrollBodyContent={true}
-        >
-          <GenreList subheader="Food" data={stubGenre} checkedItems={genreChip} onCheck={::this.onCheckGenre} />
-        </Dialog>
       </div>
     )
   }
