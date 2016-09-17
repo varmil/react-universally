@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
@@ -11,10 +11,6 @@ import NavArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 const REFERER_PATH = '/search/top'
 
 class Header extends Component {
-  static propTypes = {
-    title: PropTypes.string
-  }
-
   onTapListItem(link) {
     // Programmatically navigate using react router
     // http://stackoverflow.com/questions/31079081/programmatically-navigate-using-react-router
@@ -58,7 +54,7 @@ class Header extends Component {
     }
   }
 
-  // TODO: header typeの切り替えをどうやるか？URLを見て？ --> this.props.location
+  // header typeの切り替えをどうやるか？URLを見て？ --> this.props.location
   render() {
     return (
       <div>

@@ -1,5 +1,11 @@
 import { createTypes, async } from 'redux-action-types'
 
+export const Header = createTypes('header',
+  'SET_TITLE',
+  'SET_LEFT_ICON',
+)
+
+
 export const Auth = createTypes('auth',
   'SET_IS_PREPARED',
   'SET_IS_LOGGED_IN',
