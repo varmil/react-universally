@@ -20,7 +20,7 @@ const withReduxProvider = (store, children, userAgent) => {
   // Client side uses `navigator.userAgent`
   const muiTheme = getMuiTheme({
     appBar: {
-      height: 48, // Instead of 64
+      height: 56, // Instead of 64
     },
   }, { userAgent: userAgent || navigator.userAgent })
 

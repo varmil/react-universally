@@ -9,10 +9,10 @@ const initialState = {
 export default handleActions({
   [Header.SET_TITLE]: (state, action) => ({
     ...state,
-    isPrepared: action.payload.isPrepared
+    title: action.payload
   }),
   [Header.SET_LEFT_ICON]: (state, action) => ({
     ...state,
-    isLoggedIn: action.payload.isLoggedIn
+    leftIcon: action.payload
   }),
 }, initialState);

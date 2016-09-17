@@ -8,8 +8,10 @@ import InlineSearchForm from '../../../../components/InlineSearchForm'
 import RestaurantSimpleList from '../../../../components/list/RestaurantSimpleList'
 
 import API from '../../../../api'
+
 import * as searchFormActions from '../../../../actions/searchForm'
 import * as restaurantsActions from '../../../../actions/restaurants'
+import * as headerActions from '../../../../actions/header'
 import * as errorsActions from '../../../../actions/errors'
 
 
@@ -40,6 +42,8 @@ class List extends Component {
     if (isEmpty(restaurants.dict)) {
       List.fetchData(location.query, params, dispatch)
     }
+
+    dispatch(headerActions.setTitle("投稿するお店を選ぶ"))
   }
 
 

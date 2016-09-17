@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router'
+import { Link } from 'react-router'
 import RestaurantListItem from './RestaurantListItem'
 import { Flex, Box } from 'reflexbox'
 
+const linkStyle = {
+  textDecoration: 'none'
+}
 
 class RestaurantList extends Component {
-  onTapItem(e, restaurantId) {
-    e.preventDefault()
-    this.props.router.push(`/restaurant/detail/${restaurantId}`)
-  }
-
   // INFO: http://stackoverflow.com/questions/14810506/map-function-for-objects-instead-of-arrays
   render() {
     const restaurants = this.props.restaurants.dict
@@ -17,12 +15,13 @@ class RestaurantList extends Component {
       <div>
         <Flex wrap justify="center">
           {Object.keys(restaurants).map(restaurantId =>
-            <Box key={`Box${restaurantId}`} sm={12} md={6} lg={4} style={{ maxWidth: 400 }}>
-              <RestaurantListItem
-                key={`RestaurantListItem${restaurantId}`}
-                data={restaurants[restaurantId]}
-                onTapItem={(e) => this.onTapItem(e, restaurantId)}
-              />
+            <Box key={`Box${restaurantId}`} sm={12} md={6} lg={4} style={{ maxWidth: 450, margin: 6 }}>
+              <Link key={`Link${restaurantId}`} to={`/restaurant/detail/${restaurantId}`} style={linkStyle} >
+                <RestaurantListItem
+                  key={`RestaurantListItem${restaurantId}`}
+                  data={restaurants[restaurantId]}
+                />
+              </Link>
             </Box>
           )}
         </Flex>
@@ -32,4 +31,4 @@ class RestaurantList extends Component {
 }
 
 
-export default withRouter(RestaurantList)
+export default RestaurantList

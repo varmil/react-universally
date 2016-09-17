@@ -9,9 +9,11 @@ import { Flex, Box } from 'reflexbox'
 import { Paper, Divider, TextField, IconButton, SelectField, MenuItem, RaisedButton } from 'material-ui'
 import ImgAddPhoto from 'material-ui/svg-icons/image/add-a-photo';
 
-import API from '../../../../api'
 import * as restaurantDetailActions from '../../../../actions/restaurantDetail'
+import * as headerActions from '../../../../actions/header'
 import * as errorsActions from '../../../../actions/errors'
+
+import API from '../../../../api'
 import FiveStar from '../../../../components/FiveStar'
 import ImgPreviewList from '../../../../components/list/ImgPreviewList'
 
@@ -104,6 +106,8 @@ class Top extends Component {
     if (isEmpty(common) || params.restaurantId !== common.id) {
       Top.fetchData(location.query, params, dispatch)
     }
+
+    dispatch(headerActions.setTitle("口コミ・写真投稿"))
   }
 
 

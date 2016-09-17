@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Paper } from 'material-ui';
 import { filter } from 'lodash';
 
@@ -6,6 +7,8 @@ import styles from './index.css'
 import markers from '../../stub/markers'
 import GoogleMap from 'google-map-react'
 import MapMarker from '../../components/MapMarker'
+
+import * as headerActions from '../../actions/header'
 
 
 const URL_KEYS = {
@@ -30,7 +33,7 @@ const style = {
 const centerLat = markers.minLat + ((markers.maxLat - markers.minLat) / 2)
 const centerLng = markers.minLng + ((markers.maxLng - markers.minLng) / 2)
 
-export default class SimpleMapPage extends Component {
+class SearchMap extends Component {
   static defaultProps = {
     center: { lat: centerLat, lng: centerLng },
     zoom: 16,
@@ -44,6 +47,13 @@ export default class SimpleMapPage extends Component {
     // TODO: stateではなくstoreで管理すべきだろう
     this.state = { popInfo: undefined, markers: this.findInitialMarkers() }
   }
+
+  componentWillMount() {
+    this.props.dispatch(headerActions.setTitle("標準"))
+  }
+
+
+
 
   // XXX
   findInitialMarkers() {
@@ -101,3 +111,5 @@ export default class SimpleMapPage extends Component {
     )
   }
 }
+
+export default connect()(SearchMap)

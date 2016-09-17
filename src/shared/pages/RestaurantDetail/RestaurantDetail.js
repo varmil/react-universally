@@ -2,7 +2,7 @@ import { find } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
-import { isEmpty, values } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import { Paper, Tabs, Tab } from 'material-ui'
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
@@ -17,6 +17,7 @@ import MapsRateReview from 'material-ui/svg-icons/maps/rate-review'
 import styles from './index.css'
 import API from '../../api'
 import * as restaurantDetailActions from '../../actions/restaurantDetail'
+import * as headerActions from '../../actions/header'
 import * as errorsActions from '../../actions/errors'
 
 
@@ -42,15 +43,13 @@ const TABS = {
 
 class RestaurantDetail extends Component {
   static fetchData(query, params, dispatch) {
-    // dispatch(restaurantDetailActions.fetchStart())
     return API.fetchRestaurantDetailCommon(query, params)
       .then(({ data }) => {
         dispatch(restaurantDetailActions.setCommon(data))
-        // dispatch(restaurantDetailActions.fetchSuccess())
+        dispatch(headerActions.setTitle(data.name))
       })
       .catch((reason) => {
         dispatch(errorsActions.push(reason))
-        // dispatch(restaurantDetailActions.fetchError())
       })
   }
 
@@ -65,7 +64,6 @@ class RestaurantDetail extends Component {
   constructor(props) {
     super(props)
     const tabsValue = this.getCurrentTabsValue(props.location.pathname)
-    console.log(tabsValue)
     this.state = { tabsValue }
   }
 
@@ -76,6 +74,9 @@ class RestaurantDetail extends Component {
     // 今見ようとしているレストランIDと、store内のレストランIDとを比較
     if (isEmpty(common) || params.restaurantId !== common.id) {
       RestaurantDetail.fetchData(location.query, params, dispatch)
+    } else {
+      // ローカルのstoreに既にデータが存在する場合（＝fetchしない場合）
+      dispatch(headerActions.setTitle(common.name))
     }
   }
 

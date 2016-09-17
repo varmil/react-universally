@@ -3,8 +3,11 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import { withRouter, Link } from 'react-router'
 
-import { List } from 'material-ui/List';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import { FloatingActionButton, List, Tabs, Tab } from 'material-ui';
+
+import ActionSearch from 'material-ui/svg-icons/action/search';
+import ActionPermMedia from 'material-ui/svg-icons/action/perm-media';
+import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 import ContentCreate from 'material-ui/svg-icons/content/create';
 import ActionCameraEnhance from 'material-ui/svg-icons/action/camera-enhance';
 import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
@@ -12,10 +15,20 @@ import { lightBlue200 } from 'material-ui/styles/colors';
 
 import ImgTextGrid from '../../components/ImgTextGrid'
 import InlineSearchForm from '../../components/InlineSearchForm'
+
+import * as headerActions from '../../actions/header'
 import * as searchFormActions from '../../actions/searchForm'
 import styles from './index.css'
 
+const linkStyle = {
+  textDecoration: 'none'
+}
+
 class SearchTop extends Component {
+  componentWillMount() {
+    this.props.dispatch(headerActions.setTitle("foodbook"))
+  }
+
   onChangeAreaForm(e) {
     e.preventDefault()
     this.props.dispatch(searchFormActions.setAreaText(e.target.value))
@@ -26,18 +39,17 @@ class SearchTop extends Component {
     this.props.dispatch(searchFormActions.setGenreText(e.target.value))
   }
 
-  onTapListItem(e, link) {
-    e.preventDefault()
-    // Programmatically navigate using react router
-    // http://stackoverflow.com/questions/31079081/programmatically-navigate-using-react-router
-    this.props.router.push(link)
-  }
-
   render() {
     const { areaText, genreText } = this.props
     return (
       <div>
         <Helmet title="SearchTop" />
+
+        <Tabs>
+          <Tab icon={<ActionSearch />} />
+          <Tab icon={<ActionPermMedia />} />
+          <Tab icon={<ActionAccountCircle />} />
+        </Tabs>
 
         <div className={styles.searchFormContainer}>
           <InlineSearchForm
@@ -49,18 +61,20 @@ class SearchTop extends Component {
         </div>
 
         <List>
-          <ImgTextGrid
-            onTap={(e) => this.onTapListItem(e, '/search/regular')}
-            img={<img src='/img/world300.png' role='presentation' width={70} />}
-            text={<span>エリア・駅・条件<br />からお店を探す</span>}
-            paperStyle={{ marginBottom: 10 }}
-          />
+          <Link to={`/search/regular`} style={linkStyle}>
+            <ImgTextGrid
+              img={<img src='/img/world300.png' role='presentation' width={70} />}
+              text={<span>エリア・駅・条件<br />からお店を探す</span>}
+              paperStyle={{ marginBottom: 10 }}
+            />
+          </Link>
 
-          <ImgTextGrid
-            onTap={(e) => this.onTapListItem(e, '/search/map')}
-            img={<MapsMyLocation style={{ width: 50, height: 50, position: 'relative', top: 10 }} color={lightBlue200} />}
-            text={<span>現在地周辺<br />からお店を探す</span>}
-          />
+          <Link to={`/search/map`} style={linkStyle}>
+            <ImgTextGrid
+              img={<MapsMyLocation style={{ width: 50, height: 50, position: 'relative', top: 10 }} color={lightBlue200} />}
+              text={<span>現在地周辺<br />からお店を探す</span>}
+            />
+          </Link>
         </List>
 
 

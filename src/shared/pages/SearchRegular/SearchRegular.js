@@ -10,6 +10,7 @@ import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 import ActionLabel from 'material-ui/svg-icons/action/label-outline'
 
 import * as searchFormActions from '../../actions/searchForm'
+import * as headerActions from '../../actions/header'
 import IconTextField from '../../components/IconTextField'
 import BudgetSelectField from '../../components/BudgetSelectField'
 
@@ -42,6 +43,12 @@ class SearchRegular extends Component {
     super(props)
     this.state = { ...initialDialogState }
   }
+
+  componentWillMount() {
+    this.props.dispatch(headerActions.setTitle("条件入力"))
+  }
+
+
 
   onChangeForm(e, type) {
     e.preventDefault()

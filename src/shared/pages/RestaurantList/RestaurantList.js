@@ -11,6 +11,7 @@ import Restaurants from '../../components/list/RestaurantList'
 import styles from './index.css'
 import API from '../../api'
 import * as restaurantsActions from '../../actions/restaurants'
+import * as headerActions from '../../actions/header'
 import * as errorsActions from '../../actions/errors'
 
 
@@ -40,6 +41,8 @@ class RestaurantList extends Component {
     if (isEmpty(restaurants.dict)) {
       RestaurantList.fetchData(location.query, params, dispatch)
     }
+
+    this.props.dispatch(headerActions.setTitle("標準"))
   }
 
 

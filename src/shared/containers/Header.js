@@ -3,9 +3,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
 import { AppBar, FlatButton, IconButton, Tabs, Tab } from 'material-ui';
-import ActionSearch from 'material-ui/svg-icons/action/search';
-import ActionPermMedia from 'material-ui/svg-icons/action/perm-media';
-import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 import NavArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 
 const REFERER_PATH = '/search/top'
@@ -31,27 +28,25 @@ class Header extends Component {
     )
   }
 
-  createHeaderBar() {
-    const { location } = this.props
+  createAppBar() {
+    const { title, leftIcon } = this.props
+    const myLeftIcon = (leftIcon) ?
+      leftIcon :
+      (<IconButton onTouchTap={::this.onTapArrowBack}><NavArrowBack /></IconButton>)
 
-    if (location.pathname === '/search/top') {
-      return (
-        <Tabs>
-          <Tab icon={<ActionSearch />} />
-          <Tab icon={<ActionPermMedia />} />
-          <Tab icon={<ActionAccountCircle />} />
-        </Tabs>
-      )
-    } else {
-      return (
-        <AppBar
-          title={location.pathname}
-          iconElementLeft={<IconButton onTouchTap={::this.onTapArrowBack}><NavArrowBack /></IconButton>}
-          iconElementRight={this.createLoginButton()}
-          titleStyle={{ fontSize: 13 }}
-        />
-      )
-    }
+
+    return (
+      <AppBar
+        title={title}
+        iconElementLeft={myLeftIcon}
+        iconElementRight={this.createLoginButton()}
+        titleStyle={{ fontSize: 13 }}
+      />
+    )
+  }
+
+  createHeaderBar() {
+    return this.createAppBar()
   }
 
   // header typeの切り替えをどうやるか？URLを見て？ --> this.props.location
@@ -67,5 +62,5 @@ class Header extends Component {
 }
 
 const DecoratedHeader = withRouter(Header);
-const HeaderContainer = connect()(DecoratedHeader)
+const HeaderContainer = connect(state => state.header)(DecoratedHeader)
 export default HeaderContainer;
