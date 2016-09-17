@@ -1,7 +1,8 @@
 import React from 'react';
-import { Router, RouterContext } from 'react-router';
-import { Provider } from 'react-redux';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { Router, RouterContext, applyRouterMiddleware } from 'react-router'
+import { useScroll } from 'react-router-scroll'
+import { Provider } from 'react-redux'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 // FIXME: This cause server error 'injectTapEventPlugin() should be called once in app lyfecycle'
@@ -33,7 +34,7 @@ const withReduxProvider = (store, children, userAgent) => {
 }
 
 export const createClientApp = (store, renderProps) => {
-  return withReduxProvider(store, <Router {...renderProps} />);
+  return withReduxProvider(store, <Router render={applyRouterMiddleware(useScroll())} {...renderProps} />);
 }
 
 export const createServerApp = (store, renderProps, userAgent) => {

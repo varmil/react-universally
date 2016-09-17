@@ -88,7 +88,7 @@ class Photo extends Component {
         <div className={styles.gridListContainer}>
           <GridList
             cellHeight={100}
-            cols={3}
+            cols={4}
             className={styles.gridList}
           >
             {photoList.map((photo, index) => (

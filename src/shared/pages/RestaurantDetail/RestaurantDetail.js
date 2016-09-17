@@ -29,12 +29,15 @@ const BOTTOM_NAVIGATION_SHARE = 1
 // HACK: pathをconstで書くのはどうなのか…
 const BASE_PATH = '/restaurant/detail'
 
-// the values is URL related
+// the key is URL related
+// the value is consistent with tabsValue
 const TABS = {
-  PHOTO: 'photo',
-  REVIEWS: 'reviews',
-  ACCESS: 'access',
-  COUPON: 'coupon',
+  photo: 'photo',
+  reviews: 'reviews',
+  // 詳細レビューは、REVIEWSタブにマッピングする
+  review: 'reviews',
+  access: 'access',
+  coupon: 'coupon',
 }
 
 class RestaurantDetail extends Component {
@@ -62,6 +65,7 @@ class RestaurantDetail extends Component {
   constructor(props) {
     super(props)
     const tabsValue = this.getCurrentTabsValue(props.location.pathname)
+    console.log(tabsValue)
     this.state = { tabsValue }
   }
 
@@ -78,7 +82,7 @@ class RestaurantDetail extends Component {
   getCurrentTabsValue(pathname) {
     // HACK: URLを無理やりパースして、現在どのタブをアクティブにするべきか判定
     const splitedPathname = pathname.split('/')
-    return find(values(TABS), (e) => splitedPathname.indexOf(e) !== -1)
+    return find(TABS, (v, k) => splitedPathname.indexOf(k) !== -1)
   }
 
   onChangeTabs(tabsValue) {
@@ -106,23 +110,23 @@ class RestaurantDetail extends Component {
         />
         <Tab
           icon={<ImagePhotoCamera />}
-          // label="PHOTO"
-          value={TABS.PHOTO}
+          // label="photo"
+          value={TABS.photo}
         />
         <Tab
           icon={<MapsRateReview />}
-          // label="REVIEW"
-          value={TABS.REVIEWS}
+          // label="reviews"
+          value={TABS.reviews}
         />
         <Tab
           icon={<MapsPinDrop />}
-          // label="ACCESS"
-          value={TABS.ACCESS}
+          // label="access"
+          value={TABS.access}
         />
         <Tab
           icon={<EditorCoupon />}
-          // label="COUPON"
-          value={TABS.COUPON}
+          // label="coupon"
+          value={TABS.coupon}
         />
       </Tabs>
     )
@@ -144,7 +148,7 @@ class RestaurantDetail extends Component {
 
   createBottomNavigation() {
     // アクセス画面ではGoogle Mapを使うのでフッターを消す
-    if (this.getCurrentTabsValue(this.props.location.pathname) === TABS.ACCESS) return null
+    if (this.getCurrentTabsValue(this.props.location.pathname) === TABS.access) return null
 
     return (
       <Paper style={{ position: 'fixed', bottom: 0, width: '100%', height: BOTTOM_NAVIGATION_HEIGHT }} zDepth={1}>

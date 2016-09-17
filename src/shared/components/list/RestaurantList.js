@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import RestaurantListItem from './RestaurantListItem'
+import { Flex, Box } from 'reflexbox'
 
 
 class RestaurantList extends Component {
@@ -14,13 +15,17 @@ class RestaurantList extends Component {
     const restaurants = this.props.restaurants.dict
     return (
       <div>
-        {Object.keys(restaurants).map(restaurantId =>
-          <RestaurantListItem
-            key={restaurantId}
-            data={restaurants[restaurantId]}
-            onTapItem={(e) => this.onTapItem(e, restaurantId)}
-          />
-        )}
+        <Flex wrap>
+          {Object.keys(restaurants).map(restaurantId =>
+            <Box key={`Box${restaurantId}`} sm={12} md={6} lg={4}>
+              <RestaurantListItem
+                key={`RestaurantListItem${restaurantId}`}
+                data={restaurants[restaurantId]}
+                onTapItem={(e) => this.onTapItem(e, restaurantId)}
+              />
+            </Box>
+          )}
+        </Flex>
       </div>
     )
   }
