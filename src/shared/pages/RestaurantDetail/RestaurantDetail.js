@@ -60,10 +60,19 @@ class RestaurantDetail extends Component {
       RestaurantDetail.fetchData(location.query, params, dispatch)
     }
 
-    // tabの値をset
+    // 初期マウント時のtab
     const tabsValue = this.getCurrentTabsValue(location.pathname)
-    dispatch(restaurantDetailActions.setTabsValue(tabsValue))
+    this.props.dispatch(restaurantDetailActions.setTabsValue(tabsValue))
   }
+
+  componentDidUpdate(nextProps) {
+    // propsが変わるたび（URLが変わるたびに）tabの値をset
+    const tabsValue = this.getCurrentTabsValue(location.pathname)
+    this.props.dispatch(restaurantDetailActions.setTabsValue(tabsValue))
+  }
+
+
+
 
   getCurrentTabsValue(pathname) {
     // HACK: URLを無理やりパースして、現在どのタブをアクティブにするべきか判定
@@ -74,7 +83,6 @@ class RestaurantDetail extends Component {
 
   onChangeTabs(tabsValue) {
     const { restaurantId } = this.props.params
-    this.props.dispatch(restaurantDetailActions.setTabsValue(tabsValue))
     this.props.router.replace(`${BASE_PATH}/${restaurantId}/${tabsValue}`)
   }
 

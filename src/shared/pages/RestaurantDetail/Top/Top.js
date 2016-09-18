@@ -56,19 +56,11 @@ class Top extends Component {
 
 
 
-  handleChangeTab(e, linkTab) {
-    this.props.dispatch(restaurantDetailActions.setTabsValue(linkTab))
-  }
-
-
 
   createReadMoreButton(label, linkTab) {
     return (
       <div className={`${styles.readMore}`}>
-        <Link
-          to={`/restaurant/detail/${this.props.common.id}/${linkTab}`} style={linkStyle}
-          onClick={(e)=> this.handleChangeTab(e, linkTab)}
-        >
+        <Link to={`/restaurant/detail/${this.props.common.id}/${linkTab}`} style={linkStyle}>
           <RaisedButton
             label={label}
             labelPosition="before"
@@ -135,9 +127,7 @@ class Top extends Component {
           <Paper className={styles.paperHeader}>
             口コミ
           </Paper>
-          <ReviewList
-            reviews={postedReviews} restaurantId={id}
-            onTap={(e) => this.handleChangeTab(e, TABS.review)} />
+          <ReviewList reviews={postedReviews} restaurantId={id} />
           {this.createReadMoreButton('See All Reviews', TABS.reviews)}
 
 
@@ -154,10 +144,7 @@ class Top extends Component {
           </List>
           <Divider inset={true} />
           <List>
-            <Link
-              to={`/restaurant/detail/${id}/access`} style={linkStyle}
-              onClick={(e)=> this.handleChangeTab(e, TABS.access)}
-            >
+            <Link to={`/restaurant/detail/${id}/access`} style={linkStyle}>
               <ListItem
                 leftIcon={<MapsPlace color={indigo500} />}
                 rightIcon={<ChevronRight />}
