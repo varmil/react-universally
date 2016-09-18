@@ -16,6 +16,7 @@ import styles from '../index.css'
 import FiveStar from '../../../components/FiveStar'
 import ReviewCount from '../../../components/ReviewCount'
 import ReviewList from '../../../components/list/ReviewList'
+import RstInfoSummary from '../../../components/RstInfoSummary'
 
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
@@ -108,7 +109,7 @@ class Top extends Component {
   }
 
   render() {
-    const { id, name, rating, reviewCount, address, tel } = this.props.common
+    const { id, name, rating, reviewCount, area, genre, address, tel } = this.props.common
     const postedReviews = this.props.top.postedReviews || []
 
     return (
@@ -116,11 +117,16 @@ class Top extends Component {
         <Helmet title="RestaurantDetailTop" />
 
         <Paper>
-          <div className={styles.leftAndRightMargin}>
+          <div className={styles.leftAndRightMargin} style={{ marginBottom: 10 }}>
             <h2 className={styles.rstName}>{name}</h2>
+
             <div className={styles.topPageFiveStar}>
               <FiveStar rating={rating} />
               <ReviewCount count={reviewCount} />
+            </div>
+
+            <div>
+              <RstInfoSummary area={area} genre={genre} budget={2} />
             </div>
           </div>
           {this.createPostedPhotoContent()}

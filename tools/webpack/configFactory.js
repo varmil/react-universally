@@ -94,6 +94,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
         ],
       })),
     ]),
+    cache: true,
     devtool: ifElse(isServer || isDev)(
       // We want to be able to get nice stack traces when running our server
       // bundle.  To fully support this we'll also need to configure the
@@ -243,11 +244,12 @@ function webpackConfigFactory({ target, mode }, { json }) {
         {
           test: /\.jsx?$/,
           loader: 'babel-loader',
-          exclude: [
-            /node_modules/,
-            path.resolve(appRootPath, process.env.CLIENT_BUNDLE_OUTPUT_PATH),
-            path.resolve(appRootPath, process.env.SERVER_BUNDLE_OUTPUT_PATH),
-          ],
+          // exclude: [
+          //   /node_modules/,
+          //   path.resolve(appRootPath, process.env.CLIENT_BUNDLE_OUTPUT_PATH),
+          //   path.resolve(appRootPath, process.env.SERVER_BUNDLE_OUTPUT_PATH),
+          // ],
+          include: path.resolve(appRootPath, `./src`),
           query: merge(
             {
               // https://github.com/babel/babel-loader#babel-loader-is-slow

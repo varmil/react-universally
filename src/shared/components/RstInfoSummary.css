@@ -1,0 +1,22 @@
+.flex {
+    background-color: #eeece4;
+    border-radius: 2px;
+    color: #13131e;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.leftBox {
+    max-width: 80%;
+}
+
+.summaryLine {
+    padding: 3px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.text {
+    padding-left: 0px;
+}

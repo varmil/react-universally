@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router'
 
-import { AppBar, FlatButton, IconButton, } from 'material-ui';
+import { AppBar, IconButton, } from 'material-ui';
+import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 import NavArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 
 const REFERER_PATH = '/search/top'
@@ -13,12 +14,15 @@ class AppHeader extends Component {
     this.props.router.push(arrowLink || REFERER_PATH)
   }
 
+  onTapLoginButton(e) {
+    e.preventDefault()
+  }
+
   createLoginButton() {
     return(
-      <FlatButton
-        label="LOGIN"
-        onTouchTap={this.props.onLoginButtonTap}
-      />
+      <IconButton onTouchTap={(e) => this.onTapLoginButton(e)}>
+        <ActionAccountCircle />
+      </IconButton>
     )
   }
 
