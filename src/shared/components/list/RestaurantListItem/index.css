@@ -26,4 +26,17 @@
     margin-bottom: 9px;
     font-size: 80%;
     line-height: 1.3;
+    color: #797152;
+}
+
+.infoBottom {
+    font-size: 12px;
+}
+
+.infoBottomLine {
+    padding: 3px 0;
+}
+
+.iconRightText {
+    padding-left: 10px;
 }

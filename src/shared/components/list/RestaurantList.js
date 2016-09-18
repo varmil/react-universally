@@ -15,7 +15,7 @@ class RestaurantList extends Component {
       <div>
         <Flex wrap justify="center">
           {Object.keys(restaurants).map(restaurantId =>
-            <Box key={`Box${restaurantId}`} sm={12} md={6} lg={4} style={{ maxWidth: 450, margin: 6 }}>
+            <Box key={`Box${restaurantId}`} sm={12} md={6} lg={4} style={{ width: 450, margin: 6 }}>
               <Link key={`Link${restaurantId}`} to={`/restaurant/detail/${restaurantId}`} style={linkStyle} >
                 <RestaurantListItem
                   key={`RestaurantListItem${restaurantId}`}

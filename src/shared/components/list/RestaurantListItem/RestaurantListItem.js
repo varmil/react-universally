@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Paper, Divider, Table, TableBody, TableRow, TableRowColumn } from 'material-ui';
+import { Paper, Divider, Avatar, TableBody, TableRow, TableRowColumn } from 'material-ui';
 import MapsPinDrop from 'material-ui/svg-icons/maps/pin-drop'
 import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money'
 
@@ -34,20 +34,16 @@ class RestaurantListItem extends Component {
 
         <Divider />
 
-        <Table>
-          <TableBody displayRowCheckbox={false}>
-            <TableRow displayBorder={false}>
-              <TableRowColumn>
-                <EditorAttachMoney />
-                <span>{data.lowerLimitBudget} ~ {data.upperLimitBudget}</span>
-              </TableRowColumn>
-              <TableRowColumn>
-                <MapsPinDrop />
-                <span>{data.area}から{data.distance}m</span>
-              </TableRowColumn>
-            </TableRow>
-          </TableBody>
-        </Table>
+        <div className={`${styles.infoBottom}`}>
+          <div className={`${styles.infoBottomLine}`}>
+            <Avatar size={20} icon={<EditorAttachMoney />} />
+            <span className={`${styles.iconRightText}`}>￥{data.lowerLimitBudget} ~ ￥{data.upperLimitBudget}</span>
+          </div>
+          <div className={`${styles.infoBottomLine}`}>
+            <Avatar size={20} icon={<MapsPinDrop />} />
+            <span className={`${styles.iconRightText}`}>{data.area}から{data.distance}m</span>
+          </div>
+        </div>
 
       </Paper>
     );
