@@ -6,9 +6,13 @@
 import 'source-map-support/register';
 
 import express from 'express';
-import compression from 'compression';
-import hpp from 'hpp';
-import helmet from 'helmet';
+import session from 'express-session'
+import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
+import compression from 'compression'
+import hpp from 'hpp'
+import helmet from 'helmet'
+import passport from 'passport'
 
 import universalReactAppMiddleware from './middleware/universalReactApp';
 import apiRouterMiddleware from './middleware/router/api';
@@ -59,9 +63,26 @@ app.use(
   CLIENT_BUNDLE_HTTP_PATH,
   express.static(CLIENT_BUNDLE_OUTPUT_PATH, { maxAge: CLIENT_BUNDLE_CACHE_MAXAGE })
 );
-
 // Configure static serving of our "public" root http path static files.
 app.use(express.static(PUBLIC_DIR_PATH));
+
+
+// Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
+app.use(cookieParser())
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+
+
+// session
+app.use(session({ resave: false, saveUninitialized: false, secret: 'keyboard cat' }))
+// passport
+app.use(passport.initialize())
+app.use(passport.session())
+// passport LocalStrategy
+require('./middleware/passport')
+
 
 // routing of API
 app.use('/api', apiRouterMiddleware);

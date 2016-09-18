@@ -31,6 +31,11 @@ function resolveAbout(nextState, cb) {
     .catch(handleError);
 }
 
+function resolveLogin(nextState, cb) {
+  System.import('./Login')
+    .then(loadRoute(cb))
+    .catch(handleError);
+}
 
 
 
@@ -131,6 +136,7 @@ const routes = (
   <Route path="/" component={App}>
     <IndexRoute getComponent={resolveIndex} />
     <Route path="about" getComponent={resolveAbout} />
+    <Route path="login" getComponent={resolveLogin} />
 
     <Route path="search">
       <Route path="top" getComponent={resolveSearchTop} />

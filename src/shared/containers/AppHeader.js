@@ -5,7 +5,6 @@ import { AppBar, IconButton, IconMenu, MenuItem } from 'material-ui';
 import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 import NavArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 
-const REFERER_PATH = '/search/top'
 
 class AppHeader extends Component {
 
@@ -20,6 +19,11 @@ class AppHeader extends Component {
   }
 
   createLoginButton() {
+    const onTap = (e, link) => {
+      e.preventDefault()
+      this.props.router.push(link)
+    }
+
     return(
       <IconMenu
         iconButtonElement={<IconButton><ActionAccountCircle /></IconButton>}
@@ -27,7 +31,7 @@ class AppHeader extends Component {
         targetOrigin={{horizontal: 'left', vertical: 'top'}}
       >
         <MenuItem value="1" primaryText="My Page" />
-        <MenuItem value="2" primaryText="Login" />
+        <MenuItem onTouchTap={(e) => onTap(e, `/login`)} primaryText="Login" />
         <MenuItem value="3" primaryText="Logout" />
       </IconMenu>
     )

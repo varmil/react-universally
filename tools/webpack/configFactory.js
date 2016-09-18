@@ -175,7 +175,10 @@ function webpackConfigFactory({ target, mode }, { json }) {
         'process.env': Object.assign(
           // NOTE: The NODE_ENV key is especially important for production
           // builds as React relies on process.env.NODE_ENV for optimizations.
-          { 'NODE_ENV': JSON.stringify(mode) },
+          {
+            'NODE_ENV': JSON.stringify(mode),
+            '__SERVER__': JSON.stringify(isServer),
+          },
           require('./env')
         )
       }),

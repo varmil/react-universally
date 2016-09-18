@@ -10,10 +10,10 @@ const initialState = {
 export default handleActions({
   [Auth.SET_IS_PREPARED]: (state, action) => ({
     ...state,
-    isPrepared: action.payload.isPrepared
+    isPrepared: action.payload
   }),
   [Auth.SET_IS_LOGGED_IN]: (state, action) => ({
     ...state,
-    isLoggedIn: action.payload.isLoggedIn
+    isLoggedIn: action.payload
   }),
 }, initialState);

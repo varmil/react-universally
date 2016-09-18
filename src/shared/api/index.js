@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 // STUB DATA START
-const RESOLVE_WAIT_MS = 20
 // STUB DATA END
 
 
@@ -12,9 +11,7 @@ const api = axios.create({
 
 export default {
   fetchUser: (userId) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve('USER IS FOOBAR'), RESOLVE_WAIT_MS)
-    })
+    return api.get('/user')
   },
 
   fetchRestaurantList: (query, params) => {
@@ -41,6 +38,13 @@ export default {
   // the Individual Review Item
   fetchRestaurantDetailReview: (query, params) => {
     return api.get(`/restaurant/detail/${params.restaurantId}/review/${params.reviewId}`, { params: query })
+  },
+
+
+
+
+  postLogin: (params) => {
+    return api.post('/login', params)
   },
 
   // Example:

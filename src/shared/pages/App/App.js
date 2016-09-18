@@ -4,7 +4,9 @@ import Helmet from 'react-helmet';
 import 'normalize.css/normalize.css';
 
 import API from '../../api';
-import * as authActions from '../../actions/auth';
+import * as authActions from '../../actions/auth'
+import * as errorsActions from '../../actions/errors'
+
 import './globals.css';
 
 
@@ -15,10 +17,15 @@ const websiteDescription =
 
 // This component is mounted on Initial Loading
 class App extends Component {
-  static fetchData(query, params, dispatch) {
-    return API.fetchUser().then((message) => {
-      dispatch(authActions.setIsPrepared(true))
-    })
+  static fetchDataOnlyClient(query, params, dispatch) {
+    return API.fetchUser()
+      .then(({ data }) => {
+        dispatch(authActions.setIsPrepared(true))
+        dispatch(authActions.setIsLoggedIn(data.isLoggedIn))
+      })
+      .catch((reason) => {
+        dispatch(errorsActions.push(reason))
+      })
   }
 
   // https://github.com/reactjs/react-router/blob/master/upgrade-guides/v2.0.0.md#accessing-location
@@ -37,12 +44,13 @@ class App extends Component {
   // context END =============================================================
 
   componentWillMount() {
-    const { location, params, dispatch, auth } = this.props;
+    const { location, params, dispatch } = this.props;
     // 非同期通信。ユーザログイン情報をfetch。ローディングし終わるまでは、ロード画面を表示し続ける。
-    // それによって、App以下のComponentsではほぼ認証情報をローカルから取得できる前提で処理をかける。
+    // --> SSRしたいのでやらない。クライアント側でのみFetchする
+    // --> 認証結果を待つ必要があるページ、すなわち会員しか見られないようなページではロード画面表示し続ける感じでいいかも
     // https://github.com/nabeliwo/jwt-react-redux-auth-example/blob/master/src/containers/App.jsx
-    if (! auth.isPrepared) {
-      App.fetchData(location.query, params, dispatch)
+    if (! process.env.__SERVER__) {
+      App.fetchDataOnlyClient(location.query, params, dispatch)
     }
   }
 
@@ -51,7 +59,7 @@ class App extends Component {
   }
 
   render() {
-    return this.props.auth.isPrepared ?
+    return /*this.props.auth.isPrepared*/ true ?
     (
       <div>
         {/*
