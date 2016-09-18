@@ -17,9 +17,9 @@ const iconButtonElement = (
   </IconButton>
 )
 
-const rightIconMenu = (
+const rightIconMenu = (props, rstId) => (
   <IconMenu iconButtonElement={iconButtonElement}>
-    <MenuItem>Detail</MenuItem>
+    <MenuItem onTouchTap={(e) => props.onTapDetail(e, rstId)}>Detail</MenuItem>
   </IconMenu>
 )
 
@@ -53,7 +53,7 @@ export default (props) => {
             <ListItem
               key={`listitem${rst.id}`}
               leftAvatar={<Avatar src="https://tabelog.ssl.k-img.com/restaurant/images/Rvw/49783/150x150_square_49783127.jpg" />}
-              rightIconButton={rightIconMenu}
+              rightIconButton={rightIconMenu(props, rst.id)}
               primaryText={createPrimaryText(rst.name)}
               secondaryText={
                 <p style={secondaryTextStyle}>

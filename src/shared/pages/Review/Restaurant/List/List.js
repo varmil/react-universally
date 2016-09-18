@@ -62,6 +62,10 @@ class List extends Component {
     this.props.router.push(`/review/edit/${restaurantId}`)
   }
 
+  onTapDetail(e, restaurantId) {
+    e.preventDefault()
+    this.props.router.push(`/restaurant/detail/${restaurantId}`)
+  }
 
 
   render() {
@@ -79,7 +83,8 @@ class List extends Component {
           onChangeGenreForm={::this.onChangeGenreForm}
         />
 
-        <RestaurantSimpleList restaurants={restaurants.dict} onTapItem={::this.onTapRestaurant} />
+        <RestaurantSimpleList restaurants={restaurants.dict}
+          onTapItem={::this.onTapRestaurant} onTapDetail={::this.onTapDetail} />
       </div>
     )
   }
