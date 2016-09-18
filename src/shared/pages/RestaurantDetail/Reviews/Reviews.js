@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import { isEmpty } from 'lodash'
 
-import { Paper, DropDownMenu, GridList, GridTile, } from 'material-ui'
-
 import API from '../../../api'
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
@@ -46,7 +44,7 @@ class Reviews extends Component {
       <div>
         <Helmet title="RestaurantDetailReviews" />
 
-        <ReviewList reviews={postedReviews} restaurantId={this.props.common.id} onTap={() => {}}  />
+        <ReviewList reviews={postedReviews} restaurantId={this.props.common.id} />
       </div>
     )
   }
