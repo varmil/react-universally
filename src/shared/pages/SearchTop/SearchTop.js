@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import { withRouter, Link } from 'react-router'
 
-import { FloatingActionButton, List, Tabs, Tab } from 'material-ui';
+import { FloatingActionButton, List, Tabs, Tab } from 'material-ui'
 
-import ActionSearch from 'material-ui/svg-icons/action/search';
-import ActionPermMedia from 'material-ui/svg-icons/action/perm-media';
-import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
-import ContentCreate from 'material-ui/svg-icons/content/create';
-import ActionCameraEnhance from 'material-ui/svg-icons/action/camera-enhance';
-import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
-import { lightBlue200 } from 'material-ui/styles/colors';
+import ActionSearch from 'material-ui/svg-icons/action/search'
+import ActionPermMedia from 'material-ui/svg-icons/action/perm-media'
+import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle'
+import ContentCreate from 'material-ui/svg-icons/content/create'
+import ActionCameraEnhance from 'material-ui/svg-icons/action/camera-enhance'
+import MapsMap from 'material-ui/svg-icons/maps/map'
+import MapsNearMe from 'material-ui/svg-icons/maps/near-me'
 
 import AppHeader from '../../containers/AppHeader'
 import ImgTextGrid from '../../components/ImgTextGrid'
@@ -25,6 +25,10 @@ const linkStyle = {
 }
 
 class SearchTop extends Component {
+  static contextTypes = {
+    muiTheme: PropTypes.object.isRequired,
+  }
+
   onChangeAreaForm(e) {
     e.preventDefault()
     this.props.dispatch(searchFormActions.setAreaText(e.target.value))
@@ -61,7 +65,11 @@ class SearchTop extends Component {
         <List>
           <Link to={`/search/regular`} style={linkStyle}>
             <ImgTextGrid
-              img={<img src='/img/world300.png' role='presentation' width={70} />}
+              img={
+                <MapsMap
+                  style={{ width: 50, height: 50, position: 'relative', top: 10 }}
+                  color={this.context.muiTheme.palette.primary1Color} />
+              }
               text={<span>エリア・駅・条件<br />からお店を探す</span>}
               paperStyle={{ marginBottom: 10 }}
             />
@@ -70,7 +78,11 @@ class SearchTop extends Component {
           {/* TODO: クエリに現在地を設定して検索 */}
           <Link to={`/restaurant/list`} style={linkStyle}>
             <ImgTextGrid
-              img={<MapsMyLocation style={{ width: 50, height: 50, position: 'relative', top: 10 }} color={lightBlue200} />}
+              img={
+                <MapsNearMe
+                  style={{ width: 50, height: 50, position: 'relative', top: 10 }}
+                  color={this.context.muiTheme.palette.primary1Color} />
+              }
               text={<span>現在地周辺<br />からお店を探す</span>}
             />
           </Link>
@@ -92,6 +104,6 @@ class SearchTop extends Component {
   }
 }
 
-const DecoratedSearchTop = withRouter(SearchTop);
+const DecoratedSearchTop = withRouter(SearchTop)
 const SearchTopContainer = connect(state => state.searchForm)(DecoratedSearchTop)
 export default SearchTopContainer

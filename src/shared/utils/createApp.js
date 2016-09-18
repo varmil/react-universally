@@ -2,6 +2,13 @@ import React from 'react';
 import { Router, RouterContext, applyRouterMiddleware } from 'react-router'
 import { useScroll } from 'react-router-scroll'
 import { Provider } from 'react-redux'
+
+import {
+  orange500, orange700,
+  greenA700,
+  grey100, grey300, grey400, grey500,
+  white, darkBlack, fullBlack,
+} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
@@ -21,6 +28,18 @@ const withReduxProvider = (store, children, userAgent) => {
   const muiTheme = getMuiTheme({
     appBar: {
       height: 56, // Instead of 64
+    },
+    palette: {
+      primary1Color: orange500,
+      primary2Color: orange700,
+      primary3Color: grey400,
+      accent1Color: greenA700,
+      accent2Color: grey100,
+      accent3Color: grey500,
+      textColor: darkBlack,
+      alternateTextColor: white,
+      canvasColor: white,
+      borderColor: grey300,
     },
   }, { userAgent: userAgent || navigator.userAgent })
 
