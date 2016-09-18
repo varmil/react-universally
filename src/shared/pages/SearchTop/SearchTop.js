@@ -41,7 +41,7 @@ class SearchTop extends Component {
       <div>
         <Helmet title="SearchTop" />
 
-        <AppHeader title="foodbook" zDepth={0} />
+        <AppHeader title="foodbook" leftIcon={null} zDepth={0} />
 
         <Tabs>
           <Tab icon={<ActionSearch />} />
@@ -67,7 +67,8 @@ class SearchTop extends Component {
             />
           </Link>
 
-          <Link to={`/search/map`} style={linkStyle}>
+          {/* TODO: クエリに現在地を設定して検索 */}
+          <Link to={`/restaurant/list`} style={linkStyle}>
             <ImgTextGrid
               img={<MapsMyLocation style={{ width: 50, height: 50, position: 'relative', top: 10 }} color={lightBlue200} />}
               text={<span>現在地周辺<br />からお店を探す</span>}

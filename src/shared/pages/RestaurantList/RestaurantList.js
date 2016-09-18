@@ -52,6 +52,11 @@ class RestaurantList extends Component {
     console.log(e, key, payload)
   }
 
+  onTapConditionBox(e) {
+    e.preventDefault()
+    this.props.router.push('/search/map')
+  }
+
   onTapSearchButton(e) {
     e.preventDefault()
     this.props.router.push({
@@ -82,7 +87,7 @@ class RestaurantList extends Component {
 
         <div className={`${styles.fixedBottom}`}>
           <Flex align="center" justify="space-around">
-            <Box p={2} ml={2} mr={2} auto onTouchTap={::this.onTapSearchButton} className={`${styles.conditionBox}`}>
+            <Box p={2} ml={2} mr={2} auto onTouchTap={::this.onTapConditionBox} className={`${styles.conditionBox}`}>
               <span className={`${styles.conditionBoxText}`}>
                 {this.createBottomButtonLabel()}
               </span>

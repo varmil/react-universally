@@ -5,3 +5,17 @@
   bottom: 0;
   padding-top: 56px;
 }
+
+.floatButtonContainer {
+  position: fixed;
+  bottom: 90px;
+  right: 40px;
+}
+
+.floatMyPlaceButton {
+  margin-right: 10px;
+}
+
+.floatSearchButton {
+
+}

@@ -75,7 +75,7 @@ class RestaurantDetail extends Component {
   onChangeTabs(tabsValue) {
     const { restaurantId } = this.props.params
     this.props.dispatch(restaurantDetailActions.setTabsValue(tabsValue))
-    this.props.router.push(`${BASE_PATH}/${restaurantId}/${tabsValue}`)
+    this.props.router.replace(`${BASE_PATH}/${restaurantId}/${tabsValue}`)
   }
 
   onTapBottomNavigation(type) {

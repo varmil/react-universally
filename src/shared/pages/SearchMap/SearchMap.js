@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Paper } from 'material-ui';
+import { withRouter } from 'react-router'
+import { Paper, FloatingActionButton } from 'material-ui';
 import { filter } from 'lodash';
+
+import ActionSearch from 'material-ui/svg-icons/action/search';
+import MapNearMe from 'material-ui/svg-icons/maps/near-me';
 
 import styles from './index.css'
 import markers from '../../stub/markers'
@@ -26,10 +30,10 @@ const MAP_OPTIONS = {
 
 const style = {
   position: 'fixed',
-  left: '15%',
+  left: '12%',
   bottom: 15,
   height: 55,
-  width: '70%',
+  width: '76%',
 };
 
 const centerLat = markers.minLat + ((markers.maxLat - markers.minLat) / 2)
@@ -86,6 +90,12 @@ class SearchMap extends Component {
     console.log(e, key, payload)
   }
 
+  onTapSearchButton(e) {
+    this.props.router.push('/search/regular')
+  }
+
+  onTapMyPlaceButton(e) {
+  }
 
   // Make sure the container element has width and height.
   // The map will try to fill the parent container,
@@ -109,6 +119,16 @@ class SearchMap extends Component {
           </GoogleMap>
         </div>
 
+        <div className={styles.floatButtonContainer}>
+          <FloatingActionButton onTouchTap={::this.onTapMyPlaceButton} secondary={false} className={`${styles.floatMyPlaceButton}`} mini={true}>
+            <MapNearMe />
+          </FloatingActionButton>
+
+          <FloatingActionButton onTouchTap={::this.onTapSearchButton} secondary={false} className={`${styles.floatSearchButton}`} mini={true}>
+            <ActionSearch />
+          </FloatingActionButton>
+        </div>
+
         <Paper style={style} zDepth={0}>
           <div dangerouslySetInnerHTML={{__html: this.state.popInfo}} />
         </Paper>
@@ -117,4 +137,4 @@ class SearchMap extends Component {
   }
 }
 
-export default connect()(SearchMap)
+export default connect()(withRouter(SearchMap))

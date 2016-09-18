@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router'
 
-import { AppBar, IconButton, } from 'material-ui';
+import { AppBar, IconButton, IconMenu, MenuItem } from 'material-ui';
 import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 import NavArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 
@@ -11,7 +11,8 @@ class AppHeader extends Component {
 
   onTapArrowBack(e, arrowLink) {
     e.preventDefault()
-    this.props.router.push(arrowLink || REFERER_PATH)
+    // this.props.router.push(arrowLink || REFERER_PATH)
+    this.props.router.goBack()
   }
 
   onTapLoginButton(e) {
@@ -20,20 +21,26 @@ class AppHeader extends Component {
 
   createLoginButton() {
     return(
-      <IconButton onTouchTap={(e) => this.onTapLoginButton(e)}>
-        <ActionAccountCircle />
-      </IconButton>
+      <IconMenu
+        iconButtonElement={<IconButton><ActionAccountCircle /></IconButton>}
+        anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+        targetOrigin={{horizontal: 'left', vertical: 'top'}}
+      >
+        <MenuItem value="1" primaryText="My Page" />
+        <MenuItem value="2" primaryText="Login" />
+        <MenuItem value="3" primaryText="Logout" />
+      </IconMenu>
     )
   }
 
   createAppBar() {
     const { arrowLink, title, leftIcon, rightIcon, zDepth } = this.props
 
-    const myLeftIcon = (leftIcon) ?
+    const myLeftIcon = (leftIcon !== undefined) ?
       leftIcon :
       (<IconButton onTouchTap={(e) => this.onTapArrowBack(e, arrowLink)}><NavArrowBack /></IconButton>)
 
-    const myRightIcon = (rightIcon) ?
+    const myRightIcon = (rightIcon !== undefined) ?
       rightIcon :
       this.createLoginButton()
 
