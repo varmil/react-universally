@@ -18,6 +18,7 @@ class UserOnly extends Redirection {
   redirect() {
     // Serverで認証情報はfetch済みの想定
     if (! this.props.user.id) {
+      console.info('user is not authenticateed, so redirect to login page')
       this.props.router.replace('/login')
     }
   }

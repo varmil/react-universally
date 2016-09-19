@@ -8,18 +8,13 @@ import ActionInput from 'material-ui/svg-icons/action/input';
 
 import API from '../../api'
 import AppHeader from '../../containers/AppHeader'
-
-// TODO
+import * as userActions from '../../actions/user'
 
 class Login extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { username: '', password: '' }
-  }
-
-  componentWillMount() {
-
+    this.state = { username: '', password: '', errMsg: '' }
   }
 
 
@@ -35,8 +30,18 @@ class Login extends Component {
   }
 
   onSubmit(e) {
-    const params =  this.state
+    const { dispatch, router } = this.props
+    const { username, password } = this.state
+    const params =  { username, password }
+
     API.postLogin(params)
+      .then(({ data }) => {
+        dispatch(userActions.setId(data.id))
+        router.replace(`/search/top`)
+      })
+      .catch((reason) => {
+        this.setState({ ...this.state, errMsg: reason.toString() })
+      })
   }
 
   render() {
@@ -45,6 +50,8 @@ class Login extends Component {
         <Helmet title="Login" />
 
         <AppHeader title="Login" leftIcon={null} />
+
+        <div>{this.state.errMsg}</div>
 
         <TextField
           id="TextField-Username"
@@ -75,4 +82,4 @@ class Login extends Component {
   }
 }
 
-export default connect()(Login)
+export default connect()(withRouter(Login))

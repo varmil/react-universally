@@ -69,8 +69,9 @@ router.get('/restaurant/detail/:rstId/review/:rvwId', (req, res) => {
 router.post('/login',
   passport.authenticate('local'),
   (req, res) => {
-    console.log('####### SUCCESS LOGIN #######', req.body)
-    res.json(true)
+    console.log('####### SUCCESS LOGIN #######', req.user)
+    // とりあえず最小限のidだけ返しておく。
+    res.json({ id: req.user.id })
   }
 )
 

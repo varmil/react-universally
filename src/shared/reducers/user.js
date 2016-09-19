@@ -5,10 +5,18 @@ import { handleActions } from 'redux-actions'
 import { User } from '../constants/ActionTypes'
 
 
-const initialState = {}
+const initialState = {
+  id: undefined,
+}
 
 export default handleActions({
   [User.SET]: (state, action) => ({
     ...state,
+    ...action.payload,
   }),
+  [User.SET_ID]: (state, action) => ({
+    ...state,
+    id: action.payload
+  }),
+
 }, initialState)
