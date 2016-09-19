@@ -44,7 +44,7 @@ class Login extends Component {
       <div>
         <Helmet title="Login" />
 
-        <AppHeader title="Login" />
+        <AppHeader title="Login" leftIcon={null} />
 
         <TextField
           id="TextField-Username"
