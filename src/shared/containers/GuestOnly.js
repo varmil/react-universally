@@ -1,17 +1,34 @@
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import Redirection from './Redirection'
+import CenterCircle from '../components/loading/CenterCircle';
 
-class GuestOnly extends Redirection {
-  /**
-   * @Override
-   */
-  redirect() {
-    // Serverで認証情報はfetch済みの想定
-    if (this.props.user.id) {
-      this.props.router.replace('/search/top')
+
+class GuestOnly extends Component {
+  componentWillMount() {
+    this.redirect(this.props)
+  }
+
+  componentWillUpdate(nextProps) {
+    this.redirect(nextProps)
+  }
+
+  redirect(props) {
+    const { user, router } = props
+    if (user.id) {
+      router.replace('/search/top')
     }
   }
+
+  render() {
+    // ログインしていない場合、リダイレクトが発生するまでロード中表示にする
+    if (this.props.user.id) return (
+      <CenterCircle />
+    )
+
+    return <div>{this.props.children}</div>
+  }
+
 }
 
 

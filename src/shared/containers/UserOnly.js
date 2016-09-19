@@ -1,32 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import Redirection from './Redirection'
-import CircularProgress from 'material-ui/CircularProgress';
+import CenterCircle from '../components/loading/CenterCircle';
 
-const circleStyle = {
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  margin: '-20px 0 0 -20px',
-}
 
-class UserOnly extends Redirection {
-  /**
-   * @Override
-   */
-  redirect() {
-    // Serverで認証情報はfetch済みの想定
-    if (! this.props.user.id) {
-      console.info('user is not authenticateed, so redirect to login page')
-      this.props.router.replace('/login')
+class UserOnly extends Component {
+  componentWillMount() {
+    this.redirect(this.props)
+  }
+
+  componentWillUpdate(nextProps) {
+    this.redirect(nextProps)
+  }
+
+  redirect(props) {
+    const { user, router } = props
+    if (! user.id) {
+      router.replace('/login')
     }
   }
 
   render() {
     // ログインしていない場合、リダイレクトが発生するまでロード中表示にする
     if (! this.props.user.id) return (
-      <CircularProgress style={circleStyle} />
+      <CenterCircle />
     )
 
     return <div>{this.props.children}</div>

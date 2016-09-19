@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import App from './App'
 import UserOnly from '../containers/UserOnly'
+import GuestOnly from '../containers/GuestOnly'
 
 
 function handleError(err) {
@@ -135,7 +136,10 @@ const routes = (
   <Route path="/" component={App}>
     <IndexRoute getComponent={resolveIndex} />
     <Route path="about" getComponent={resolveAbout} />
-    <Route path="login" getComponent={resolveLogin} />
+
+    <Route component={GuestOnly}>
+      <Route path="login" getComponent={resolveLogin} />
+    </Route>
 
     <Route component={UserOnly}>
 

@@ -19,6 +19,7 @@ class Login extends Component {
 
 
 
+
   onChangeUsername(e, value) {
     console.log(value)
     this.setState({ ...this.state, username: value })
@@ -30,14 +31,14 @@ class Login extends Component {
   }
 
   onSubmit(e) {
-    const { dispatch, router } = this.props
+    const { dispatch } = this.props
     const { username, password } = this.state
     const params =  { username, password }
 
     API.postLogin(params)
       .then(({ data }) => {
+        // リダイレクトはHigher Componentで制御する（GuestOnly）
         dispatch(userActions.setId(data.id))
-        router.replace(`/search/top`)
       })
       .catch((reason) => {
         this.setState({ ...this.state, errMsg: reason.toString() })
@@ -82,4 +83,4 @@ class Login extends Component {
   }
 }
 
-export default connect()(withRouter(Login))
+export default connect(state => state.user)(withRouter(Login))
