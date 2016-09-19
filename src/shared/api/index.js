@@ -1,7 +1,17 @@
 import axios from 'axios'
+// import Cookies from 'js-cookie'
 
 // STUB DATA START
 // STUB DATA END
+
+// const tokenHeader = () => {
+//   const token = Cookies.get('token')
+//   return {
+//     headers: {
+//       'Authorization': `Bearer ${token}`,
+//     },
+//   }
+// }
 
 
 const api = axios.create({
