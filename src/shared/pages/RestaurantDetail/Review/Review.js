@@ -4,8 +4,7 @@ import Helmet from 'react-helmet'
 import { isEmpty } from 'lodash'
 
 import { Card, CardHeader, CardMedia, CardText, CardTitle, CardActions } from 'material-ui/Card'
-import { FlatButton, GridList, GridTile, Divider } from 'material-ui';
-// import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
+import { GridList, GridTile } from 'material-ui';
 
 import API from '../../../api'
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
