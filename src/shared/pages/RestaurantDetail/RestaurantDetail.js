@@ -49,7 +49,10 @@ class RestaurantDetail extends Component {
   }
 
 
-
+  constructor(props) {
+    super(props)
+    this.state= { tabsValue: '' }
+  }
 
   componentWillMount() {
     const { dispatch, common } = this.props
@@ -62,13 +65,13 @@ class RestaurantDetail extends Component {
 
     // 初期マウント時のtab
     const tabsValue = this.getCurrentTabsValue(location.pathname)
-    this.props.dispatch(restaurantDetailActions.setTabsValue(tabsValue))
+    this.setState({tabsValue})
   }
 
-  componentDidUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     // propsが変わるたび（URLが変わるたびに）tabの値をset
     const tabsValue = this.getCurrentTabsValue(location.pathname)
-    this.props.dispatch(restaurantDetailActions.setTabsValue(tabsValue))
+    this.setState({tabsValue})
   }
 
 
@@ -93,7 +96,7 @@ class RestaurantDetail extends Component {
 
   createTabs() {
     return (
-      <Tabs value={this.props.tabsValue} onChange={::this.onChangeTabs}>
+      <Tabs value={this.state.tabsValue} onChange={::this.onChangeTabs}>
         <Tab
           icon={<MapsRestaurant />}
           // label="TOP"
@@ -174,6 +177,5 @@ class RestaurantDetail extends Component {
 
 const DecoratedRestaurantDetail = withRouter(RestaurantDetail)
 export default connect(state => ({
-  tabsValue: state.restaurantDetail.tabsValue,
   common: state.restaurantDetail.common,
 }))(DecoratedRestaurantDetail)
