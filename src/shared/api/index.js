@@ -57,6 +57,10 @@ export default {
     return api.post('/login', params)
   },
 
+  postLogout: (params) => {
+    return api.post('/logout', params)
+  },
+
   // Example:
   // getUser: (login) => api.get(`/users/${login}`),
   // getToken: (login, password) => api.post('/auth/token', {

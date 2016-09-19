@@ -75,6 +75,12 @@ router.post('/login',
   }
 )
 
+router.post('/logout', (req, res) => {
+    console.log('####### LOGOUT #######', req.user)
+    req.logout()
+    res.json(true)
+  }
+)
 
 
 

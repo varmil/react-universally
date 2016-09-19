@@ -11,7 +11,6 @@ const initialState = {
 
 export default handleActions({
   [User.SET]: (state, action) => ({
-    ...state,
     ...action.payload,
   }),
   [User.SET_ID]: (state, action) => ({

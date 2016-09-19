@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
-import { AppBar, IconButton, IconMenu, MenuItem } from 'material-ui';
-import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
-import NavArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import { AppBar, IconButton, IconMenu, MenuItem } from 'material-ui'
+import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle'
+import NavArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 
+import API from '../api'
+import * as userActions from '../actions/user'
 
 class AppHeader extends Component {
 
@@ -24,6 +27,14 @@ class AppHeader extends Component {
       this.props.router.push(link)
     }
 
+    const onTapLogout = (e) => {
+      e.preventDefault()
+      API.postLogout().then(() => {
+        // とりあえず空にしておく
+        this.props.dispatch(userActions.set({}))
+      })
+    }
+
     return(
       <IconMenu
         iconButtonElement={<IconButton><ActionAccountCircle /></IconButton>}
@@ -32,7 +43,7 @@ class AppHeader extends Component {
       >
         <MenuItem onTouchTap={(e) => onTap(e, `/search/top`)} primaryText="Top" />
         <MenuItem onTouchTap={(e) => onTap(e, `/login`)} primaryText="Login" />
-        <MenuItem value="3" primaryText="Logout" />
+        <MenuItem onTouchTap={onTapLogout} primaryText="Logout" />
       </IconMenu>
     )
   }
@@ -67,9 +78,9 @@ class AppHeader extends Component {
           {this.createAppBar()}
         </header>
       </div>
-    );
+    )
   }
 }
 
-const DecoratedHeader = withRouter(AppHeader);
-export default DecoratedHeader;
+const DecoratedHeader = withRouter(AppHeader)
+export default connect()(DecoratedHeader)
