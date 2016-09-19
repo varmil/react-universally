@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
-import { AppBar, IconButton, IconMenu, MenuItem } from 'material-ui'
+import { AppBar, IconButton, IconMenu, MenuItem, Divider } from 'material-ui'
 import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle'
 import NavArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 
@@ -43,6 +43,7 @@ class AppHeader extends Component {
       >
         <MenuItem onTouchTap={(e) => onTap(e, `/search/top`)} primaryText="Top" />
         <MenuItem onTouchTap={(e) => onTap(e, `/login`)} primaryText="Login" />
+        <Divider />
         <MenuItem onTouchTap={onTapLogout} primaryText="Logout" />
       </IconMenu>
     )
