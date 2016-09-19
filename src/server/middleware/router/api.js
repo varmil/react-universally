@@ -10,8 +10,8 @@ const router = express.Router()
 
 
 // middleware that is specific to this router
-router.use(function timeLog(req, res, next) {
-  // console.log('Time: ', Date.now())
+router.use(function userLog(req, res, next) {
+  console.log('get userinfo if logged in :', req.user)
   next()
 })
 
@@ -24,8 +24,6 @@ router.get('/', (req, res) => {
 // get user info
 router.get('/user', (req, res) => {
   let result = {}
-
-  console.log('get userinfo if logged in :', req.user)
 
   // passport認証済かチェック
   if (req.isAuthenticated()) {

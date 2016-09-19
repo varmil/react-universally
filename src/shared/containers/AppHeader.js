@@ -30,7 +30,7 @@ class AppHeader extends Component {
         anchorOrigin={{horizontal: 'left', vertical: 'top'}}
         targetOrigin={{horizontal: 'left', vertical: 'top'}}
       >
-        <MenuItem value="1" primaryText="My Page" />
+        <MenuItem onTouchTap={(e) => onTap(e, `/search/top`)} primaryText="Top" />
         <MenuItem onTouchTap={(e) => onTap(e, `/login`)} primaryText="Login" />
         <MenuItem value="3" primaryText="Logout" />
       </IconMenu>

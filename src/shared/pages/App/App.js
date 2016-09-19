@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet';
 import 'normalize.css/normalize.css';
 
-import API from '../../api';
-import * as authActions from '../../actions/auth'
-import * as errorsActions from '../../actions/errors'
+// import API from '../../api';
+// import * as authActions from '../../actions/auth'
+// import * as errorsActions from '../../actions/errors'
 
 import './globals.css';
 
@@ -15,18 +15,17 @@ const websiteDescription =
   'universal react application.';
 
 
-// This component is mounted on Initial Loading
 class App extends Component {
-  static fetchDataOnlyClient(query, params, dispatch) {
-    return API.fetchUser()
-      .then(({ data }) => {
-        dispatch(authActions.setIsPrepared(true))
-        dispatch(authActions.setIsLoggedIn(data.isLoggedIn))
-      })
-      .catch((reason) => {
-        dispatch(errorsActions.push(reason))
-      })
-  }
+  // static fetchDataOnlyClient(query, params, dispatch) {
+  //   return API.fetchUser()
+  //     .then(({ data }) => {
+  //       dispatch(authActions.setIsPrepared(true))
+  //       dispatch(authActions.setIsLoggedIn(data.isLoggedIn))
+  //     })
+  //     .catch((reason) => {
+  //       dispatch(errorsActions.push(reason))
+  //     })
+  // }
 
   // https://github.com/reactjs/react-router/blob/master/upgrade-guides/v2.0.0.md#accessing-location
   // あまり良くないが、Child Route Componentで props.location, props.paramsのように
@@ -43,15 +42,14 @@ class App extends Component {
   }
   // context END =============================================================
 
+  // SSR時にサーバ側でSessionをもとにUser情報をStoreにsetしてくれる
+  // したがって、AppComponentで明示的にfetchする必要はない
   componentWillMount() {
-    const { location, params, dispatch } = this.props;
-    // 非同期通信。ユーザログイン情報をfetch。ローディングし終わるまでは、ロード画面を表示し続ける。
-    // --> SSRしたいのでやらない。クライアント側でのみFetchする
-    // --> 認証結果を待つ必要があるページ、すなわち会員しか見られないようなページではロード画面表示し続ける感じでいいかも
     // https://github.com/nabeliwo/jwt-react-redux-auth-example/blob/master/src/containers/App.jsx
-    if (! process.env.__SERVER__) {
-      App.fetchDataOnlyClient(location.query, params, dispatch)
-    }
+    // const { location, params, dispatch } = this.props;
+    // if (! process.env.__SERVER__) {
+    //   App.fetchDataOnlyClient(location.query, params, dispatch)
+    // }
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -103,8 +101,8 @@ class App extends Component {
 
 const AppContainer = connect(
   (state) => ({
-    auth: state.auth,
-    errors: state.errors,
+    // auth: state.auth,
+    // errors: state.errors,
 })
 )(App)
 

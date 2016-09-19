@@ -7,7 +7,7 @@ import { TextField, RaisedButton } from 'material-ui'
 import ActionInput from 'material-ui/svg-icons/action/input';
 
 import API from '../../api'
-import * as errorsActions from '../../actions/errors'
+import AppHeader from '../../containers/AppHeader'
 
 // TODO
 
@@ -43,6 +43,8 @@ class Login extends Component {
     return (
       <div>
         <Helmet title="Login" />
+
+        <AppHeader title="Login" />
 
         <TextField
           id="TextField-Username"

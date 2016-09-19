@@ -1,5 +1,9 @@
 import { createTypes, async } from 'redux-action-types'
 
+// for server only ... ?
+export const User = createTypes('user',
+  'SET',
+)
 
 export const Auth = createTypes('auth',
   'SET_IS_PREPARED',

@@ -5,14 +5,15 @@ passport.use(new Strategy(
   (username, password, done) => {
     console.log('##### Lets Auth ######', username, password)
 
-    if (username !== 'foodbook') {
+    if (username !== 'fb') {
       return done(null, false, { message: 'Incorrect username.' })
     }
 
-    if (password !== 'foodbook') {
+    if (password !== 'fb') {
       return done(null, false, { message: 'Incorrect password.' })
     }
 
+    // 本当はDBなどから情報取得
     const user = { id: 777, username, password }
 
     return done(null, user)
