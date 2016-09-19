@@ -78,6 +78,7 @@ class SearchRegular extends Component {
   }
 
   onTapSearchButton(e) {
+    e.preventDefault()
     // TODO: いい感じにGETパラメータを整形、付与してURLチェンジ
     this.props.router.push({
       pathname: '/restaurant/list',

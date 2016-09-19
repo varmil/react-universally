@@ -19,7 +19,8 @@ import IsAuthenticated from '../../../components/review/IsAuthenticated'
 // }
 
 const cardStyle = {
-  paddingBottom: 0
+  paddingBottom: 0,
+  boxShadow: 'none',
 }
 
 /*
