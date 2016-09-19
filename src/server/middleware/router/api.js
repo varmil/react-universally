@@ -21,19 +21,19 @@ router.get('/', (req, res) => {
   res.json('Birds home page')
 })
 
-// get user info
-router.get('/user', (req, res) => {
-  let result = {}
-
-  // passport認証済かチェック
-  if (req.isAuthenticated()) {
-    result = { ...result, id: req.user.id, isLoggedIn: true }
-  } else {
-    result.isLoggedIn = false
-  }
-
-  return res.json(result)
-})
+// // get user info
+// router.get('/user', (req, res) => {
+//   let result = {}
+//
+//   // passport認証済かチェック
+//   if (req.isAuthenticated()) {
+//     result = { ...result, id: req.user.id, isLoggedIn: true }
+//   } else {
+//     result.isLoggedIn = false
+//   }
+//
+//   return res.json(result)
+// })
 
 router.get('/restaurant/list', (req, res) => {
   // console.log(req.query)
@@ -69,8 +69,7 @@ router.get('/restaurant/detail/:rstId/review/:rvwId', (req, res) => {
 router.post('/login',
   passport.authenticate('local'),
   (req, res) => {
-    console.log('SUCCESS loGIN', req.body)
-    console.log('####### user', req.user)
+    console.log('####### SUCCESS LOGIN #######', req.body)
     res.json(true)
   }
 )
