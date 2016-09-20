@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Ink from 'react-ink'
 
-import { Paper, Divider, Avatar, TableBody, TableRow, TableRowColumn } from 'material-ui';
+import { Paper, Divider, Avatar } from 'material-ui';
 import MapsPinDrop from 'material-ui/svg-icons/maps/pin-drop'
 import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money'
 
@@ -15,6 +16,7 @@ class RestaurantListItem extends Component {
     const { onTapItem, data } = this.props
     return (
       <Paper className={`${styles.paper}`} onTouchTap={onTapItem}>
+        <Ink />
         <h3 className={styles.cardTitle}>{data.name}</h3>
         <h6>{`${data.area} / ${data.genre}`}</h6>
 

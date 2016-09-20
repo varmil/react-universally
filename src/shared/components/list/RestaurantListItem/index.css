@@ -1,4 +1,5 @@
 .paper {
+    position: relative;
     padding: 15px;
     /* for grid layout */
     height: 100%;
