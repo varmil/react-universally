@@ -1,5 +1,6 @@
 import React from 'react'
 import { Paper } from 'material-ui';
+import Ink from 'react-ink';
 
 import FiveStar from '../../FiveStar'
 import IsAuthenticated from '../../review/IsAuthenticated'
@@ -8,6 +9,7 @@ import styles from './index.css'
 export default (props) => {
   return(
     <Paper className={`${styles.rvwSection}`}>
+      <Ink radius={50} duration={200} />
       <div className={styles.rvwData}>
         <h3 className={styles.rvwTitle}>{props.title}</h3>
 

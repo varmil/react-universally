@@ -9,7 +9,7 @@ const flexStyle = { maxWidth: 'inherit' }
 export default (props) => {
   return(
     <Paper onTouchTap={props.onTap} style={{ ...paperStyle, ...(props.paperStyle) }}>
-      <Ink />
+      <Ink radius={50} duration={200} />
       <Flex align="center" p={0} style={{ ...flexStyle, ...(props.flexStyle) }}>
         <Box sm={3} style={{ height: 70, minWidth: 70, textAlign: 'center' }}>
           {props.img}
