@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet';
 import 'normalize.css/normalize.css';
+// import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 // import API from '../../api';
 // import * as authActions from '../../actions/auth'
@@ -57,6 +58,8 @@ class App extends Component {
   }
 
   render() {
+    const { children, location } = this.props
+
     return /*this.props.auth.isPrepared*/ true ?
     (
       <div>
@@ -76,7 +79,20 @@ class App extends Component {
           ]}
         />
 
-        {this.props.children}
+
+
+        {/* <ReactCSSTransitionGroup
+          component="div"
+          className="animated-list"
+          transitionName="example"
+          transitionEnterTimeout={1000}
+          transitionLeaveTimeout={1000}
+        >
+          {React.cloneElement(children, {
+            key: location.pathname
+          })}
+        </ReactCSSTransitionGroup> */}
+        {children}
       </div>
     )
     :

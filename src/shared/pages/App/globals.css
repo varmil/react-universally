@@ -21,7 +21,7 @@ button[type=button],
 div[type=button],
 span[type=button],
 a[type=button] {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 
@@ -30,3 +30,37 @@ a[type=button] {
     display: inline-block;
     width: 100%;
 }
+
+
+/**
+ * Transition animation
+ */
+/*:global .animated-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+:global .example-enter {
+    opacity: .01;
+    transform: scale(0.1);
+    transition: all 1.0s ease-out;
+}
+
+:global .example-enter.example-enter-active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+:global .example-leave {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 1.0s ease-out;
+}
+
+:global .example-leave.example-leave-active {
+    opacity: 0;
+    transform: scale(0.1);
+}*/
