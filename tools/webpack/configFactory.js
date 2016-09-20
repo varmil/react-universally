@@ -131,7 +131,8 @@ function webpackConfigFactory({ target, mode }, { json }) {
         // We include a hash for client caching purposes.  Including a unique
         // has for every build will ensure browsers always fetch our newest
         // bundle.
-        '[name]-[chunkhash].js',
+        // '[name]-[chunkhash].js',
+        '[name]-[hash].js',
         // We want a determinable file name when running our server bundles,
         // as we need to be able to target our server start file from our
         // npm scripts.  We don't care about caching on the server anyway.
