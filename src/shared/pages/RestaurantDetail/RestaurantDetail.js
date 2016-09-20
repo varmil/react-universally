@@ -23,9 +23,9 @@ import * as errorsActions from '../../actions/errors'
 import AppHeader from '../../containers/AppHeader'
 
 
-const BOTTOM_NAVIGATION_HEIGHT = 50
+const DELAY_TAB_CHANGE_TRIGGER_MS = 50
 
-// bottomNavIcon用
+const BOTTOM_NAVIGATION_HEIGHT = 50
 const BOTTOM_NAVIGATION_PHONE = 0
 const BOTTOM_NAVIGATION_SHARE = 1
 
@@ -86,7 +86,10 @@ class RestaurantDetail extends Component {
 
   onChangeTabs(tabsValue) {
     const { restaurantId } = this.props.params
-    this.props.router.replace(`${BASE_PATH}/${restaurantId}/${tabsValue}`)
+    // HACK: タブ押下後のレスポンス向上のため
+    setTimeout(() => {
+      this.props.router.replace(`${BASE_PATH}/${restaurantId}/${tabsValue}`)
+    }, DELAY_TAB_CHANGE_TRIGGER_MS)
   }
 
   onTapBottomNavigation(type) {
