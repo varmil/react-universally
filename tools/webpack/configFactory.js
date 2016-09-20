@@ -140,7 +140,8 @@ function webpackConfigFactory({ target, mode }, { json }) {
         // name for our hot reloading client bundle server.
         '[name].js'
       ),
-      chunkFilename: '[name]-[chunkhash].js',
+      // chunkFilename: '[name]-[chunkhash].js',
+      chunkFilename: '[name]-[hash].js',
       // This is the web path under which our webpack bundled output should
       // be considered as being served from.
       publicPath: ifDev(
