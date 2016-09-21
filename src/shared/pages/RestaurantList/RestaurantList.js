@@ -10,6 +10,7 @@ import { Flex, Box } from 'reflexbox'
 import AppHeader from '../../containers/AppHeader'
 import Restaurants from '../../components/list/RestaurantList'
 import RstSortMenu from '../../components/header/RstSortMenu'
+import GooglePager from '../../components/common/GooglePager'
 
 import styles from './index.css'
 import API from '../../api'
@@ -78,12 +79,14 @@ class RestaurantList extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ marginBottom: 100 }}>
         <Helmet title="RestaurantList" />
 
         <AppHeader title={<RstSortMenu onChange={::this.onChangeRstSortMenu} />} />
 
         <Restaurants restaurants={this.props.restaurants} />
+
+        <GooglePager current={1} style={{ width: '96%', margin: '18px auto 0' }} />
 
         <div className={`${styles.fixedBottom}`}>
           <Flex align="center" justify="space-around">

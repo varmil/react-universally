@@ -41,11 +41,11 @@ export const common =  {
 export const top = {
   // 一番上にあるカルーセル写真
   carouselPhotos: [
+    { src: 'http://cdn-rs.ikyu.com/rsDatas/rsData101000/r100539/100539ga10000102.jpg' },
+    { src: 'http://www.legato-tokyo.jp/files/2012/04/27.jpg' },
     { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/82/640x640_rect_82444.jpg' },
     { src: 'http://www.civillink.net/fsozaip/phote/fukei3l.jpg' },
     { src: 'http://blogimg.goo.ne.jp/user_image/10/51/a7742ce316956b0565a48fcc4cc59629.jpg' },
-    { src: 'http://cdn-rs.ikyu.com/rsDatas/rsData101000/r100539/100539ga10000102.jpg' },
-    { src: 'http://www.legato-tokyo.jp/files/2012/04/27.jpg' },
     { src: 'https://tabelog.ssl.k-img.com/resize/660x370c/restaurant/images/Rvw/53004/53004440.jpg?token=98948bb&api=v2' },
   ],
 

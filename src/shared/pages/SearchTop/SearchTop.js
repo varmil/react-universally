@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import { withRouter, Link } from 'react-router'
 
-import { FloatingActionButton, List, Tabs, Tab } from 'material-ui'
+import { FloatingActionButton, List, /*Tabs, Tab*/ } from 'material-ui'
 
 // import ActionSearch from 'material-ui/svg-icons/action/search'
 // import ActionPermMedia from 'material-ui/svg-icons/action/perm-media'
@@ -87,7 +87,6 @@ class SearchTop extends Component {
             />
           </Link>
         </List>
-
 
         <Link to={`/review/restaurant/list`}>
           <FloatingActionButton secondary={true} className={styles.pen}>
