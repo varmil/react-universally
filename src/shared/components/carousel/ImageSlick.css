@@ -1,0 +1,8 @@
+:global .slick-next:before,
+:global .slick-prev:before {
+    color: #9e0e0e;
+}
+
+:global .slick-dots {
+    bottom: -20px;
+}

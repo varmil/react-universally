@@ -39,9 +39,19 @@ export const common =  {
 
 // TOPで使うデータ
 export const top = {
+  // 一番上にあるカルーセル写真
+  carouselPhotos: [
+    { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/82/640x640_rect_82444.jpg' },
+    { src: 'http://www.civillink.net/fsozaip/phote/fukei3l.jpg' },
+    { src: 'http://blogimg.goo.ne.jp/user_image/10/51/a7742ce316956b0565a48fcc4cc59629.jpg' },
+    { src: 'http://cdn-rs.ikyu.com/rsDatas/rsData101000/r100539/100539ga10000102.jpg' },
+    { src: 'http://www.legato-tokyo.jp/files/2012/04/27.jpg' },
+    { src: 'https://tabelog.ssl.k-img.com/resize/660x370c/restaurant/images/Rvw/53004/53004440.jpg?token=98948bb&api=v2' },
+  ],
+
   // TOPにある数枚の画像データ
   postedPhotos: [
-    { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/53211/150x150_square_53211251.jpg' },
+    { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/50068/640x640_rect_50068940.jpg' },
     { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/53211/150x150_square_53211248.jpg' },
     { src: 'https://tabelog.ssl.k-img.com/restaurant/images/Rvw/49783/150x150_square_49783127.jpg' },
   ],

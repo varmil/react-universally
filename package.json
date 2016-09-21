@@ -38,6 +38,7 @@
     "react-redux": "^4.4.5",
     "react-router": "2.7.0",
     "react-router-scroll": "^0.3.2",
+    "react-slick": "^0.14.4",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.6.0",
     "redux-action-types": "^1.0.1",

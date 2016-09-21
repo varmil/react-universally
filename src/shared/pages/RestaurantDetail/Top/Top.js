@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
-import { isEmpty } from 'lodash'
+import { isEmpty, map } from 'lodash'
 
 import { Paper, Divider, List, ListItem, GridList, GridTile, RaisedButton } from 'material-ui'
 import CommunicationCall from 'material-ui/svg-icons/communication/call'
@@ -17,6 +17,7 @@ import FiveStar from '../../../components/FiveStar'
 import ReviewCount from '../../../components/ReviewCount'
 import ReviewList from '../../../components/list/ReviewList'
 import RstInfoSummary from '../../../components/RstInfoSummary'
+import Slick from '../../../components/carousel/ImageSlick'
 
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
@@ -102,11 +103,14 @@ class Top extends Component {
 
   render() {
     const { id, name, rating, reviewCount, area, genre, address, tel } = this.props.common
+    const carouselPhotos = this.props.top.carouselPhotos || []
     const postedReviews = this.props.top.postedReviews || []
 
     return (
       <div>
         <Helmet title="RestaurantDetailTop" />
+
+        <Slick srcs={map(carouselPhotos, 'src')} />
 
         <Paper>
           <div className={styles.leftAndRightMargin} style={{ marginBottom: 10 }}>

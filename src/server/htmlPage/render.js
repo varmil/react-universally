@@ -65,6 +65,9 @@ function render(rootReactElement : ?$React$Element, initialState : ?Object) {
         ${helmet ? helmet.meta.toString() : ''}
         ${helmet ? helmet.link.toString() : ''}
 
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+
         ${styles}
         ${helmet ? helmet.style.toString() : ''}
       </head>
