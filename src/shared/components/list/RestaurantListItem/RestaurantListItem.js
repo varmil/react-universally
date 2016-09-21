@@ -6,6 +6,7 @@ import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money'
 
 import FiveStar from '../../FiveStar'
 import ReviewCount from '../../ReviewCount'
+import TapHighlight from '../../common/TapHighlight'
 import styles from './index.css'
 
 class RestaurantListItem extends Component {
@@ -15,6 +16,8 @@ class RestaurantListItem extends Component {
     const { onTapItem, data } = this.props
     return (
       <Paper className={`${styles.paper}`} onTouchTap={onTapItem}>
+        <TapHighlight />
+
         <h3 className={styles.cardTitle}>{data.name}</h3>
         <h6>{`${data.area} / ${data.genre}`}</h6>
 

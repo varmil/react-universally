@@ -1,7 +1,8 @@
 import React from 'react'
 import { Flex, Box } from 'reflexbox'
 import { Paper } from 'material-ui';
-import Ink from 'react-ink'
+
+import TapHighlight from './common/TapHighlight'
 
 const paperStyle = { position: 'relative', width: '90%', maxWidth: 500, margin: '0 auto' }
 const flexStyle = { maxWidth: 'inherit' }
@@ -9,7 +10,7 @@ const flexStyle = { maxWidth: 'inherit' }
 export default (props) => {
   return(
     <Paper onTouchTap={props.onTap} style={{ ...paperStyle, ...(props.paperStyle) }}>
-      <Ink radius={50} duration={200} />
+      <TapHighlight />
       <Flex align="center" p={0} style={{ ...flexStyle, ...(props.flexStyle) }}>
         <Box sm={3} style={{ height: 70, minWidth: 70, textAlign: 'center' }}>
           {props.img}

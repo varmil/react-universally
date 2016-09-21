@@ -3,11 +3,14 @@ import { Paper } from 'material-ui';
 
 import FiveStar from '../../FiveStar'
 import IsAuthenticated from '../../review/IsAuthenticated'
+import TapHighlight from '../../common/TapHighlight'
 import styles from './index.css'
 
 export default (props) => {
   return(
     <Paper className={`${styles.rvwSection}`}>
+      <TapHighlight />
+
       <div className={styles.rvwData}>
         <h3 className={styles.rvwTitle}>{props.title}</h3>
 
