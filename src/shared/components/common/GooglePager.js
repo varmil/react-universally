@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, IconButton, FlatButton } from 'material-ui'
+import { Paper, IconButton, FlatButton, CircularProgress } from 'material-ui'
 import { grey600 } from 'material-ui/styles/colors';
 import { Flex, Box } from 'reflexbox'
 
@@ -15,9 +15,14 @@ const containerStyle = {}
 
 function createTextNode(props) {
   if (props.current === FIRST_PAGE_NUMBER) {
-    return <FlatButton labelStyle={{ top: -1, color: grey600 }} label="next" />
+    return (
+      <FlatButton
+        labelStyle={{ top: -1, color: grey600 }}
+        label="next"
+        onTouchTap={(e) => props.onPageChanged(e, SECOND_PAGE_NUMBER)} />
+    )
   } else {
-    return <span style={{ color: grey600 }}>{`page ${props.current}`}</span>
+    return <span style={{ color: grey600 }}>{`PAGE ${props.current}`}</span>
   }
 }
 
@@ -27,7 +32,7 @@ function createToFirst(props) {
 
   return (
     <Box mr={2}>
-      <IconButton tooltip="First">
+      <IconButton onTouchTap={(e) => props.onPageChanged(e, FIRST_PAGE_NUMBER)} tooltip="First">
         <NavFirstPage color={grey600} />
       </IconButton>
     </Box>
@@ -40,7 +45,7 @@ function createToPrev(props) {
 
   return (
     <Box>
-      <IconButton tooltip="Prev">
+      <IconButton onTouchTap={(e) => props.onPageChanged(e, props.current - 1)} tooltip="Prev">
         <NavChevronLeft color={grey600} />
       </IconButton>
     </Box>
@@ -48,12 +53,35 @@ function createToPrev(props) {
 }
 
 function createToNext(props) {
+  // do not show next icon if this props is trusy
+  if (props.hideNext) return null
+
   return (
     <Box>
-      <IconButton tooltip="Next">
+      <IconButton onTouchTap={(e) => props.onPageChanged(e, props.current+ 1)} tooltip="Next">
         <NavChevronRight color={grey600} />
       </IconButton>
     </Box>
+  )
+}
+
+function createContent(props) {
+  return (props.nowLoading) ?
+  (
+    <div style={{ textAlign: 'center' }} ><CircularProgress /></div>
+  )
+  :
+  (
+    <Flex align='center' justify="center">
+      {createToFirst(props)}
+      {createToPrev(props)}
+      <Box
+        ml={3} mr={(props.current === FIRST_PAGE_NUMBER) ? 0 : 3}
+      >
+        {createTextNode(props)}
+      </Box>
+      {createToNext(props)}
+    </Flex>
   )
 }
 
@@ -63,19 +91,7 @@ export default class GooglePager extends React.Component {
 
     return(
       <Paper style={{ ...containerStyle, ...props.style, }}>
-        <Flex align='center' justify="center" p={0}>
-          {createToFirst(props)}
-
-          {createToPrev(props)}
-
-          <Box
-            ml={3} mr={(props.current === FIRST_PAGE_NUMBER) ? 0 : 3}
-          >
-            {createTextNode(props)}
-          </Box>
-
-          {createToNext(props)}
-        </Flex>
+        {createContent(props)}
       </Paper>
     )
   }

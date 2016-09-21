@@ -35,7 +35,13 @@ class RestaurantList extends Component {
   }
 
 
-
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentPage: props.location.query.page || 1,
+      nowLoading: false,
+    }
+  }
 
   componentWillMount() {
     const { dispatch, restaurants } = this.props
@@ -51,6 +57,14 @@ class RestaurantList extends Component {
 
   onChangeRstSortMenu(e, key, payload) {
     console.log(e, key, payload)
+  }
+
+  onTapPage(e, nextNum) {
+    this.setState({ ...this.state, nowLoading: true })
+    // TODO: async fetch
+    setTimeout(() => {
+      this.setState({ ...this.state, currentPage: nextNum, nowLoading: false })
+    }, 300)
   }
 
   onTapConditionBox(e) {
@@ -86,7 +100,13 @@ class RestaurantList extends Component {
 
         <Restaurants restaurants={this.props.restaurants} />
 
-        <GooglePager current={1} style={{ width: '96%', margin: '18px auto 0' }} />
+        <GooglePager
+          current={this.state.currentPage}
+          style={{ width: '96%', margin: '18px auto 0' }}
+          nowLoading={this.state.nowLoading}
+          hideNext={false}
+          onPageChanged={::this.onTapPage}
+        />
 
         <div className={`${styles.fixedBottom}`}>
           <Flex align="center" justify="space-around">
