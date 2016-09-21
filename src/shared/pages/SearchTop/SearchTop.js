@@ -5,9 +5,9 @@ import { withRouter, Link } from 'react-router'
 
 import { FloatingActionButton, List, Tabs, Tab } from 'material-ui'
 
-import ActionSearch from 'material-ui/svg-icons/action/search'
-import ActionPermMedia from 'material-ui/svg-icons/action/perm-media'
-import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle'
+// import ActionSearch from 'material-ui/svg-icons/action/search'
+// import ActionPermMedia from 'material-ui/svg-icons/action/perm-media'
+// import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle'
 import ContentCreate from 'material-ui/svg-icons/content/create'
 import ActionCameraEnhance from 'material-ui/svg-icons/action/camera-enhance'
 import MapsMap from 'material-ui/svg-icons/maps/map'
@@ -47,11 +47,11 @@ class SearchTop extends Component {
 
         <AppHeader title="foodbook" leftIcon={null} zDepth={0} />
 
-        <Tabs>
+        {/* <Tabs>
           <Tab icon={<ActionSearch />} />
           <Tab icon={<ActionPermMedia />} />
           <Tab icon={<ActionAccountCircle />} />
-        </Tabs>
+        </Tabs> */}
 
         <div className={styles.searchFormContainer}>
           <InlineSearchForm
