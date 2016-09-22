@@ -52,16 +52,16 @@ class RestaurantList extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    // TODO: to container
-    // TODO: async fetch when query.page is changed
-    const nextPageNum = nextProps.location.query.page
-    if (nextPageNum !== this.props.location.query.page) {
-      setTimeout(() => {
-        this.setState({ ...this.state, currentPage: nextPageNum, nowLoading: false })
-      }, 300)
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // TODO: to container
+  //   // async fetch when query.page is changed
+  //   const nextPageNum = nextProps.location.query.page
+  //   if (nextPageNum !== this.props.location.query.page) {
+  //     setTimeout(() => {
+  //       this.setState({ ...this.state, currentPage: nextPageNum, nowLoading: false })
+  //     }, 300)
+  //   }
+  // }
 
 
   onChangeRstSortMenu(e, key, payload) {
@@ -70,10 +70,14 @@ class RestaurantList extends Component {
 
   onTapPage(e, nextNum) {
     this.setState({ ...this.state, nowLoading: true })
-    this.props.router.push({
-      pathname: this.props.location.pathname,
-      query: { page: nextNum },
-    })
+    // こんな感じでURL変える前に直接ここでfetchAPI叩いて、then()でURL変えたほうがいいかも。
+    setTimeout(() => {
+      this.setState({ ...this.state, currentPage: nextNum, nowLoading: false })
+      this.props.router.push({
+        pathname: this.props.location.pathname,
+        query: { page: nextNum },
+      })
+    }, 300)
   }
 
   onTapConditionBox(e) {
