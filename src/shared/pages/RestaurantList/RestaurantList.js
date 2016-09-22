@@ -53,7 +53,14 @@ class RestaurantList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('NP', nextProps)
+    // TODO: to container
+    // TODO: async fetch when query.page is changed
+    const nextPageNum = nextProps.location.query.page
+    if (nextPageNum !== this.props.location.query.page) {
+      setTimeout(() => {
+        this.setState({ ...this.state, currentPage: nextPageNum, nowLoading: false })
+      }, 300)
+    }
   }
 
 
@@ -67,10 +74,6 @@ class RestaurantList extends Component {
       pathname: this.props.location.pathname,
       query: { page: nextNum },
     })
-    // TODO: async fetch
-    // setTimeout(() => {
-    //   this.setState({ ...this.state, currentPage: nextNum, nowLoading: false })
-    // }, 300)
   }
 
   onTapConditionBox(e) {

@@ -20,7 +20,7 @@ function handler(props, e, page) {
 }
 
 function createTextNode(props) {
-  if (props.current === FIRST_PAGE_NUMBER) {
+  if (+props.current === FIRST_PAGE_NUMBER) {
     return (
       <FlatButton
         labelStyle={{ top: -1, color: grey600 }}
@@ -34,7 +34,7 @@ function createTextNode(props) {
 
 function createToFirst(props) {
   // show nothing if current page is 1 or 2
-  if (props.current < THRID_PAGE_NUMBER) return null
+  if (+props.current < THRID_PAGE_NUMBER) return null
 
   return (
     <Box mr={2}>
@@ -47,11 +47,11 @@ function createToFirst(props) {
 
 function createToPrev(props) {
   // show nothing if current page is 1
-  if (props.current < SECOND_PAGE_NUMBER) return null
+  if (+props.current < SECOND_PAGE_NUMBER) return null
 
   return (
     <Box>
-      <IconButton onTouchTap={(e) => handler(props, e, props.current - 1)} tooltip="Prev">
+      <IconButton onTouchTap={(e) => handler(props, e, +props.current - 1)} tooltip="Prev">
         <NavChevronLeft color={grey600} />
       </IconButton>
     </Box>
@@ -64,7 +64,7 @@ function createToNext(props) {
 
   return (
     <Box>
-      <IconButton onTouchTap={(e) => handler(props, e, props.current + 1)} tooltip="Next">
+      <IconButton onTouchTap={(e) => handler(props, e, +props.current + 1)} tooltip="Next">
         <NavChevronRight color={grey600} />
       </IconButton>
     </Box>
@@ -82,7 +82,7 @@ function createContent(props) {
       {createToFirst(props)}
       {createToPrev(props)}
       <Box
-        ml={3} mr={(props.current === FIRST_PAGE_NUMBER) ? 0 : 3}
+        ml={3} mr={(+props.current === FIRST_PAGE_NUMBER) ? 0 : 3}
       >
         {createTextNode(props)}
       </Box>
