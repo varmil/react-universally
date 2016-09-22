@@ -10,6 +10,7 @@ import session from 'express-session'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import compression from 'compression'
+import morgan from 'morgan'
 import hpp from 'hpp'
 import helmet from 'helmet'
 import passport from 'passport'
@@ -24,8 +25,21 @@ import {
   PUBLIC_DIR_PATH,
 } from './config';
 
+// Patch console.x methods in order to add timestamp information
+require("console-stamp")(console, {
+  pattern : "mm/dd HH:MM:ss.l",
+  colors: {
+    stamp: "white",
+    label: "white",
+    metadata: "green"
+  }
+})
+
 // Create our express based server.
 const app = express();
+
+// logger
+app.use(morgan(':date[clf] ":method :url" :status :response-time ms - :res[content-length] :remote-addr ":user-agent"'))
 
 // Don't expose any software information to hackers.
 app.disable('x-powered-by');
@@ -53,10 +67,10 @@ app.use(helmet.noSniff());
 // Response compression.
 app.use(compression());
 
-app.use(function(req, res, next) {
-  console.log('UA: ', req.headers['user-agent'], ' url: ', req.url)
-  next()
-})
+// app.use(function(req, res, next) {
+//   console.log('UA: ', req.headers['user-agent'])
+//   next()
+// })
 
 // Configure static serving of our webpack bundled client files.
 app.use(
