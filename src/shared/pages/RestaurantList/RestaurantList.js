@@ -52,7 +52,9 @@ class RestaurantList extends Component {
     }
   }
 
-
+  componentWillReceiveProps(nextProps) {
+    console.log('NP', nextProps)
+  }
 
 
   onChangeRstSortMenu(e, key, payload) {
@@ -61,10 +63,14 @@ class RestaurantList extends Component {
 
   onTapPage(e, nextNum) {
     this.setState({ ...this.state, nowLoading: true })
+    this.props.router.push({
+      pathname: this.props.location.pathname,
+      query: { page: nextNum },
+    })
     // TODO: async fetch
-    setTimeout(() => {
-      this.setState({ ...this.state, currentPage: nextNum, nowLoading: false })
-    }, 300)
+    // setTimeout(() => {
+    //   this.setState({ ...this.state, currentPage: nextNum, nowLoading: false })
+    // }, 300)
   }
 
   onTapConditionBox(e) {

@@ -7,6 +7,9 @@ import API from '../../../api'
 import * as restaurantDetailActions from '../../../actions/restaurantDetail'
 import * as errorsActions from '../../../actions/errors'
 import ReviewList from '../../../components/list/ReviewList'
+import GooglePager from '../../../components/common/GooglePager'
+
+const PAGER_TOP_BOTTOM_MARGIN = '18px'
 
 /**
  * Review List Page
@@ -27,6 +30,13 @@ class Reviews extends Component {
     params: React.PropTypes.object,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentPage: props.location.query.page || 1,
+      nowLoading: false,
+    }
+  }
 
   componentWillMount() {
     const { dispatch, common, reviews } = this.props
@@ -37,6 +47,14 @@ class Reviews extends Component {
     }
   }
 
+  onTapPage(e, nextNum) {
+    this.setState({ ...this.state, nowLoading: true })
+    // TODO: async fetch
+    setTimeout(() => {
+      this.setState({ ...this.state, currentPage: nextNum, nowLoading: false })
+    }, 300)
+  }
+
   render() {
     const postedReviews = this.props.reviews || []
 
@@ -45,6 +63,16 @@ class Reviews extends Component {
         <Helmet title="RestaurantDetailReviews" />
 
         <ReviewList reviews={postedReviews} restaurantId={this.props.common.id} />
+
+        <GooglePager
+          current={this.state.currentPage}
+          style={{ width: '96%', margin: `${PAGER_TOP_BOTTOM_MARGIN} auto 0` }}
+          nowLoading={this.state.nowLoading}
+          hideNext={false}
+          onPageChanged={::this.onTapPage}
+        />
+
+        <div style={{ height: PAGER_TOP_BOTTOM_MARGIN }}></div>
       </div>
     )
   }

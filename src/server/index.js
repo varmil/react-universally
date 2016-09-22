@@ -30,7 +30,7 @@ require("console-stamp")(console, {
   pattern : "mm/dd HH:MM:ss.l",
   colors: {
     stamp: "white",
-    label: "white",
+    label: "green",
     metadata: "green"
   }
 })

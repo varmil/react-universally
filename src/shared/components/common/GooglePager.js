@@ -13,13 +13,19 @@ const THRID_PAGE_NUMBER = 3
 
 const containerStyle = {}
 
+function handler(props, e, page) {
+  e.preventDefault()
+  e.stopPropagation()
+  props.onPageChanged(e, page)
+}
+
 function createTextNode(props) {
   if (props.current === FIRST_PAGE_NUMBER) {
     return (
       <FlatButton
         labelStyle={{ top: -1, color: grey600 }}
         label="next"
-        onTouchTap={(e) => props.onPageChanged(e, SECOND_PAGE_NUMBER)} />
+        onTouchTap={(e) => handler(props, e, SECOND_PAGE_NUMBER)} />
     )
   } else {
     return <span style={{ color: grey600 }}>{`PAGE ${props.current}`}</span>
@@ -32,7 +38,7 @@ function createToFirst(props) {
 
   return (
     <Box mr={2}>
-      <IconButton onTouchTap={(e) => props.onPageChanged(e, FIRST_PAGE_NUMBER)} tooltip="First">
+      <IconButton onTouchTap={(e) => handler(props, e, FIRST_PAGE_NUMBER)} tooltip="First">
         <NavFirstPage color={grey600} />
       </IconButton>
     </Box>
@@ -45,7 +51,7 @@ function createToPrev(props) {
 
   return (
     <Box>
-      <IconButton onTouchTap={(e) => props.onPageChanged(e, props.current - 1)} tooltip="Prev">
+      <IconButton onTouchTap={(e) => handler(props, e, props.current - 1)} tooltip="Prev">
         <NavChevronLeft color={grey600} />
       </IconButton>
     </Box>
@@ -58,7 +64,7 @@ function createToNext(props) {
 
   return (
     <Box>
-      <IconButton onTouchTap={(e) => props.onPageChanged(e, props.current+ 1)} tooltip="Next">
+      <IconButton onTouchTap={(e) => handler(props, e, props.current + 1)} tooltip="Next">
         <NavChevronRight color={grey600} />
       </IconButton>
     </Box>
