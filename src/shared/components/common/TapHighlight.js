@@ -37,7 +37,7 @@ export default class TapHighlight extends React.Component {
   }
 
   render() {
-    const bgColor = (this.state.highlight) ? DEFAULT_HIGHLIGHT_COLOR : 'none'
+    const bgColor = (this.state.highlight) ? DEFAULT_HIGHLIGHT_COLOR : 'transparent'
     const tappedStyle = {
       backgroundColor: bgColor,
     }
