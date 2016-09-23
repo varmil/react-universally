@@ -79,7 +79,7 @@ class SearchTop extends Component {
                 color={this.context.muiTheme.palette.primary1Color} />
             }
             text={<span>現在地周辺<br />からお店を探す</span>}
-            href={`/search/regular`}
+            href={`/restaurant/list`}
           />
         </List>
 
