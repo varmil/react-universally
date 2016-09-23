@@ -24,6 +24,10 @@ a[type=button] {
     -webkit-appearance: none;
 }
 
+/* this is needed for safari on pc... */
+div {
+    -webkit-appearance: none !important;
+}
 
 :global .base-paper {
     padding: 20px;
