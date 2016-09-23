@@ -75,6 +75,7 @@ class App extends Component {
             { name: 'description', content: websiteDescription },
           ]}
           script={[
+            { src: 'https://cdn.polyfill.io/v2/polyfill.min.js', type: 'text/javascript' },
           ]}
         />
 
