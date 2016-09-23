@@ -58,7 +58,7 @@ class App extends Component {
   }
 
   render() {
-    const { children, location } = this.props
+    const { children } = this.props
 
     return /*this.props.auth.isPrepared*/ true ?
     (
