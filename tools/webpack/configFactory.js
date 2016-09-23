@@ -269,7 +269,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
                 // Polyfills the runtime needed for async/await and generators
                 ["transform-runtime", {
                   "helpers": false, // defaults to true
-                  "polyfill": false, // defaults to true
+                  "polyfill": true, // defaults to true
                   "regenerator": true, // defaults to true
                   "moduleName": "babel-runtime" // defaults to "babel-runtime"
                 }],
