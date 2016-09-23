@@ -10,14 +10,13 @@ import { Flex, Box } from 'reflexbox'
 import AppHeader from '../../containers/AppHeader'
 import Restaurants from '../../components/list/RestaurantList'
 import RstSortMenu from '../../components/header/RstSortMenu'
-import GooglePager from '../../components/common/GooglePager'
+import Pager from '../../containers/Pager'
 
 import styles from './index.css'
 import API from '../../api'
 import * as restaurantsActions from '../../actions/restaurants'
 import * as errorsActions from '../../actions/errors'
 
-const FIRST_PAGE_NUMBER = 1
 
 class RestaurantList extends Component {
   static fetchData(query, params, dispatch) {
@@ -36,14 +35,6 @@ class RestaurantList extends Component {
   }
 
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentPage: props.location.query.page || FIRST_PAGE_NUMBER,
-      nowLoading: false,
-    }
-  }
-
   componentWillMount() {
     const { dispatch, restaurants } = this.props
     const { location, params } = this.context
@@ -53,31 +44,23 @@ class RestaurantList extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    // TODO: to container
-    // fetch when query.page is changed ブラウザbackした際もここを通ってfetchする
-    const nextPageNum = nextProps.location.query.page || FIRST_PAGE_NUMBER
-    if (nextPageNum !== this.props.location.query.page) {
-      this.fetchPageContent(nextPageNum)
-    }
+
+
+
+  fetchPage(number) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        console.log('FETCH END')
+        resolve(false)
+      }, 500)
+    })
   }
 
-  fetchPageContent(pageNum) {
-    this.setState({ ...this.state, nowLoading: true })
-    setTimeout(() => {
-      this.setState({ ...this.state, currentPage: pageNum, nowLoading: false })
-    }, 300)
-  }
+
+
 
   onChangeRstSortMenu(e, key, payload) {
     console.log(e, key, payload)
-  }
-
-  onTapPage(e, nextNum) {
-    this.props.router.push({
-      pathname: this.props.location.pathname,
-      query: { page: nextNum },
-    })
   }
 
   onTapConditionBox(e) {
@@ -91,6 +74,9 @@ class RestaurantList extends Component {
       pathname: '/search/regular',
     })
   }
+
+
+
 
   // TODO: Componentsに切り出すか、もっとちゃんと表示整える
   createBottomButtonLabel() {
@@ -113,12 +99,10 @@ class RestaurantList extends Component {
 
         <Restaurants restaurants={this.props.restaurants} />
 
-        <GooglePager
-          current={this.state.currentPage}
+        <Pager
           style={{ width: '96%', margin: '18px auto 0' }}
-          nowLoading={this.state.nowLoading}
-          hideNext={false}
-          onPageChanged={::this.onTapPage}
+          fetch={::this.fetchPage}
+          location={this.props.location}
         />
 
         <div className={`${styles.fixedBottom}`}>
