@@ -113,7 +113,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
     entry: merge(
       {
         main: removeEmpty([
-          ifDevClient(`webpack-hot-middleware/client?reload=true&path=http://localhost:${process.env.CLIENT_DEVSERVER_PORT}/__webpack_hmr`),
+          ifDevClient(`webpack-hot-middleware/client?reload=true&path=http://${process.env.DEV_SERVER_URL}:${process.env.CLIENT_DEVSERVER_PORT}/__webpack_hmr`),
           path.resolve(appRootPath, `./src/${target}/index.js`),
         ]),
       }
@@ -147,7 +147,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
       publicPath: ifDev(
         // As we run a seperate server for our client and server bundles we
         // need to use an absolute http path for our assets public path.
-        `http://localhost:${process.env.CLIENT_DEVSERVER_PORT}${process.env.CLIENT_BUNDLE_HTTP_PATH}`,
+        `http://${process.env.DEV_SERVER_URL}:${process.env.CLIENT_DEVSERVER_PORT}${process.env.CLIENT_BUNDLE_HTTP_PATH}`,
         // Otherwise we expect our bundled output to be served from this path.
         process.env.CLIENT_BUNDLE_HTTP_PATH
       ),
