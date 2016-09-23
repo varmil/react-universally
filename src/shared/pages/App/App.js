@@ -9,6 +9,7 @@ import 'normalize.css/normalize.css';
 // import * as errorsActions from '../../actions/errors'
 
 import './globals.css';
+global.Perf = require('react-addons-perf')
 
 
 const websiteDescription =

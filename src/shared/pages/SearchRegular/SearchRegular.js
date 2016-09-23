@@ -21,7 +21,6 @@ import stubGenre from '../../stub/genre'
 
 import styles from './index.css'
 
-
 const initialDialogState = {
   areaDialogOpened: false,
   genreDialogOpened: false,
