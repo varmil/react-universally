@@ -262,28 +262,44 @@ function webpackConfigFactory({ target, mode }, { json }) {
             },
             {
               plugins: removeEmpty([
+                // { ...todo, completed: true }
                 'transform-object-rest-spread',
+                // class { handleClick = () => { } }
                 'transform-class-properties',
+                // Polyfills the runtime needed for async/await and generators
+                ["transform-runtime", {
+                  "helpers": false, // defaults to true
+                  "polyfill": false, // defaults to true
+                  "regenerator": true, // defaults to true
+                  "moduleName": "babel-runtime" // defaults to "babel-runtime"
+                }],
+
                 // Remove unnecessary React propTypes from the production build.
                 ifProd('transform-react-remove-prop-types'),
                 // Optimization: hoist JSX that never changes out of render()
-                ifProd('transform-react-constant-elements'),
+                // Disabled because of issues:
+                // * https://github.com/facebookincubator/create-react-app/issues/525
+                // * https://phabricator.babeljs.io/search/query/pCNlnC2xzwzx/
+                // * https://github.com/babel/babel/issues/4516
+                // TODO: Enable again when these issues are resolved.
+                // ifProd('transform-react-constant-elements'),
               ]),
             },
             ifServer({
               // We are running a node 6 server which has support for almost
               // all of the ES2015 syntax, therefore we only transpile JSX.
-              presets: ['react', 'stage-0'],
+              presets: ['latest', 'react', 'stage-0'],
             }),
             ifClient({
               // For our clients code we will need to transpile our JS into
               // ES5 code for wider browser/device compatability.
               presets: [
+                ['latest', { modules: false }],
                 // JSX
                 'react',
                 // Webpack 2 includes support for es2015 imports, therefore we
                 // disable the modules processing.
-                ['es2015', { modules: false }],
+                // ['es2015', { modules: false }],
                 // ES7
                 'stage-0',
               ],
