@@ -17,6 +17,7 @@ import API from '../../api'
 import * as restaurantsActions from '../../actions/restaurants'
 import * as errorsActions from '../../actions/errors'
 
+const FIRST_PAGE_NUMBER = 1
 
 class RestaurantList extends Component {
   static fetchData(query, params, dispatch) {
@@ -38,7 +39,7 @@ class RestaurantList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentPage: props.location.query.page || 1,
+      currentPage: props.location.query.page || FIRST_PAGE_NUMBER,
       nowLoading: false,
     }
   }
@@ -52,32 +53,31 @@ class RestaurantList extends Component {
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   // TODO: to container
-  //   // async fetch when query.page is changed
-  //   const nextPageNum = nextProps.location.query.page
-  //   if (nextPageNum !== this.props.location.query.page) {
-  //     setTimeout(() => {
-  //       this.setState({ ...this.state, currentPage: nextPageNum, nowLoading: false })
-  //     }, 300)
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    // TODO: to container
+    // fetch when query.page is changed ブラウザbackした際もここを通ってfetchする
+    const nextPageNum = nextProps.location.query.page || FIRST_PAGE_NUMBER
+    if (nextPageNum !== this.props.location.query.page) {
+      this.fetchPageContent(nextPageNum)
+    }
+  }
 
+  fetchPageContent(pageNum) {
+    this.setState({ ...this.state, nowLoading: true })
+    setTimeout(() => {
+      this.setState({ ...this.state, currentPage: pageNum, nowLoading: false })
+    }, 300)
+  }
 
   onChangeRstSortMenu(e, key, payload) {
     console.log(e, key, payload)
   }
 
   onTapPage(e, nextNum) {
-    this.setState({ ...this.state, nowLoading: true })
-    // こんな感じでURL変える前に直接ここでfetchAPI叩いて、then()でURL変えたほうがいいかも。
-    setTimeout(() => {
-      this.setState({ ...this.state, currentPage: nextNum, nowLoading: false })
-      this.props.router.push({
-        pathname: this.props.location.pathname,
-        query: { page: nextNum },
-      })
-    }, 300)
+    this.props.router.push({
+      pathname: this.props.location.pathname,
+      query: { page: nextNum },
+    })
   }
 
   onTapConditionBox(e) {
