@@ -1,9 +1,13 @@
 {
-  "name": "react-universally",
-  "version": "3.3.1",
+  "name": "foodbook",
+  "version": "0.0.1",
   "scripts": {
-    "typecheck": "flow",
     "docker": "cd tools/docker && docker-compose up -d",
+
+    "db:install": "sequelize db:migrate",
+    "db:uninstall": "sequelize db:migrate:undo:all",
+    "db:init": "npm run db:uninstall && npm run db:install",
+
     "clean": "rimraf build",
     "development": "node ./tools/development/server",
     "build": "npm run clean && webpack --env.mode production --config ./tools/webpack/client.config.js && webpack --env.mode production --config ./tools/webpack/server.config.js",
@@ -28,6 +32,7 @@
     "lodash": "^4.15.0",
     "material-ui": "^0.16.0-rc1",
     "morgan": "^1.7.0",
+    "mysql": "^2.11.1",
     "normalize.css": "4.2.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
