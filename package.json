@@ -3,6 +3,7 @@
   "version": "3.3.1",
   "scripts": {
     "typecheck": "flow",
+    "docker": "cd tools/docker && docker-compose up -d",
     "clean": "rimraf build",
     "development": "node ./tools/development/server",
     "build": "npm run clean && webpack --env.mode production --config ./tools/webpack/client.config.js && webpack --env.mode production --config ./tools/webpack/server.config.js",
