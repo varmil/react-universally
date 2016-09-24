@@ -20,7 +20,16 @@ router.use(function userLog(req, res, next) {
 
 // define the home page route
 router.get('/', (req, res) => {
-  res.json('Birds home page')
+  // FOR TESTING
+  models.User.findOrCreate(
+    {
+      where: { id: 123456789 },
+      defaults: { id: 123456789, name: 'test user Akihiro' }
+    }
+  ).spread((user, created) => {
+    res.send( { user: user, created: created })
+  })
+  // ------------------
 })
 
 // // get user info
