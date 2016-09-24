@@ -111,7 +111,7 @@ class SearchMap extends Component {
             bootstrapURLKeys={URL_KEYS}
             defaultCenter={this.props.center}
             defaultZoom={this.props.zoom}
-            onChange={this.onChange.bind(this)}
+            onChange={::this.onChange}
           >
             {this.state.markers.map((marker, index) =>
               <MapMarker key={index} onTouchTap={() => this.onTapMarker(index)} lat={marker.lat} lng={marker.lng} text={index.toString()} />

@@ -6,6 +6,8 @@ import passport from 'passport'
 import restaurantList from '../../stub/restaurantList'
 import * as stubRestaurantDetail from '../../stub/restaurantDetail'
 
+import models from '../../models'
+
 const router = express.Router()
 
 

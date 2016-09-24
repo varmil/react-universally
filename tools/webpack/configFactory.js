@@ -254,7 +254,11 @@ function webpackConfigFactory({ target, mode }, { json }) {
           //   path.resolve(appRootPath, process.env.CLIENT_BUNDLE_OUTPUT_PATH),
           //   path.resolve(appRootPath, process.env.SERVER_BUNDLE_OUTPUT_PATH),
           // ],
-          include: path.resolve(appRootPath, `./src`),
+          include: ifServer(
+            [ path.resolve(appRootPath, `./src/shared`), path.resolve(appRootPath, `./src/server`) ]
+            ,
+            [ path.resolve(appRootPath, `./src/shared`), path.resolve(appRootPath, `./src/client`) ]
+          ),
           query: merge(
             {
               // https://github.com/babel/babel-loader#babel-loader-is-slow
@@ -262,6 +266,8 @@ function webpackConfigFactory({ target, mode }, { json }) {
             },
             {
               plugins: removeEmpty([
+                // {::this.onTap}
+                'transform-function-bind',
                 // { ...todo, completed: true }
                 'transform-object-rest-spread',
                 // class { handleClick = () => { } }
@@ -288,20 +294,17 @@ function webpackConfigFactory({ target, mode }, { json }) {
             ifServer({
               // We are running a node 6 server which has support for almost
               // all of the ES2015 syntax, therefore we only transpile JSX.
-              presets: ['latest', 'react', 'stage-0'],
+              presets: ['react'],
             }),
             ifClient({
               // For our clients code we will need to transpile our JS into
               // ES5 code for wider browser/device compatability.
               presets: [
+                // Webpack 2 includes support for es2015 imports, therefore we
+                // disable the modules processing.
                 ['latest', { modules: false }],
                 // JSX
                 'react',
-                // Webpack 2 includes support for es2015 imports, therefore we
-                // disable the modules processing.
-                // ['es2015', { modules: false }],
-                // ES7
-                'stage-0',
               ],
             })
           ),
