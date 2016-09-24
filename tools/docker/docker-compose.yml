@@ -1,0 +1,18 @@
+version: '2'
+services:
+  data:
+    image: busybox
+    volumes:
+      - /var/lib/mysql
+  mysql:
+    image: mysql:5.7.15
+    ports:
+      - "3306:3306"
+    volumes_from:
+      - data
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  redis:
+    image: redis:3.2.3-alpine
+    ports:
+      - "6379:6379"
