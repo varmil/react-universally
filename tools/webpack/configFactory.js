@@ -244,7 +244,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
       ),
     ]),
     module: {
-      rules: [
+      loaders: [
         // Javascript
         {
           test: /\.jsx?$/,
