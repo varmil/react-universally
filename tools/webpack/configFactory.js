@@ -103,11 +103,11 @@ function webpackConfigFactory({ target, mode }, { json }) {
       // source maps.
       // We also want to be able to link to the source in chrome dev tools
       // whilst we are in development mode. :)
-      'eval'
+      'eval',
       // When in production client mode we don't want any source maps to
       // decrease our payload sizes.
       // This form has almost no cost.
-      // 'hidden-source-map'
+      'hidden-source-map'
     ),
     // Define our entry chunks for our bundle.
     entry: merge(
