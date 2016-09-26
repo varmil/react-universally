@@ -1,5 +1,3 @@
-/* @flow */
-
 import { render } from 'react-dom';
 import browserHistory from 'react-router/lib/browserHistory';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -17,7 +15,7 @@ injectTapEventPlugin()
 
 function routerError(error) {
   // TODO: Error handling.
-  console.error('==> 😭  React Router match failed.'); // eslint-disable-line no-console
+  console.error('==> React Router match failed.'); // eslint-disable-line no-console
   if (error) { console.error(error); } // eslint-disable-line no-console
 }
 
