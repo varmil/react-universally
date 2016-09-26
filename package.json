@@ -3,9 +3,12 @@
   "version": "0.0.1",
   "scripts": {
     "docker": "cd tools/docker && docker-compose up -d",
+
     "db:install": "sequelize db:migrate",
     "db:uninstall": "sequelize db:migrate:undo:all",
     "db:init": "npm run db:uninstall && npm run db:install",
+    "db:seed": "node src/server/seeders/rst-seeder.js",
+
     "clean": "rimraf build",
     "development": "node ./tools/development/server",
     "build": "npm run clean && webpack --env.mode production --config ./tools/webpack/client.config.js && webpack --env.mode production --config ./tools/webpack/server.config.js",
