@@ -2,7 +2,23 @@ var csv = require('csv-parser')
 var fs = require('fs')
 var models = require('../models')
 
-const CSV_PATH = '/../csv/tripa-phnom-penh.csv'
+const CUISINE_CSV_PATH = '/../csv/cuisine.csv'
+const RST_CSV_PATH = '/../csv/tripa-phnom-penh.csv'
+
+// key: name, value: id
+let cuisines = {}
+
+
+
+
+function parseCuisine(strCuisines) {
+  if (! strCuisines) return []
+
+  const genreIds = strCuisines.split(',').map(function(e) {
+    return cuisines[e.trim()] * 1
+  })
+  return genreIds
+}
 
 function parseAveragePrices(avgPrice) {
   // 空文字、単一値、下限上限の3パターン
@@ -25,7 +41,7 @@ function parseAveragePrices(avgPrice) {
 
 
 
-function insert(data) {
+function insertRst(data) {
   const { lowBudget, highBudget } = parseAveragePrices(data["Average prices"])
 
   return models.Rst.create({
@@ -38,22 +54,53 @@ function insert(data) {
     phone_number: data["Phone Number"],
   })
   .catch(function(error) {
-    console.error('ERROR message:', error.message, '\n' , 'sql:', error.sql)
+    console.error('ERROR [RST] message:', error.message, '\n' , 'sql:', error.sql)
   })
+}
+
+function insertRstGenre(data) {
+  const genreIds = parseCuisine(data.Cuisine)
+
+  // Cuisineが設定されていなければInsertしない
+  if (genreIds.length === 0) return Promise.resolve()
+
+  const bulkData = genreIds.map(function(genre) {
+    return { rst_id: data.id, genre_id: genre }
+  })
+
+  return models.RstGenre.bulkCreate(bulkData)
+    .catch(function(error) {
+      console.error('ERROR [RST_GENRE] message:', error.message, '\n' , 'sql:', error.sql)
+    })
 }
 
 
 
 
-function loadCsvAndSave() {
+function loadGenreCsv() {
+  return new Promise(function(resolve, reject) {
+    fs.createReadStream(__dirname + CUISINE_CSV_PATH)
+      .pipe(csv())
+      .on('data', function (data) {
+        cuisines[data.name] = data.id
+      })
+      .on('end', function () {
+        resolve()
+      })
+  })
+}
+
+function loadRstCsvAndSave() {
   // 全てのデータが保存されたら、全部resolve
   let promises = []
 
   return new Promise(function(resolve, reject) {
-    fs.createReadStream(__dirname + CSV_PATH)
+    fs.createReadStream(__dirname + RST_CSV_PATH)
       .pipe(csv())
       .on('data', function (data) {
-        promises.push(insert(data))
+        promises.push(insertRst(data))
+        // insert BelongsToMany data
+        promises.push(insertRstGenre(data))
       })
       .on('end', function () {
         Promise.all(promises).then(function() {
@@ -68,7 +115,8 @@ function loadCsvAndSave() {
 
 
 return models.Rst.truncate()
-  .then(loadCsvAndSave)
+  .then(loadGenreCsv)
+  .then(loadRstCsvAndSave)
   .then(function() {
     console.log('### INSERT FINISHED ###')
   })
