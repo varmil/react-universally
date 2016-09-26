@@ -1,7 +1,8 @@
-'use strict';
+const tableName = 'Rsts'
+
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('Rsts', {
+    return queryInterface.createTable(tableName, {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,6 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       link: {
@@ -36,10 +38,22 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
-    });
+      },
+    })
+    .then(function() {
+      // Possible options:
+      // - indicesType: UNIQUE|FULLTEXT|SPATIAL
+      // - indexName: The name of the index. Default is __
+      // - parser: For FULLTEXT columns set your parser
+      // - indexType: Set a type for the index, e.g. BTREE. See the documentation of the used dialect
+      // - logging: A function that receives the sql query, e.g. console.log
+      return queryInterface.addIndex(tableName, ['name'],
+      {
+        indicesType: 'FULLTEXT'
+      })
+    })
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Rsts');
+    return queryInterface.dropTable(tableName);
   }
 };
