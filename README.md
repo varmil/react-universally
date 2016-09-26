@@ -40,6 +40,13 @@ npm run build
 npm start
 ```
 
+## database seeding
+```sh
+# Insert initial data set
+# NOTE: need db migration before executing this command
+npm run db:seed
+```
+
 
 ## .env file settings
 
