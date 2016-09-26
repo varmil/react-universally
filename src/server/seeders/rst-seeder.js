@@ -104,7 +104,6 @@ function loadRstCsvAndSave() {
       })
       .on('end', function () {
         Promise.all(promises).then(function() {
-          // We are done
           resolve()
         })
       })
