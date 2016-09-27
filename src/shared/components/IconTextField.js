@@ -32,6 +32,12 @@ export default class IconTextField extends React.Component {
   }
 
   handleUpdateInput = (value) => {
+    // backspaceなどで文字数が減った場合
+    // if (this.props.value.length > value.length) {
+    //   this.props.onChange(value)
+    //   return;
+    // }
+
     this.props.onChange(value)
 
     // reduxだとあんまり行儀よくないけど...
@@ -64,7 +70,7 @@ export default class IconTextField extends React.Component {
             textFieldStyle={textFieldStyle}
             hintStyle={hintStyle}
             hintText={props.hintText}
-            filter={AutoComplete.caseInsensitiveFilter}
+            filter={AutoComplete.noFilter}
             searchText={props.value}
             dataSource={this.state.dataSource}
             onUpdateInput={this.handleUpdateInput}

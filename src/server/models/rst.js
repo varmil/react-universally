@@ -20,11 +20,6 @@ module.exports = function(sequelize, DataTypes) {
 
     // http://docs.sequelizejs.com/en/latest/docs/scopes/
     scopes: {
-      fulltext: function(value) {
-        return {
-          where: `MATCH (name) AGAINST ('${value}')`
-        }
-      }
     }
   });
   return Rst;

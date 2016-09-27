@@ -77,16 +77,21 @@ router.get('/restaurant/detail/:rstId/review/:rvwId', (req, res) => {
 
 
 
+// TODO: ロジックは別クラスに移動
 router.get(`/autocomplete/rst/`, async (req, res) => {
   const name = req.query.value
   if (! name) return res.json([])
 
+  const names = name.split(/[\s,]+/)
+  const queries = names.filter(e => !!e).map(name => {
+    // escaping
+    return `\+${name}\*`
+  }).join(' ')
   const rows = await models.Rst.findAll({
     attributes: ['id', 'name'],
-    where: [`MATCH (name) AGAINST('${name}')`],
-    limit: 5,
+    where: [`MATCH (name) AGAINST(? IN BOOLEAN MODE)`, queries],
+    limit: 4,
   })
-
   const candidates = _.map(rows, (row) => {
     return _.pick(row, 'id', 'name')
   })
