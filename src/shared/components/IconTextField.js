@@ -51,6 +51,7 @@ export default class IconTextField extends React.Component {
       .catch((error) => {})
   }
 
+  // TODO: handleUpdateInputと別Propsで管理
   handleNewRequest = (value) => {
     this.props.onChange(value)
   }
