@@ -6,6 +6,8 @@
 # dockerのofficial-imageのmysqlを使って初回起動時にカスタムsqlを実行
 # https://mistymagich.wordpress.com/2015/09/01/docker%E3%81%AEofficial-image%E3%81%AEmysql%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%88%9D%E5%9B%9E%E8%B5%B7%E5%8B%95%E6%99%82%E3%81%AB%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0sql%E3%82%92%E5%AE%9F%E8%A1%8C/
 
+# Mroonga プラグインの有効化！
+# http://www.mk-mode.com/octopress/2015/08/21/mariadb-mroonga-installation/
 
 mysql=( mysql -uroot )
 
@@ -14,4 +16,10 @@ mysql=( mysql -uroot )
 
     CREATE DATABASE IF NOT EXISTS foodbook_development;
     CREATE DATABASE IF NOT EXISTS foodbook_production;
+
+    INSTALL PLUGIN Mroonga SONAME 'ha_mroonga.so';
+    CREATE FUNCTION last_insert_grn_id RETURNS INTEGER SONAME 'ha_mroonga.so';
+    CREATE FUNCTION mroonga_snippet RETURNS STRING SONAME 'ha_mroonga.so';
+    CREATE FUNCTION mroonga_command RETURNS STRING SONAME 'ha_mroonga.so';
+    CREATE FUNCTION mroonga_escape RETURNS STRING SONAME 'ha_mroonga.so';
 EOSQL

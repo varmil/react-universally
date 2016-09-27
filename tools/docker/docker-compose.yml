@@ -4,8 +4,8 @@ services:
     image: busybox
     volumes:
       - /var/lib/mysql
-  mysql:
-    image: mysql:5.7.15
+  mariadb:
+    image: mariadb:10.1.17
     volumes:
         - ./initdb.d:/docker-entrypoint-initdb.d
     ports:

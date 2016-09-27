@@ -1,3 +1,5 @@
+var db = require('../models')
+
 const tableName = 'Rsts'
 
 module.exports = {
@@ -39,6 +41,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+    },
+    {
+      engine: 'Mroonga'
     })
     .then(function() {
       // Possible options:
@@ -47,10 +52,7 @@ module.exports = {
       // - parser: For FULLTEXT columns set your parser
       // - indexType: Set a type for the index, e.g. BTREE. See the documentation of the used dialect
       // - logging: A function that receives the sql query, e.g. console.log
-      return queryInterface.addIndex(tableName, ['name'],
-      {
-        indicesType: 'FULLTEXT'
-      })
+      return db.sequelize.query(`ALTER TABLE ${tableName} ADD FULLTEXT INDEX idx_rsts_name(name);`)
     })
   },
   down: function(queryInterface, Sequelize) {
