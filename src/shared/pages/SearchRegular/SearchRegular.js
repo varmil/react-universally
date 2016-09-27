@@ -45,13 +45,11 @@ class SearchRegular extends Component {
 
 
 
-  onChangeForm(e, type) {
-    e.preventDefault()
-
+  onChangeForm(value, type) {
     if (type === FORM_TYPE.AREA) {
-      this.props.dispatch(searchFormActions.setAreaText(e.target.value))
+      this.props.dispatch(searchFormActions.setAreaText(value))
     } else if (type === FORM_TYPE.GENRE) {
-      this.props.dispatch(searchFormActions.setGenreText(e.target.value))
+      this.props.dispatch(searchFormActions.setGenreText(value))
     }
   }
 
@@ -180,7 +178,7 @@ class SearchRegular extends Component {
               style={{ margin: '10px 0' }}
               leftIcon={<MapsPlace />}
               hintText="東京都、銀座"
-              onChange={(e) => this.onChangeForm(e, FORM_TYPE.AREA)}
+              onChange={(value) => this.onChangeForm(value, FORM_TYPE.AREA)}
               value={areaText}
               buttonLabel="area"
               buttonIcon={<ChevronRight />}
@@ -193,7 +191,7 @@ class SearchRegular extends Component {
               style={{ margin: '10px 0' }}
               leftIcon={<MapsRestaurant />}
               hintText="店名、ラーメン"
-              onChange={(e) => this.onChangeForm(e, FORM_TYPE.GENRE)}
+              onChange={(value) => this.onChangeForm(value, FORM_TYPE.GENRE)}
               value={genreText}
               buttonLabel="genre"
               buttonIcon={<ChevronRight />}
