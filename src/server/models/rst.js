@@ -5,8 +5,11 @@ module.exports = function(sequelize, DataTypes) {
     link: DataTypes.STRING,
     low_budget: DataTypes.INTEGER,
     high_budget: DataTypes.INTEGER,
+    rating: DataTypes.FLOAT,
     open_hours: DataTypes.TEXT,
+    pr_text: DataTypes.STRING,
     address: DataTypes.STRING,
+    latlng: DataTypes.GEOMETRY,
     phone_number: DataTypes.STRING
   }, {
     classMethods: {

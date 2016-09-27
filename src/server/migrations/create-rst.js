@@ -1,6 +1,6 @@
 var db = require('../models')
 
-const tableName = 'Rsts'
+const tableName = db.Rst.tableName
 
 module.exports = {
   up: function(queryInterface, Sequelize) {
@@ -24,11 +24,22 @@ module.exports = {
       high_budget: {
         type: Sequelize.INTEGER
       },
+      rating: {
+        type: Sequelize.FLOAT
+      },
       open_hours: {
         type: Sequelize.TEXT
       },
-      address: {
+      pr_text: {
         type: Sequelize.STRING
+      },
+      address: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      latlng: {
+        allowNull: false,
+        type: Sequelize.GEOMETRY
       },
       phone_number: {
         type: Sequelize.STRING
@@ -52,7 +63,11 @@ module.exports = {
       // - parser: For FULLTEXT columns set your parser
       // - indexType: Set a type for the index, e.g. BTREE. See the documentation of the used dialect
       // - logging: A function that receives the sql query, e.g. console.log
-      return db.sequelize.query(`ALTER TABLE ${tableName} ADD FULLTEXT INDEX idx_rsts_name(name);`)
+      // return db.sequelize.query(`ALTER TABLE ${tableName} ADD FULLTEXT INDEX idx_rsts_name(name);`)
+      return queryInterface.addIndex(tableName, ['name'], { indicesType: 'FULLTEXT' })
+    })
+    .then(function() {
+      return queryInterface.addIndex(tableName, ['latlng'], { indicesType: 'SPATIAL' })
     })
   },
   down: function(queryInterface, Sequelize) {

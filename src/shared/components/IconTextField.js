@@ -51,7 +51,7 @@ export default class IconTextField extends React.Component {
 
     return(
       <Flex align="center" justify="space-between" style={{ ...flexStyle, ...(props.style) }}>
-        <Box>
+        <Box mr={1}>
           <span style={{ position: 'relative', top: '6px' }}>{props.leftIcon}</span>
         </Box>
         <Box auto mr={2} style={{ textAlign: 'left' }}>
