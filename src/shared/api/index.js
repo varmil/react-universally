@@ -24,6 +24,9 @@ export default {
     return api.get('/user')
   },
 
+
+
+
   fetchRestaurantList: (query, params) => {
     return api.get('/restaurant/list', { params: query })
   },
@@ -49,6 +52,15 @@ export default {
   fetchRestaurantDetailReview: (query, params) => {
     return api.get(`/restaurant/detail/${params.restaurantId}/review/${params.reviewId}`, { params: query })
   },
+
+
+
+
+  // ーーーーーーーーーーー AutoComplete用 API START　ーーーーーーーーーーー
+  fetchAutoCompleteRst: (query, params) => {
+    return api.get(`/autocomplete/rst/`, { params: query })
+  },
+  // ーーーーーーーーーーー AutoComplete用 API END　ーーーーーーーーーーー
 
 
 

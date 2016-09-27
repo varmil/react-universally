@@ -11,6 +11,7 @@ import ActionLabel from 'material-ui/svg-icons/action/label-outline'
 
 import * as searchFormActions from '../../actions/searchForm'
 
+import API from '../../api'
 import AppHeader from '../../containers/AppHeader'
 import IconTextField from '../../components/IconTextField'
 import BudgetSelectField from '../../components/BudgetSelectField'
@@ -190,9 +191,10 @@ class SearchRegular extends Component {
               id="SearchRegular-genre"
               style={{ margin: '10px 0' }}
               leftIcon={<MapsRestaurant />}
-              hintText="店名、ラーメン"
+              hintText="Restaurant name..."
               onChange={(value) => this.onChangeForm(value, FORM_TYPE.GENRE)}
               value={genreText}
+              autoCompleteApi={API.fetchAutoCompleteRst}
               buttonLabel="genre"
               buttonIcon={<ChevronRight />}
               onTapButton={::this.onTapGenreButton}

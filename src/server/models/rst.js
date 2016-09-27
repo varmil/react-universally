@@ -16,6 +16,15 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         // associations can be defined here
       }
+    },
+
+    // http://docs.sequelizejs.com/en/latest/docs/scopes/
+    scopes: {
+      fulltext: function(value) {
+        return {
+          where: `MATCH (name) AGAINST ('${value}')`
+        }
+      }
     }
   });
   return Rst;

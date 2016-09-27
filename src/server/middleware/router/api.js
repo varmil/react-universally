@@ -1,6 +1,7 @@
 // refs: http://expressjs.com/ja/guide/routing.html
 import express from 'express'
 import passport from 'passport'
+import _ from 'lodash'
 
 // STUB
 import restaurantList from '../../stub/restaurantList'
@@ -72,6 +73,25 @@ router.get('/restaurant/detail/:id/reviews', (req, res) => {
 
 router.get('/restaurant/detail/:rstId/review/:rvwId', (req, res) => {
   res.json(stubRestaurantDetail.review)
+})
+
+
+
+router.get(`/autocomplete/rst/`, async (req, res) => {
+  const name = req.query.value
+  if (! name) return res.json([])
+
+  const rows = await models.Rst.findAll({
+    attributes: ['id', 'name'],
+    where: [`MATCH (name) AGAINST('${name}')`],
+    limit: 5,
+  })
+
+  const candidates = _.map(rows, (row) => {
+    return _.pick(row, 'id', 'name')
+  })
+
+  res.json(candidates)
 })
 
 

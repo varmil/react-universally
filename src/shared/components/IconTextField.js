@@ -1,4 +1,5 @@
 import React from 'react'
+import { map } from 'lodash'
 import { Flex, Box } from 'reflexbox'
 import { AutoComplete, RaisedButton } from 'material-ui';
 
@@ -9,7 +10,8 @@ const autoCompleteStyle = {
 }
 
 const textFieldStyle = {
-  width: '100%'
+  width: '100%',
+  fontSize: 13
 }
 
 const hintStyle = {
@@ -32,14 +34,15 @@ export default class IconTextField extends React.Component {
   handleUpdateInput = (value) => {
     this.props.onChange(value)
 
-    // TODO: サーバに対して通信？
-    this.setState({
-      dataSource: [
-        value,
-        value + value,
-        value + value + value,
-      ],
-    })
+    // reduxだとあんまり行儀よくないけど...
+    this.props.autoCompleteApi({ value })
+      .then(({data}) => {
+        console.log(data)
+        this.setState({
+          dataSource: map(data, 'name')
+        })
+      })
+      .catch((error) => {})
   }
 
   handleNewRequest = (value) => {
@@ -61,6 +64,7 @@ export default class IconTextField extends React.Component {
             textFieldStyle={textFieldStyle}
             hintStyle={hintStyle}
             hintText={props.hintText}
+            filter={AutoComplete.caseInsensitiveFilter}
             searchText={props.value}
             dataSource={this.state.dataSource}
             onUpdateInput={this.handleUpdateInput}
