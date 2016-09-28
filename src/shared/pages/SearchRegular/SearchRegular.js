@@ -176,9 +176,9 @@ class SearchRegular extends Component {
           <div className={styles.formContainer}>
             <IconTextField
               id="SearchRegular-area"
-              style={{ margin: '10px 0' }}
+              style={{ margin: 0 }}
               leftIcon={<MapsPlace />}
-              hintText="東京都、銀座"
+              hintText="現在地周辺"
               onChange={(value) => this.onChangeForm(value, FORM_TYPE.AREA)}
               value={areaText}
               buttonLabel="area"
@@ -189,7 +189,7 @@ class SearchRegular extends Component {
 
             <IconTextField
               id="SearchRegular-genre"
-              style={{ margin: '10px 0' }}
+              style={{ margin: 0 }}
               leftIcon={<MapsRestaurant />}
               hintText="Restaurant name..."
               onChange={(value) => this.onChangeForm(value, FORM_TYPE.GENRE)}
