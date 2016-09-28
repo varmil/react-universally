@@ -10,7 +10,7 @@ class InlineSearchForm extends Component {
   render() {
     const props = this.props
     return (
-      <Paper className={`base-paper ${styles.paper}`} zDepth={1}>
+      <Paper className={`base-paper ${styles.paper}`} style={{ backgroundColor: props.bgColor }} zDepth={1}>
         <span>
           <MapsPlace className={styles.mapsIcon} />
           <TextField
@@ -19,6 +19,8 @@ class InlineSearchForm extends Component {
             hintText={<span>東京都、銀座</span>}
             value={props.areaFormValue}
             onChange={props.onChangeAreaForm}
+            onFocus={props.onFocus}
+            onBlur={props.onBlur}
           />
         </span>
 
@@ -32,6 +34,8 @@ class InlineSearchForm extends Component {
             hintText={<span>店名、ラーメン</span>}
             value={props.genreFormValue}
             onChange={props.onChangeGenreForm}
+            onFocus={props.onFocus}
+            onBlur={props.onBlur}
           />
         </span>
       </Paper>

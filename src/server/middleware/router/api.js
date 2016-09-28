@@ -96,6 +96,7 @@ router.get(`/autocomplete/rst/`, async (req, res) => {
     return _.pick(row, 'id', 'name')
   })
 
+  res.setHeader('Cache-Control', 'max-age=0, private, must-revalidate')
   res.json(candidates)
 })
 
