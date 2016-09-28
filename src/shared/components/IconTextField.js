@@ -1,7 +1,9 @@
 import React from 'react'
-import { map } from 'lodash'
+import { map, throttle } from 'lodash'
 import { Flex, Box } from 'reflexbox'
 import { AutoComplete, RaisedButton } from 'material-ui';
+
+const THROTTLE_WAIT_MS = 200
 
 const flexStyle = { }
 
@@ -28,7 +30,9 @@ export default class IconTextField extends React.Component {
 
     this.state = {
       dataSource: [],
-    };
+    }
+
+    this.throttleUpdateInput = throttle(this.handleUpdateInput, THROTTLE_WAIT_MS, { trailing: false })
   }
 
   handleUpdateInput = (value) => {
@@ -38,17 +42,17 @@ export default class IconTextField extends React.Component {
     //   return;
     // }
 
-    this.props.onChange(value)
-
     // reduxだとあんまり行儀よくないけど...
     this.props.autoCompleteApi({ value })
-      .then(({data}) => {
-        console.log(data)
-        this.setState({
-          dataSource: map(data, 'name')
-        })
+    .then(({data}) => {
+      console.log(data)
+      this.setState({
+        dataSource: map(data, 'name')
       })
-      .catch((error) => {})
+    })
+    .catch((error) => {})
+
+    this.props.onChange(value)
   }
 
   // TODO: handleUpdateInputと別Propsで管理
@@ -74,7 +78,7 @@ export default class IconTextField extends React.Component {
             filter={AutoComplete.noFilter}
             searchText={props.value}
             dataSource={this.state.dataSource}
-            onUpdateInput={this.handleUpdateInput}
+            onUpdateInput={this.throttleUpdateInput}
             onNewRequest={this.handleNewRequest}
           />
         </Box>
