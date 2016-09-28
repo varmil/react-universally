@@ -4,13 +4,14 @@ import { Flex, Box } from 'reflexbox'
 import { withRouter } from 'react-router'
 import { map, debounce } from 'lodash'
 
-import { Paper, List, ListItem, Avatar /*Tabs, Tab*/ } from 'material-ui'
+import { Paper, List, ListItem, Avatar, Divider /*Tabs, Tab*/ } from 'material-ui'
 import MapsPlace from 'material-ui/svg-icons/maps/place'
 import MapsRst from 'material-ui/svg-icons/maps/restaurant'
 import MapsRstMenu from 'material-ui/svg-icons/maps/restaurant-menu'
 
 import API from '../api'
 import SearchBox from '../components/common/SearchBox'
+import stubGenre from '../stub/genre'
 
 import * as searchFormActions from '../actions/searchForm'
 
@@ -21,12 +22,14 @@ const contentPaperStyle = {
   zIndex: 1000
 }
 
+const avatarStyle = {
+  top: 5,
+  left: 20,
+}
 
-const DEFAULT_GENRE = [
-  { id: 1, name: '中華', avatar: (<Avatar icon={<MapsRst />} />) },
-  { id: 11, name: '精進料理', avatar: (<Avatar icon={<MapsRst />} />) },
-  { id: 111, name: 'クメールフード', avatar: (<Avatar icon={<MapsRst />} />) },
-]
+const DEFAULT_GENRE = stubGenre.map((genre, i) => {
+  return { id: i, name: genre, avatar: (<Avatar size={25} style={avatarStyle} icon={<MapsRst />} />) }
+}).slice(0, 4)
 
 
 class SearchBoxContainer extends Component {
@@ -132,16 +135,28 @@ class SearchBoxContainer extends Component {
     if (open === false) return null
 
     return (
-      <List>
-        {DEFAULT_GENRE.map(data => (
+      <div>
+        <List>
+          {DEFAULT_GENRE.map((data, i) => (
+            <ListItem
+              key={`ListItem-Hint-${data.id}`}
+              innerDivStyle={{ paddingTop: 10, paddingBottom: 10, fontSize: 12 }}
+              primaryText={data.name}
+              leftAvatar={data.avatar}
+              onTouchTap={(e) => this.onItemTap(e, data)}
+            />
+          ))}
+        </List>
+        <Divider inset={true} />
+        <List>
           <ListItem
-            key={`ListItem-Hint-${data.id}`}
-            primaryText={data.name}
-            leftAvatar={data.avatar}
-            onTouchTap={(e) => this.onItemTap(e, data)}
+            insetChildren={true}
+            innerDivStyle={{ paddingTop: 10, paddingBottom: 10, fontSize: 12 }}
+            primaryText="Show More Genre"
+            onTouchTap={(e) => this.onItemTap(e)}
           />
-        ))}
-      </List>
+        </List>
+      </div>
     )
   }
 
