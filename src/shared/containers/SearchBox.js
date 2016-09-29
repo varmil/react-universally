@@ -19,7 +19,6 @@ import * as searchFormActions from '../actions/searchForm'
 
 
 const suggestPaperStyle = {
-  position: 'absolute',
   width: '100%',
   zIndex: 1000
 }
@@ -78,10 +77,10 @@ class SearchBoxContainer extends Component {
   }
 
   onBlur(e) {
-    if (this.timerTouchTapCloseId === null) {
-      this.setState({ ...this.state, focusing: false })
-      this.close()
-    }
+    // if (this.timerTouchTapCloseId === null) {
+    //   this.setState({ ...this.state, focusing: false })
+    //   this.close()
+    // }
   }
 
   onChangeAreaForm(e) {
@@ -103,14 +102,16 @@ class SearchBoxContainer extends Component {
   }
 
   onItemTap(e, data) {
-    this.timerTouchTapCloseId = setTimeout(() => {
-      this.timerTouchTapCloseId = null
+    // TODO: handle event
+    this.props.dispatch(searchFormActions.setGenreText(data.name))
 
-      // TODO: handle event
-      this.props.dispatch(searchFormActions.setGenreText(data.name))
-
-      this.close()
-    }, this.props.menuCloseDelay || 300)
+    // this.timerTouchTapCloseId = setTimeout(() => {
+    //   this.timerTouchTapCloseId = null
+    //
+    //   this.props.dispatch(searchFormActions.setGenreText(data.name))
+    //
+    //   this.close()
+    // }, this.props.menuCloseDelay || 300)
   }
 
   close() {
@@ -185,42 +186,68 @@ class SearchBoxContainer extends Component {
     )
   }
 
+
   render() {
     const { areaText, genreText } = this.props
+
+    const containerStyle = (this.state.focusing) ? (
+      {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        left: 0,
+        zIndex: 1000000,
+      }
+    )
+    :
+    (
+      { marginTop: -1 }
+    )
+
 
     const paperStyle = {
       backgroundColor: this.context.muiTheme.palette.primary1Color
     }
 
     return (
-      <div>
+      <div style={containerStyle}>
         <Paper style={paperStyle} zDepth={1}>
-          <Flex align="center" style={{ padding: '0 5px 5px' }}>
-            <Box col={5}>
-              <SearchBox
-                id='SearchBox-Area'
-                style={{ borderRight: '1px dashed #d2d2d2' }}
-                hintText="Near Me"
-                value={areaText}
-                leftIcon={<MapsPlace />}
-                onChange={::this.onChangeAreaForm}
-                onFocus={(e) => this.onFocus(e)}
-                onBlur={(e) => this.onBlur(e)}
-              />
-            </Box>
-            <Box auto>
-              <SearchBox
-                id='SearchBox-Genre'
-                style={{}}
-                hintText="Restaurant"
-                value={genreText}
-                leftIcon={<MapsRstMenu />}
-                onChange={::this.onChangeGenreForm}
-                onFocus={(e) => this.onFocus(e)}
-                onBlur={(e) => this.onBlur(e)}
-              />
-            </Box>
-          </Flex>
+            <Flex align="center" style={{ padding: '5px 5px' }}>
+
+              {(this.state.focusing) ? (
+                <Box col={1}>
+                  <NavClose onTouchTap={(e) => this.setState({ ...this.state, focusing: false, open: false })} />
+                </Box>
+              ) : null}
+
+              <Box auto>
+                <div style={{ padding: '0 10px 0' }}>
+                  <SearchBox
+                    id='SearchBox-Genre'
+                    style={{}}
+                    hintText="Restaurant"
+                    value={genreText}
+                    leftIcon={<MapsRstMenu />}
+                    onChange={::this.onChangeGenreForm}
+                    onFocus={(e) => this.onFocus(e)}
+                    // onBlur={(e) => this.onBlur(e)}
+                  />
+
+                  {(this.state.focusing) ? (
+                    <SearchBox
+                      id='SearchBox-Area'
+                      style={{ marginTop: 5 }}
+                      hintText="Near Me"
+                      value={areaText}
+                      leftIcon={<MapsPlace />}
+                      onChange={::this.onChangeAreaForm}
+                      onFocus={(e) => this.onFocus(e)}
+                      // onBlur={(e) => this.onBlur(e)}
+                    />
+                  ) : null}
+                </div>
+              </Box>
+            </Flex>
         </Paper>
 
         {this.createSuggestPaper()}
