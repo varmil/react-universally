@@ -1,13 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Flex, Box } from 'reflexbox'
-import { withRouter } from 'react-router'
-import { map, debounce } from 'lodash'
+import { withRouter, Link } from 'react-router'
+import { isEmpty, throttle } from 'lodash'
 
-import { Paper, List, ListItem, Avatar, Divider /*Tabs, Tab*/ } from 'material-ui'
+import { Paper, List, ListItem, Avatar, Divider, IconButton, FlatButton /*Tabs, Tab*/ } from 'material-ui'
+import ActionSearch from 'material-ui/svg-icons/action/search'
 import MapsPlace from 'material-ui/svg-icons/maps/place'
 import MapsRst from 'material-ui/svg-icons/maps/restaurant'
 import MapsRstMenu from 'material-ui/svg-icons/maps/restaurant-menu'
+import NavClose from 'material-ui/svg-icons/navigation/close'
 
 import API from '../api'
 import SearchBox from '../components/common/SearchBox'
@@ -16,7 +18,7 @@ import stubGenre from '../stub/genre'
 import * as searchFormActions from '../actions/searchForm'
 
 
-const contentPaperStyle = {
+const suggestPaperStyle = {
   position: 'absolute',
   width: '100%',
   zIndex: 1000
@@ -27,9 +29,12 @@ const avatarStyle = {
   left: 20,
 }
 
+const innerDivStyle = { paddingTop: 10, paddingBottom: 10, fontSize: 12 }
+
+
 const DEFAULT_GENRE = stubGenre.map((genre, i) => {
   return { id: i, name: genre, avatar: (<Avatar size={25} style={avatarStyle} icon={<MapsRst />} />) }
-}).slice(0, 4)
+}).slice(0, 3)
 
 
 class SearchBoxContainer extends Component {
@@ -47,6 +52,16 @@ class SearchBoxContainer extends Component {
       // ジャンル表示など、ユーザが入力しやすくなる仕組み
       hintNode: true,
     }
+
+    // HACK: reduxだとあんまり行儀よくないけど...
+    this.throttleFetch = throttle((value) => {
+      API.fetchAutoCompleteRst({ value })
+      .then(({data}) => {
+        console.log(data)
+        this.setState({ ...this.state, hintNode: false, dataSource: data, open: ! isEmpty(data) })
+      })
+      .catch((error) => {})
+    }, 200, { trailing: false })
   }
 
   componentWillMount() {
@@ -80,13 +95,7 @@ class SearchBoxContainer extends Component {
     this.props.dispatch(searchFormActions.setGenreText(value))
 
     if (value) {
-      // HACK: reduxだとあんまり行儀よくないけど...
-      API.fetchAutoCompleteRst({ value })
-      .then(({data}) => {
-        console.log(data)
-        this.setState({ ...this.state, hintNode: false, dataSource: data })
-      })
-      .catch((error) => {})
+      this.throttleFetch(value)
     } else {
       // デフォルト表示
       this.setState({ ...this.state, hintNode: true })
@@ -98,6 +107,7 @@ class SearchBoxContainer extends Component {
       this.timerTouchTapCloseId = null
 
       // TODO: handle event
+      this.props.dispatch(searchFormActions.setGenreText(data.name))
 
       this.close()
     }, this.props.menuCloseDelay || 300)
@@ -109,17 +119,18 @@ class SearchBoxContainer extends Component {
 
 
   createCandidate() {
-    const { dataSource, open } = this.state
-    if (dataSource.length === 0) return null
-    if (open === false) return null
+    const { dataSource } = this.state
+    if (isEmpty(dataSource)) return null
 
     return (
       <List>
         {dataSource.map(data => (
           <ListItem
             key={`ListItem-${data.id}`}
+            innerDivStyle={innerDivStyle}
+            // TODO: 入力されていない文字をbold highlight
             primaryText={data.name}
-            leftAvatar={<Avatar src="https://tabelog.ssl.k-img.com/restaurant/images/Rvw/36496/150x150_square_36496705.jpg" />}
+            rightIconButton={<IconButton style={{ top: -6 }} onTouchTap={(e) => e.preventDefault()}><ActionSearch /></IconButton>}
             onTouchTap={(e) => this.onItemTap(e, data)}
           />
         ))}
@@ -131,16 +142,13 @@ class SearchBoxContainer extends Component {
    * 何も表示されていない状態のときにだすナビ
    */
   createHintNode() {
-    const { open } = this.state
-    if (open === false) return null
-
     return (
       <div>
         <List>
           {DEFAULT_GENRE.map((data, i) => (
             <ListItem
               key={`ListItem-Hint-${data.id}`}
-              innerDivStyle={{ paddingTop: 10, paddingBottom: 10, fontSize: 12 }}
+              innerDivStyle={innerDivStyle}
               primaryText={data.name}
               leftAvatar={data.avatar}
               onTouchTap={(e) => this.onItemTap(e, data)}
@@ -149,14 +157,31 @@ class SearchBoxContainer extends Component {
         </List>
         <Divider inset={true} />
         <List>
-          <ListItem
-            insetChildren={true}
-            innerDivStyle={{ paddingTop: 10, paddingBottom: 10, fontSize: 12 }}
-            primaryText="Show More Genre"
-            onTouchTap={(e) => this.onItemTap(e)}
-          />
+          <Link to={`/search/regular`}>
+            <ListItem
+              insetChildren={true}
+              innerDivStyle={innerDivStyle}
+              primaryText="検索画面へ"
+              onTouchTap={(e) => this.onItemTap(e)}
+            />
+          </Link>
         </List>
       </div>
+    )
+  }
+
+  createSuggestPaper() {
+    const { open, hintNode } = this.state
+    if (open === false) return null
+
+    return (
+      <Paper style={suggestPaperStyle} zDepth={3}>
+        {(hintNode) ? (
+          this.createHintNode()
+        ) : (
+          this.createCandidate()
+        )}
+      </Paper>
     )
   }
 
@@ -174,8 +199,8 @@ class SearchBoxContainer extends Component {
             <Box col={5}>
               <SearchBox
                 id='SearchBox-Area'
-                style={{ borderRight: '1px solid #d2d2d2' }}
-                hintText="現在地周辺"
+                style={{ borderRight: '1px dashed #d2d2d2' }}
+                hintText="Near Me"
                 value={areaText}
                 leftIcon={<MapsPlace />}
                 onChange={::this.onChangeAreaForm}
@@ -198,13 +223,7 @@ class SearchBoxContainer extends Component {
           </Flex>
         </Paper>
 
-        <Paper style={contentPaperStyle} zDepth={3}>
-          {(this.state.hintNode) ? (
-            this.createHintNode()
-          ) : (
-            this.createCandidate()
-          )}
-        </Paper>
+        {this.createSuggestPaper()}
       </div>
     )
   }
