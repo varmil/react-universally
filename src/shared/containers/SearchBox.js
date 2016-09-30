@@ -177,7 +177,8 @@ class SearchBoxContainer extends Component {
     (
       {
         display: 'inline-flex',
-        width: '60%',
+        width: '59%',
+        marginRight: '0.5%',
       }
     )
 
