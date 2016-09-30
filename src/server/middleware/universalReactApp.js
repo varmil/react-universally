@@ -4,7 +4,7 @@ import match from 'react-router/lib/match'
 
 import render from '../htmlPage/render'
 import { DISABLE_SSR } from '../config'
-import Service from '../service'
+import services from '../services'
 import routes from '../../shared/pages/routes'
 import { createServerApp } from '../../shared/utils/createApp'
 import { IS_DEVELOPMENT } from '../../shared/config'
@@ -13,7 +13,7 @@ import configureStore from '../../shared/store/configureStore'
 
 function renderComponents(req, res, renderProps) {
   // （SSR用）SessionからUser情報を取り出して、サーバ側でSETしておく
-  const user = Service.User.pickInitialState(req.user)
+  const user = services.User.pickInitialState(req.user)
   const store = configureStore({ user })
 
   // fetch all data for initial rendering
