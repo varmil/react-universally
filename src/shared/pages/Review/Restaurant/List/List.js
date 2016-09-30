@@ -5,12 +5,11 @@ import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
 
 import AppHeader from '../../../../containers/AppHeader'
-import InlineSearchForm from '../../../../components/InlineSearchForm'
+import SearchBoxContainer from '../../../../containers/SearchBox'
 import RestaurantSimpleList from '../../../../components/list/RestaurantSimpleList'
 
 import API from '../../../../api'
 
-import * as searchFormActions from '../../../../actions/searchForm'
 import * as restaurantsActions from '../../../../actions/restaurants'
 import * as errorsActions from '../../../../actions/errors'
 
@@ -47,16 +46,6 @@ class List extends Component {
 
 
 
-  onChangeAreaForm(e) {
-    e.preventDefault()
-    this.props.dispatch(searchFormActions.setAreaText(e.target.value))
-  }
-
-  onChangeGenreForm(e) {
-    e.preventDefault()
-    this.props.dispatch(searchFormActions.setGenreText(e.target.value))
-  }
-
   onTapRestaurant(e, restaurantId) {
     e.preventDefault()
     this.props.router.push(`/review/edit/${restaurantId}`)
@@ -69,19 +58,14 @@ class List extends Component {
 
 
   render() {
-    const { areaText, genreText, restaurants } = this.props
+    const { restaurants } = this.props
     return (
       <div>
         <Helmet title="ReviewRestaurantList" />
 
-        <AppHeader title="投稿するお店を選ぶ" />
+        <AppHeader title="投稿するお店を選ぶ" zDepth={0} />
 
-        <InlineSearchForm
-          areaFormValue={areaText}
-          genreFormValue={genreText}
-          onChangeAreaForm={::this.onChangeAreaForm}
-          onChangeGenreForm={::this.onChangeGenreForm}
-        />
+        <SearchBoxContainer />
 
         <RestaurantSimpleList restaurants={restaurants.dict}
           onTapItem={::this.onTapRestaurant} onTapDetail={::this.onTapDetail} />

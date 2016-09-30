@@ -13,6 +13,7 @@ import * as searchFormActions from '../../actions/searchForm'
 
 import API from '../../api'
 import AppHeader from '../../containers/AppHeader'
+import SearchBoxContainer from '../../containers/SearchBox'
 import IconTextField from '../../components/IconTextField'
 import BudgetSelectField from '../../components/BudgetSelectField'
 import AreaList from '../../components/list/AreaList'
@@ -170,10 +171,12 @@ class SearchRegular extends Component {
       <div>
         <Helmet title="SearchRegular" />
 
-        <AppHeader title="条件入力" />
+        <AppHeader title="条件入力" zDepth={0} />
+
+        <SearchBoxContainer />
 
         <div className={styles.pageContainer}>
-          <div className={styles.formContainer}>
+          {/* <div className={styles.formContainer}>
             <IconTextField
               id="SearchRegular-area"
               style={{ margin: 0 }}
@@ -202,7 +205,7 @@ class SearchRegular extends Component {
             {this.createChips(genreChip, FORM_TYPE.GENRE)}
           </div>
 
-          <Divider />
+          <Divider /> */}
 
           <div className={styles.formContainer}>
             <Subheader>Budget</Subheader>
