@@ -9,9 +9,8 @@ import ActionCameraEnhance from 'material-ui/svg-icons/action/camera-enhance'
 import MapsMap from 'material-ui/svg-icons/maps/map'
 import MapsNearMe from 'material-ui/svg-icons/maps/near-me'
 
-import ImgTextGrid from '../../components/ImgTextGrid'
-
 import styles from './index.css'
+import ImgTextGrid from '../../components/ImgTextGrid'
 
 
 class Content extends Component {
@@ -21,7 +20,7 @@ class Content extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ marginTop: 30 }}>
         <List>
           <ImgTextGrid
             img={

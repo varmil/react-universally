@@ -4,13 +4,15 @@ import { Flex, Box } from 'reflexbox'
 import { withRouter, Link } from 'react-router'
 import { isEmpty, throttle } from 'lodash'
 
-import { Paper, List, ListItem, Avatar, Divider, IconButton, FlatButton /*Tabs, Tab*/ } from 'material-ui'
+import { Paper, List, ListItem, Avatar, Divider, IconButton /*Tabs, Tab*/ } from 'material-ui'
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import MapsPlace from 'material-ui/svg-icons/maps/place'
 import MapsRst from 'material-ui/svg-icons/maps/restaurant'
 import MapsRstMenu from 'material-ui/svg-icons/maps/restaurant-menu'
 import NavClose from 'material-ui/svg-icons/navigation/close'
+import NavArrow from 'material-ui/svg-icons/navigation/arrow-back'
 
+import styles from './SearchBox.css'
 import API from '../api'
 import SearchBox from '../components/common/SearchBox'
 import stubGenre from '../stub/genre'
@@ -101,27 +103,36 @@ class SearchBoxContainer extends Component {
     }
   }
 
-  onItemTap(e, data) {
+  onTapItem(e, data) {
     // TODO: handle event
     this.props.dispatch(searchFormActions.setGenreText(data.name))
 
-    // this.timerTouchTapCloseId = setTimeout(() => {
-    //   this.timerTouchTapCloseId = null
-    //
-    //   this.props.dispatch(searchFormActions.setGenreText(data.name))
-    //
-    //   this.close()
-    // }, this.props.menuCloseDelay || 300)
+    this.timerTouchTapCloseId = setTimeout(() => {
+      this.timerTouchTapCloseId = null
+      this.close()
+    }, this.props.menuCloseDelay || 300)
   }
 
+  onTapItemArrow(e, data) {
+    // TODO: handle event
+    this.props.dispatch(searchFormActions.setGenreText(data.name))
+  }
+
+
   close() {
-    this.setState({ open: false })
+    this.setState({ open: false, focusing: false, })
   }
 
 
   createCandidate() {
     const { dataSource } = this.state
     if (isEmpty(dataSource)) return null
+
+    const icon = (data) => (
+      <IconButton style={{ top: -6, transform: 'rotate(45deg)' }} onTouchTap={(e) => this.onTapItemArrow(e, data)}>
+        <NavArrow />
+      </IconButton>
+    )
 
     return (
       <List>
@@ -131,8 +142,8 @@ class SearchBoxContainer extends Component {
             innerDivStyle={innerDivStyle}
             // TODO: 入力されていない文字をbold highlight
             primaryText={data.name}
-            rightIconButton={<IconButton style={{ top: -6 }} onTouchTap={(e) => e.preventDefault()}><ActionSearch /></IconButton>}
-            onTouchTap={(e) => this.onItemTap(e, data)}
+            rightIconButton={icon(data)}
+            onTouchTap={(e) => this.onTapItem(e, data)}
           />
         ))}
       </List>
@@ -152,7 +163,7 @@ class SearchBoxContainer extends Component {
               innerDivStyle={innerDivStyle}
               primaryText={data.name}
               leftAvatar={data.avatar}
-              onTouchTap={(e) => this.onItemTap(e, data)}
+              onTouchTap={(e) => this.onTapItem(e, data)}
             />
           ))}
         </List>
@@ -163,7 +174,7 @@ class SearchBoxContainer extends Component {
               insetChildren={true}
               innerDivStyle={innerDivStyle}
               primaryText="検索画面へ"
-              onTouchTap={(e) => this.onItemTap(e)}
+              onTouchTap={(e) => this.onTapItem(e)}
             />
           </Link>
         </List>
@@ -204,18 +215,40 @@ class SearchBoxContainer extends Component {
       { marginTop: -1 }
     )
 
-
     const paperStyle = {
       backgroundColor: this.context.muiTheme.palette.primary1Color
     }
 
+    const genreSearchBoxStyle = (this.state.focusing) ?
+    (null)
+    :
+    (
+      {
+        display: 'inline-flex',
+        width: '60%',
+      }
+    )
+
+    const areaSearchBoxStyle = (this.state.focusing) ? (
+      {
+        marginTop: 5,
+      }
+    )
+    :
+    (
+      {
+        display: 'inline-flex',
+        width: '40%',
+      }
+    )
+
     return (
-      <div style={containerStyle}>
+      <Paper style={containerStyle}>
         <Paper style={paperStyle} zDepth={1}>
             <Flex align="center" style={{ padding: '5px 5px' }}>
 
               {(this.state.focusing) ? (
-                <Box col={1}>
+                <Box style={{ width: 20 }}>
                   <NavClose onTouchTap={(e) => this.setState({ ...this.state, focusing: false, open: false })} />
                 </Box>
               ) : null}
@@ -224,7 +257,7 @@ class SearchBoxContainer extends Component {
                 <div style={{ padding: '0 10px 0' }}>
                   <SearchBox
                     id='SearchBox-Genre'
-                    style={{}}
+                    style={genreSearchBoxStyle}
                     hintText="Restaurant"
                     value={genreText}
                     leftIcon={<MapsRstMenu />}
@@ -233,25 +266,23 @@ class SearchBoxContainer extends Component {
                     // onBlur={(e) => this.onBlur(e)}
                   />
 
-                  {(this.state.focusing) ? (
-                    <SearchBox
-                      id='SearchBox-Area'
-                      style={{ marginTop: 5 }}
-                      hintText="Near Me"
-                      value={areaText}
-                      leftIcon={<MapsPlace />}
-                      onChange={::this.onChangeAreaForm}
-                      onFocus={(e) => this.onFocus(e)}
-                      // onBlur={(e) => this.onBlur(e)}
-                    />
-                  ) : null}
+                  <SearchBox
+                    id='SearchBox-Area'
+                    style={areaSearchBoxStyle}
+                    hintText="Near Me"
+                    value={areaText}
+                    leftIcon={<MapsPlace />}
+                    onChange={::this.onChangeAreaForm}
+                    onFocus={(e) => this.onFocus(e)}
+                    // onBlur={(e) => this.onBlur(e)}
+                  />
                 </div>
               </Box>
             </Flex>
         </Paper>
 
         {this.createSuggestPaper()}
-      </div>
+      </Paper>
     )
   }
 }
