@@ -2,6 +2,7 @@ import React from 'react'
 import { Paper, TextField, IconButton, SvgIcon } from 'material-ui';
 import { Flex, Box } from 'reflexbox'
 import ActionSearch from 'material-ui/svg-icons/action/search'
+import { grey500 } from 'material-ui/styles/colors'
 import NavClose from 'material-ui/svg-icons/navigation/close'
 
 const flexStyle = {
@@ -11,12 +12,12 @@ const flexStyle = {
 }
 
 const textFieldStyle = {
-  height: 40,
+  // height: 40,
 }
 
 const hintStyle = {
   fontSize: 12,
-  bottom: 7,
+  // bottom: 7,
 }
 
 const inputStyle = {
@@ -48,11 +49,14 @@ export default class SearchBox extends React.Component {
               onBlur={props.onBlur}
             />
           </Box>
-          {/* <Box>
-            <IconButton>
-              <NavClose />
-            </IconButton>
-          </Box> */}
+
+          {(props.showClear) ? (
+            <Box>
+              <IconButton onTouchTap={props.onClear}>
+                <NavClose color={grey500} />
+              </IconButton>
+            </Box>
+          ) : (null)}
         </Flex>
     )
   }

@@ -4,16 +4,17 @@ import { Flex, Box } from 'reflexbox'
 import { withRouter } from 'react-router'
 import { isEmpty, throttle } from 'lodash'
 
-import { Paper, /*Tabs, Tab*/ } from 'material-ui'
+import { Paper } from 'material-ui'
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import MapsPlace from 'material-ui/svg-icons/maps/place'
 import MapsRstMenu from 'material-ui/svg-icons/maps/restaurant-menu'
 import NavClose from 'material-ui/svg-icons/navigation/close'
 
-import styles from './SearchBox.css'
 import API from '../api'
+import styles from './SearchBox.css'
 import SearchBox from '../components/SearchBox/SearchBox'
-import HintNode from '../components/SearchBox/HintNode'
+import HintGenreNode from '../components/SearchBox/HintGenreNode'
+import HintAreaNode from '../components/SearchBox/HintAreaNode'
 import SuggestNode from '../components/SearchBox/SuggestNode'
 
 import * as searchFormActions from '../actions/searchForm'
@@ -26,6 +27,10 @@ const suggestPaperStyle = {
 
 const innerDivStyle = { paddingTop: 10, paddingBottom: 10, fontSize: 12 }
 
+const NODE_TYPE = {
+  GENRE: 'genre',
+  AREA: 'area',
+}
 
 class SearchBoxContainer extends Component {
   static contextTypes = {
@@ -36,19 +41,21 @@ class SearchBoxContainer extends Component {
     super(props)
 
     this.state = {
+      // 検索窓が拡大した状態
       focusing: false,
+      // 現在Helperに表示すべき情報のタイプ（Area or Genre）
+      helperNodeType: undefined,
+      // Helperに表示するコンテンツ
       dataSource: [],
-      open: false,
-      // ジャンル表示など、ユーザが入力しやすくなる仕組み
-      hintNode: true,
+      // 何も入力されていない際のジャンル表示など、ユーザが入力しやすくなる仕組み
+      hintNode: false,
     }
 
     // HACK: reduxだとあんまり行儀よくないけど...
     this.throttleFetch = throttle((value) => {
       API.fetchAutoCompleteRst({ value })
       .then(({data}) => {
-        console.log(data)
-        this.setState({ ...this.state, hintNode: false, dataSource: data, open: ! isEmpty(data) })
+        this.setState({ ...this.state, hintNode: false, dataSource: data })
       })
       .catch((error) => {})
     }, 200, { trailing: false })
@@ -63,18 +70,32 @@ class SearchBoxContainer extends Component {
   }
 
 
-  onFocus(e) {
-    this.setState({ ...this.state, focusing: true, open: true })
+  onFocus(e, nodeType) {
+    this.setState({ ...this.state,
+      focusing: true,
+      // フォーカスしたテキストボックスが空ならばヒントを表示
+      hintNode: isEmpty(e.target.value),
+      helperNodeType: nodeType,
+    })
   }
 
-  onChangeAreaForm(e) {
-    e.preventDefault()
-    this.props.dispatch(searchFormActions.setAreaText(e.target.value))
+  close() {
+    this.setState({ ...this.state,
+      focusing: false,
+    })
   }
 
-  onChangeGenreForm(e) {
+  onChangeAreaForm(e, isClear) {
     e.preventDefault()
-    const value = e.target.value
+    const value = (isClear) ? '' : e.target.value
+    this.props.dispatch(searchFormActions.setAreaText(value))
+
+    // TODO: fetch
+  }
+
+  onChangeGenreForm(e, isClear) {
+    e.preventDefault()
+    const value = (isClear) ? '' : e.target.value
     this.props.dispatch(searchFormActions.setGenreText(value))
 
     if (value) {
@@ -96,24 +117,26 @@ class SearchBoxContainer extends Component {
   }
 
   onTapItemArrow(e, data) {
+    // keep focus to textbox
+    e.preventDefault()
     // TODO: handle event
     this.props.dispatch(searchFormActions.setGenreText(data.name))
   }
 
 
-  close() {
-    this.setState({ open: false, focusing: false, })
-  }
-
 
   createHelper() {
-    const { open, hintNode } = this.state
-    if (open === false) return null
+    const { focusing, hintNode, helperNodeType } = this.state
+    console.log('[createHelper]', helperNodeType)
+    if (focusing === false) return null
 
     return (
       <Paper style={suggestPaperStyle} zDepth={3}>
         {(hintNode) ? (
-          <HintNode innerDivStyle={innerDivStyle} />
+          (helperNodeType === NODE_TYPE.GENRE) ?
+          (<HintGenreNode innerDivStyle={innerDivStyle} />)
+          :
+          (<HintAreaNode innerDivStyle={innerDivStyle} />)
         ) : (
           <SuggestNode
             dataSource={this.state.dataSource}
@@ -178,7 +201,10 @@ class SearchBoxContainer extends Component {
 
               {(this.state.focusing) ? (
                 <Box style={{ width: 20 }}>
-                  <NavClose onTouchTap={(e) => this.setState({ ...this.state, focusing: false, open: false })} />
+                  <NavClose onTouchTap={(e) => {
+                    // stop event propagation
+                    setTimeout(::this.close, 0)
+                  }} />
                 </Box>
               ) : null}
 
@@ -190,8 +216,10 @@ class SearchBoxContainer extends Component {
                     hintText="Restaurant"
                     value={genreText}
                     leftIcon={<MapsRstMenu />}
-                    onChange={::this.onChangeGenreForm}
-                    onFocus={(e) => this.onFocus(e)}
+                    showClear={this.state.focusing}
+                    onClear={(e) => this.onChangeGenreForm(e, true)}
+                    onChange={(e) => this.onChangeGenreForm(e)}
+                    onFocus={(e) => this.onFocus(e, NODE_TYPE.GENRE)}
                   />
 
                   <SearchBox
@@ -200,8 +228,10 @@ class SearchBoxContainer extends Component {
                     hintText="Near Me"
                     value={areaText}
                     leftIcon={<MapsPlace />}
-                    onChange={::this.onChangeAreaForm}
-                    onFocus={(e) => this.onFocus(e)}
+                    showClear={this.state.focusing}
+                    onClear={(e) => this.onChangeAreaForm(e, true)}
+                    onChange={(e) => this.onChangeAreaForm(e)}
+                    onFocus={(e) => this.onFocus(e, NODE_TYPE.AREA)}
                   />
                 </div>
               </Box>
