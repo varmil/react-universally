@@ -28,7 +28,7 @@ class Content extends Component {
                 style={{ width: 50, height: 50, position: 'relative', top: 10 }}
                 color={this.context.muiTheme.palette.primary1Color} />
             }
-            text={<span>エリア・駅・条件<br />からお店を探す</span>}
+            text={<span>詳細条件<br />からお店を探す</span>}
             style={{ marginBottom: 10 }}
             href={`/search/regular`}
           />

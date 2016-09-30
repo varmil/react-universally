@@ -1,21 +1,20 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Flex, Box } from 'reflexbox'
-import { withRouter, Link } from 'react-router'
+import { withRouter } from 'react-router'
 import { isEmpty, throttle } from 'lodash'
 
-import { Paper, List, ListItem, Avatar, Divider, IconButton /*Tabs, Tab*/ } from 'material-ui'
+import { Paper, /*Tabs, Tab*/ } from 'material-ui'
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import MapsPlace from 'material-ui/svg-icons/maps/place'
-import MapsRst from 'material-ui/svg-icons/maps/restaurant'
 import MapsRstMenu from 'material-ui/svg-icons/maps/restaurant-menu'
 import NavClose from 'material-ui/svg-icons/navigation/close'
-import NavArrow from 'material-ui/svg-icons/navigation/arrow-back'
 
 import styles from './SearchBox.css'
 import API from '../api'
-import SearchBox from '../components/common/SearchBox'
-import stubGenre from '../stub/genre'
+import SearchBox from '../components/SearchBox/SearchBox'
+import HintNode from '../components/SearchBox/HintNode'
+import SuggestNode from '../components/SearchBox/SuggestNode'
 
 import * as searchFormActions from '../actions/searchForm'
 
@@ -25,17 +24,7 @@ const suggestPaperStyle = {
   zIndex: 1000
 }
 
-const avatarStyle = {
-  top: 5,
-  left: 20,
-}
-
 const innerDivStyle = { paddingTop: 10, paddingBottom: 10, fontSize: 12 }
-
-
-const DEFAULT_GENRE = stubGenre.map((genre, i) => {
-  return { id: i, name: genre, avatar: (<Avatar size={25} style={avatarStyle} icon={<MapsRst />} />) }
-}).slice(0, 3)
 
 
 class SearchBoxContainer extends Component {
@@ -78,13 +67,6 @@ class SearchBoxContainer extends Component {
     this.setState({ ...this.state, focusing: true, open: true })
   }
 
-  onBlur(e) {
-    // if (this.timerTouchTapCloseId === null) {
-    //   this.setState({ ...this.state, focusing: false })
-    //   this.close()
-    // }
-  }
-
   onChangeAreaForm(e) {
     e.preventDefault()
     this.props.dispatch(searchFormActions.setAreaText(e.target.value))
@@ -124,74 +106,21 @@ class SearchBoxContainer extends Component {
   }
 
 
-  createCandidate() {
-    const { dataSource } = this.state
-    if (isEmpty(dataSource)) return null
-
-    const icon = (data) => (
-      <IconButton style={{ top: -6, transform: 'rotate(45deg)' }} onTouchTap={(e) => this.onTapItemArrow(e, data)}>
-        <NavArrow />
-      </IconButton>
-    )
-
-    return (
-      <List>
-        {dataSource.map(data => (
-          <ListItem
-            key={`ListItem-${data.id}`}
-            innerDivStyle={innerDivStyle}
-            // TODO: 入力されていない文字をbold highlight
-            primaryText={data.name}
-            rightIconButton={icon(data)}
-            onTouchTap={(e) => this.onTapItem(e, data)}
-          />
-        ))}
-      </List>
-    )
-  }
-
-  /**
-   * 何も表示されていない状態のときにだすナビ
-   */
-  createHintNode() {
-    return (
-      <div>
-        <List>
-          {DEFAULT_GENRE.map((data, i) => (
-            <ListItem
-              key={`ListItem-Hint-${data.id}`}
-              innerDivStyle={innerDivStyle}
-              primaryText={data.name}
-              leftAvatar={data.avatar}
-              onTouchTap={(e) => this.onTapItem(e, data)}
-            />
-          ))}
-        </List>
-        <Divider inset={true} />
-        <List>
-          <Link to={`/search/regular`}>
-            <ListItem
-              insetChildren={true}
-              innerDivStyle={innerDivStyle}
-              primaryText="検索画面へ"
-              onTouchTap={(e) => this.onTapItem(e)}
-            />
-          </Link>
-        </List>
-      </div>
-    )
-  }
-
-  createSuggestPaper() {
+  createHelper() {
     const { open, hintNode } = this.state
     if (open === false) return null
 
     return (
       <Paper style={suggestPaperStyle} zDepth={3}>
         {(hintNode) ? (
-          this.createHintNode()
+          <HintNode innerDivStyle={innerDivStyle} />
         ) : (
-          this.createCandidate()
+          <SuggestNode
+            dataSource={this.state.dataSource}
+            innerDivStyle={innerDivStyle}
+            onTapItem={::this.onTapItem}
+            onTapItemArrow={::this.onTapItemArrow}
+          />
         )}
       </Paper>
     )
@@ -263,7 +192,6 @@ class SearchBoxContainer extends Component {
                     leftIcon={<MapsRstMenu />}
                     onChange={::this.onChangeGenreForm}
                     onFocus={(e) => this.onFocus(e)}
-                    // onBlur={(e) => this.onBlur(e)}
                   />
 
                   <SearchBox
@@ -274,14 +202,13 @@ class SearchBoxContainer extends Component {
                     leftIcon={<MapsPlace />}
                     onChange={::this.onChangeAreaForm}
                     onFocus={(e) => this.onFocus(e)}
-                    // onBlur={(e) => this.onBlur(e)}
                   />
                 </div>
               </Box>
             </Flex>
         </Paper>
 
-        {this.createSuggestPaper()}
+        {this.createHelper()}
       </Paper>
     )
   }
