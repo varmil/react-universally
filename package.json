@@ -3,12 +3,10 @@
   "version": "0.0.1",
   "scripts": {
     "docker": "cd tools/docker && docker-compose up -d",
-
     "db:install": "sequelize db:migrate",
     "db:uninstall": "sequelize db:migrate:undo:all",
     "db:init": "npm run db:uninstall && npm run db:install",
     "db:seed": "node src/server/seeders/rst-seeder.js",
-
     "clean": "rimraf build",
     "development": "node ./tools/development/server",
     "build": "npm run clean && webpack --env.mode production --config ./tools/webpack/client.config.js && webpack --env.mode production --config ./tools/webpack/server.config.js",
@@ -25,6 +23,7 @@
     "compression": "1.6.2",
     "console-stamp": "^0.2.2",
     "cookie-parser": "^1.4.3",
+    "csv-parse": "^1.1.7",
     "express": "4.14.0",
     "express-session": "^1.14.1",
     "google-map-react": "^0.19.0",

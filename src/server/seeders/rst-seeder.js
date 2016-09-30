@@ -3,7 +3,7 @@ var fs = require('fs')
 var models = require('../models')
 
 const CUISINE_CSV_PATH = '/../csv/cuisine.csv'
-const RST_CSV_PATH = '/../csv/tripa-phnom-penh.csv'
+const RST_CSV_PATH = '/../stub/tripa-phnom-penh.csv'
 
 // key: name, value: id
 let cuisines = {}
