@@ -176,9 +176,9 @@ class SearchBoxContainer extends Component {
     :
     (
       {
-        display: 'inline-flex',
+        display: 'inline-block',
         width: '59%',
-        marginRight: '0.5%',
+        marginRight: '0.99%',
       }
     )
 
@@ -190,7 +190,7 @@ class SearchBoxContainer extends Component {
     :
     (
       {
-        display: 'inline-flex',
+        display: 'inline-block',
         width: '40%',
       }
     )
@@ -210,29 +210,30 @@ class SearchBoxContainer extends Component {
               ) : null}
 
               <Box auto  style={{ margin: '0 10px 0' }}>
-                <SearchBox
-                  id='SearchBox-Genre'
-                  style={genreSearchBoxStyle}
-                  hintText="Restaurant"
-                  value={genreText}
-                  leftIcon={<MapsRstMenu />}
-                  showClear={this.state.focusing}
-                  onClear={(e) => this.onChangeGenreForm(e, true)}
-                  onChange={(e) => this.onChangeGenreForm(e)}
-                  onFocus={(e) => this.onFocus(e, NODE_TYPE.GENRE)}
-                />
-
-                <SearchBox
-                  id='SearchBox-Area'
-                  style={areaSearchBoxStyle}
-                  hintText="Near Me"
-                  value={areaText}
-                  leftIcon={<MapsPlace />}
-                  showClear={this.state.focusing}
-                  onClear={(e) => this.onChangeAreaForm(e, true)}
-                  onChange={(e) => this.onChangeAreaForm(e)}
-                  onFocus={(e) => this.onFocus(e, NODE_TYPE.AREA)}
-                />
+                <div style={genreSearchBoxStyle}>
+                  <SearchBox
+                    id='SearchBox-Genre'
+                    hintText="Restaurant"
+                    value={genreText}
+                    leftIcon={<MapsRstMenu />}
+                    showClear={this.state.focusing}
+                    onClear={(e) => this.onChangeGenreForm(e, true)}
+                    onChange={(e) => this.onChangeGenreForm(e)}
+                    onFocus={(e) => this.onFocus(e, NODE_TYPE.GENRE)}
+                  />
+                </div>
+                <div style={areaSearchBoxStyle}>
+                  <SearchBox
+                    id='SearchBox-Area'
+                    hintText="Near Me"
+                    value={areaText}
+                    leftIcon={<MapsPlace />}
+                    showClear={this.state.focusing}
+                    onClear={(e) => this.onChangeAreaForm(e, true)}
+                    onChange={(e) => this.onChangeAreaForm(e)}
+                    onFocus={(e) => this.onFocus(e, NODE_TYPE.AREA)}
+                  />
+                </div>
               </Box>
             </Flex>
         </Paper>
