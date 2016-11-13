@@ -5,7 +5,7 @@ var models = require('../models')
 
 const GENRE_CUISINE_MAPPING_CSV_PATH = '/../csv/fb-genre-ta-cuisine-mapping.csv'
 const CUISINE_CSV_PATH = '/../csv/cuisine.csv'
-const RST_CSV_PATH = '/../stub/tripa-phnom-penh.csv'
+const RST_CSV_PATH = '/../csv/tripa-phnom-penh.csv'
 
 // key: name, value: id
 let cuisines = {}
