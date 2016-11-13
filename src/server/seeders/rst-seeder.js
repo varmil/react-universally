@@ -1,22 +1,32 @@
+var _ = require('lodash')
 var csv = require('csv-parser')
 var fs = require('fs')
 var models = require('../models')
 
+const GENRE_CUISINE_MAPPING_CSV_PATH = '/../csv/fb-genre-ta-cuisine-mapping.csv'
 const CUISINE_CSV_PATH = '/../csv/cuisine.csv'
 const RST_CSV_PATH = '/../stub/tripa-phnom-penh.csv'
 
 // key: name, value: id
 let cuisines = {}
+// key: foodbookGenreId (int), value: tripAdvisorCuisineId (int array)
+let genreCuisineMapping = []
 
 
 
-
-function parseCuisine(strCuisines) {
+function mapCuisineIdsToGenreIds(strCuisines) {
   if (! strCuisines) return []
 
   const genreIds = strCuisines.split(',').map(function(e) {
-    return cuisines[e.trim()] * 1
+    const cuisineId = cuisines[e.trim()] * 1
+
+    // cuisine to genre with mapping csv
+    // マップ表が逆になっているので面倒くさい…
+    return _.find(genreCuisineMapping, function(o) {
+      return o.tripAdvisorCuisineIds.indexOf(cuisineId) !== -1
+    }).foodbookGenreId
   })
+
   return genreIds
 }
 
@@ -59,7 +69,7 @@ function insertRst(data) {
 }
 
 function insertRstGenre(data) {
-  const genreIds = parseCuisine(data.Cuisine)
+  const genreIds = mapCuisineIdsToGenreIds(data.Cuisine)
 
   // Cuisineが設定されていなければInsertしない
   if (genreIds.length === 0) return Promise.resolve()
@@ -77,12 +87,28 @@ function insertRstGenre(data) {
 
 
 
-function loadGenreCsv() {
+function loadCuisineCsv() {
   return new Promise(function(resolve, reject) {
     fs.createReadStream(__dirname + CUISINE_CSV_PATH)
       .pipe(csv())
       .on('data', function (data) {
         cuisines[data.name] = data.id
+      })
+      .on('end', function () {
+        resolve()
+      })
+  })
+}
+
+function loadGenreCuisineMappingCsv() {
+  return new Promise(function(resolve, reject) {
+    fs.createReadStream(__dirname + GENRE_CUISINE_MAPPING_CSV_PATH)
+      .pipe(csv())
+      .on('data', function (data) {
+        genreCuisineMapping.push({
+          foodbookGenreId: data.foodbookGenreId,
+          tripAdvisorCuisineIds: data.tripAdvisorCuisineId.split(',').map(id => id * 1),
+        })
       })
       .on('end', function () {
         resolve()
@@ -114,38 +140,9 @@ function loadRstCsvAndSave() {
 
 
 return models.Rst.truncate()
-  .then(loadGenreCsv)
+  .then(loadCuisineCsv)
+  .then(loadGenreCuisineMappingCsv)
   .then(loadRstCsvAndSave)
   .then(function() {
     console.log('### INSERT FINISHED ###')
   })
-
-
-
-// module.exports = {
-//   up: function (queryInterface, Sequelize) {
-//     /*
-//       Add altering commands here.
-//       Return a promise to correctly handle asynchronicity.
-//
-//       Example:
-//       return queryInterface.bulkInsert('Person', [{
-//         name: 'John Doe',
-//         isBetaMember: false
-//       }], {});
-//     */
-//
-//   },
-//
-//   down: function (queryInterface, Sequelize) {
-//     /*
-//       Add reverting commands here.
-//       Return a promise to correctly handle asynchronicity.
-//
-//       Example:
-//       return queryInterface.bulkDelete('Person', null, {});
-//     */
-//
-//     // return models.Rst.truncate()
-//   }
-// };
