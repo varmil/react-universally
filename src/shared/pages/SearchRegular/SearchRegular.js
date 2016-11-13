@@ -18,8 +18,8 @@ import IconTextField from '../../components/IconTextField'
 import BudgetSelectField from '../../components/BudgetSelectField'
 import AreaList from '../../components/list/AreaList'
 import GenreList from '../../components/list/GenreList'
-import stubArea from '../../stub/area'
-import stubGenre from '../../stub/genre'
+import masterArea from '../../master/area'
+import masterGenre from '../../master/genre'
 
 import styles from './index.css'
 
@@ -225,7 +225,7 @@ class SearchRegular extends Component {
             onRequestClose={::this.handleCloseDialog}
             autoScrollBodyContent={true}
           >
-            <AreaList subheader="Phnom Penh" data={stubArea} checkedItems={areaChip} onCheck={::this.onCheckArea} />
+            <AreaList subheader="Phnom Penh" data={masterArea} checkedItems={areaChip} onCheck={::this.onCheckArea} />
           </Dialog>
 
           <Dialog
@@ -237,7 +237,7 @@ class SearchRegular extends Component {
             onRequestClose={::this.handleCloseDialog}
             autoScrollBodyContent={true}
           >
-            <GenreList subheader="Food" data={stubGenre} checkedItems={genreChip} onCheck={::this.onCheckGenre} />
+            <GenreList subheader="Food" data={masterGenre} checkedItems={genreChip} onCheck={::this.onCheckGenre} />
           </Dialog>
         </div>
       </div>

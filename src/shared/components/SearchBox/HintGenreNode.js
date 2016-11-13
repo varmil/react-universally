@@ -1,16 +1,16 @@
 import React from 'react'
+import { map } from 'lodash'
 import { Link } from 'react-router'
 import { List, ListItem, Divider } from 'material-ui'
 import MapsRst from 'material-ui/svg-icons/maps/restaurant'
 
 import LeftAvatar from './LeftAvatar'
-import stubGenre from '../../stub/genre'
+import masterGenre from '../../master/genre'
 
 
-const DEFAULT_GENRE = stubGenre.map((genre, i) => {
-  return { id: i, name: genre, avatar: LeftAvatar(<MapsRst />) }
+const DEFAULT_GENRE = map(masterGenre, (genre, id) => {
+  return { id: id, name: genre, avatar: LeftAvatar(<MapsRst />) }
 }).slice(0, 4)
-
 
 /**
  * 何も表示されていない状態のときにだすナビ

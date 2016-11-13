@@ -1,0 +1,17 @@
+export default {
+  1001: 'Chinese/Korean',
+  1002: 'Fastfood',
+  1003: 'A Ha Bous',
+  1004: 'Soup',
+  1005: 'YAKINIKU',
+  1006: 'Khmer Food',
+  1007: 'Street Food',
+  1008: 'Prohet chean',
+  1009: 'Buffet',
+  1010: 'Bakery/Desert',
+  1011: 'Japanese',
+  1012: 'Bar',
+  1013: 'Asian',
+  1014: 'Cafe',
+  1015: 'Western Food',
+}

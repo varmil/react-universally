@@ -8,6 +8,7 @@ import ContentCreate from 'material-ui/svg-icons/content/create'
 import ActionCameraEnhance from 'material-ui/svg-icons/action/camera-enhance'
 import MapsMap from 'material-ui/svg-icons/maps/map'
 import MapsNearMe from 'material-ui/svg-icons/maps/near-me'
+import MapsAddLocation from 'material-ui/svg-icons/maps/add-location'
 
 import styles from './index.css'
 import ImgTextGrid from '../../components/ImgTextGrid'
@@ -44,6 +45,23 @@ class Content extends Component {
             href={`/restaurant/list`}
           />
         </List>
+
+
+
+        {/* DEBUG用 */}
+        <div style={{ marginTop: 30 }}>
+          <ImgTextGrid
+            img={
+              <MapsAddLocation
+                style={{ width: 50, height: 50, position: 'relative', top: 10 }}
+                color={this.context.muiTheme.palette.primary1Color} />
+            }
+            text={<span>新規レストランを<br />登録する（関係者専用）</span>}
+            href={`/restaurant/edit`}
+          />
+        </div>
+
+
 
         <Link to={`/review/restaurant/list`}>
           <FloatingActionButton secondary={true} className={styles.pen}>
