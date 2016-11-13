@@ -47,6 +47,18 @@ npm start
 npm run db:seed
 ```
 
+## docker
+```sh
+# mysql接続
+docker exec -it docker_mariadb_1 mysql -uroot foodbook_development
+
+# イメージ一覧
+docker images
+
+# コンテナ一覧
+docker ps -a
+```
+
 
 ## .env file settings
 
