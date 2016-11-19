@@ -2,6 +2,8 @@
 import express from 'express'
 import passport from 'passport'
 import _ from 'lodash'
+import multer from 'multer'
+
 
 // STUB
 import restaurantList from '../../stub/restaurantList'
@@ -11,6 +13,7 @@ import models from '../../models'
 import services from '../../services'
 
 const router = express.Router()
+const upload = multer({ dest: 'uploads/' })
 
 
 // middleware that is specific to this router
@@ -91,6 +94,17 @@ router.get(`/autocomplete/rst/`, async (req, res) => {
 
 
 
+router.post('/restaurant/edit', upload.array('eyecatch'), async (req, res) => {
+    // if (! req.isAuthenticated()) return res.status(403).send('User MUST login first')
+
+    console.log(req.body)
+    console.log(req.files)
+
+    // TODO: save data into mysql
+
+    res.json(true)
+  }
+)
 
 router.post('/login',
   passport.authenticate('local'),

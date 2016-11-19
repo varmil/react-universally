@@ -3,11 +3,9 @@ import { isEmpty, range, round } from 'lodash'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
-import Dropzone from 'react-dropzone'
 import { Flex, Box } from 'reflexbox'
 
-import { Paper, Divider, TextField, IconButton, SelectField, MenuItem, RaisedButton } from 'material-ui'
-import ImgAddPhoto from 'material-ui/svg-icons/image/add-a-photo';
+import { Paper, Divider, TextField, SelectField, MenuItem, RaisedButton } from 'material-ui'
 
 import * as restaurantDetailActions from '../../../../actions/restaurantDetail'
 import * as errorsActions from '../../../../actions/errors'
@@ -15,7 +13,7 @@ import * as errorsActions from '../../../../actions/errors'
 import API from '../../../../api'
 import AppHeader from '../../../../containers/AppHeader'
 import FiveStar from '../../../../components/FiveStar'
-import ImgPreviewList from '../../../../components/list/ImgPreviewList'
+import Dropzone from '../../../../components/Dropzone'
 
 
 // TODO: とりあえずcommonデータを参照
@@ -30,37 +28,6 @@ const containerMargin = {
 
 const textFieldStyle = {
   width: '100%',
-}
-
-const iconStyles = {
-  medium: {
-    width: 48,
-    height: 48,
-  },
-  large: {
-    width: 60,
-    height: 60,
-  },
-}
-
-const iconButtonStyles = {
-  medium: {
-    width: 96,
-    height: 96,
-    padding: 24,
-  },
-  large: {
-    width: 120,
-    height: 120,
-    padding: 30,
-  },
-}
-
-const dropzoneStyle = {
-  display: 'inline-block',
-  backgroundColor: 'whitesmoke',
-  border: '1px dashed gray',
-  marginBottom: 10
 }
 
 const bottomPaperStyle = {
@@ -120,8 +87,6 @@ class Top extends Component {
     console.log('Received files: ', files);
     this.setState({ ...this.state, files: this.state.files.concat(files) })
   }
-
-
 
   onTapImgDelete(e, tappedFile) {
     e.preventDefault()
@@ -189,18 +154,7 @@ class Top extends Component {
         </div>
 
         <div style={containerMargin}>
-          <Dropzone accept="image/*" onDrop={::this.onDrop} style={dropzoneStyle}>
-            <IconButton
-              iconStyle={iconStyles.medium}
-              style={iconButtonStyles.medium}
-            >
-              <ImgAddPhoto />
-            </IconButton>
-          </Dropzone>
-
-          {this.state.files.length > 0 ?
-            <ImgPreviewList files={this.state.files} onTapDelete={::this.onTapImgDelete} />
-          : null}
+          <Dropzone files={this.state.files} onDrop={::this.onDrop} onTapImgDelete={::this.onTapImgDelete} />
         </div>
 
         <Paper style={bottomPaperStyle}>

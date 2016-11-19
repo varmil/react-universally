@@ -64,6 +64,9 @@ export default {
 
 
 
+  postRestaurantEdit: (params) => {
+    return api.post('/restaurant/edit', params)
+  },
 
   postLogin: (params) => {
     return api.post('/login', params)
