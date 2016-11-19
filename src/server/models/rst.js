@@ -2,15 +2,17 @@
 module.exports = function(sequelize, DataTypes) {
   var Rst = sequelize.define('Rst', {
     name: DataTypes.STRING,
-    link: DataTypes.STRING,
+    address: DataTypes.STRING,
+    phone_number: DataTypes.STRING,
+    area: DataTypes.STRING,
+    genre_id: DataTypes.INTEGER,
     low_budget: DataTypes.INTEGER,
     high_budget: DataTypes.INTEGER,
     rating: DataTypes.FLOAT,
+    latlng: DataTypes.GEOMETRY,
+    link: DataTypes.STRING,
     open_hours: DataTypes.TEXT,
     pr_text: DataTypes.STRING,
-    address: DataTypes.STRING,
-    latlng: DataTypes.GEOMETRY,
-    phone_number: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
