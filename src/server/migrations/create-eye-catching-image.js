@@ -17,6 +17,7 @@ module.exports = {
       },
       filename: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING,
       },
       destination: {

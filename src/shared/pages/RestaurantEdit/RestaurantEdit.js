@@ -3,7 +3,7 @@ import { map } from 'lodash'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
-import { TextField, SelectField, MenuItem, AutoComplete, RaisedButton } from 'material-ui'
+import { TextField, SelectField, MenuItem, AutoComplete, RaisedButton, CircularProgress } from 'material-ui'
 
 import ContentAddBox from 'material-ui/svg-icons/content/add-box';
 
@@ -33,6 +33,8 @@ class RestaurantEdit extends Component {
       genreId: 1001,
       budgetId: 1,
       files: [],
+      // registerボタン押下後、レスポンス帰ってくるまでtrue
+      submitting: false,
       errMsg: '',
     }
   }
@@ -89,17 +91,16 @@ class RestaurantEdit extends Component {
   }
 
   onSubmit(e) {
-    const { dispatch } = this.props
+    this.setState({ ...this.state, submitting: true })
+
     const params =  this.state
     let formData = new FormData()
-
     formData.append('rstName', params.rstName)
     formData.append('rstAddress', params.rstAddress)
     formData.append('rstPhone', params.rstPhone)
     formData.append('area', params.area)
     formData.append('genreId', params.genreId)
     formData.append('budgetId', params.budgetId)
-
     // 複数画像をPOSTするためにFormDataを使用する
     params.files.forEach(file => {
       formData.append('eyecatch', file);
@@ -108,10 +109,11 @@ class RestaurantEdit extends Component {
     API.postRestaurantEdit(formData)
       .then(({ data }) => {
         console.info(data)
+        this.setState({ ...this.state, submitting: false })
       })
       .catch((reason) => {
         console.error(reason)
-        this.setState({ ...this.state, errMsg: reason.toString() })
+        this.setState({ ...this.state, errMsg: reason.toString(), submitting: false })
       })
   }
 
@@ -184,10 +186,13 @@ class RestaurantEdit extends Component {
             <RaisedButton
               label="Register"
               secondary={true}
-              icon={<ContentAddBox />}
+              icon={(this.state.submitting) ? <CircularProgress thickness={5} /> : <ContentAddBox />}
               onTouchTap={::this.onSubmit}
+              disabled={this.state.submitting}
             />
           </div>
+
+          <div>{this.state.errMsg}</div>
         </div>
       </div>
     )

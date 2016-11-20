@@ -13,6 +13,7 @@ module.exports = {
       },
       name: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING
       },
       address: {
@@ -20,22 +21,27 @@ module.exports = {
         type: Sequelize.STRING
       },
       phone_number: {
+        allowNull: false,
         type: Sequelize.STRING,
         defaultValue: '',
       },
       area: {
+        allowNull: false,
         type: Sequelize.STRING,
         defaultValue: '',
       },
       low_budget: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         defaultValue: 0,
       },
       high_budget: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         defaultValue: 0,
       },
       rating: {
+        allowNull: false,
         type: Sequelize.FLOAT,
         defaultValue: 0,
       },
@@ -44,14 +50,17 @@ module.exports = {
         type: Sequelize.GEOMETRY
       },
       link: {
+        allowNull: false,
         type: Sequelize.STRING,
         defaultValue: '',
       },
       open_hours: {
+        allowNull: false,
         type: Sequelize.TEXT,
         defaultValue: '',
       },
       pr_text: {
+        allowNull: false,
         type: Sequelize.STRING,
         defaultValue: '',
       },
