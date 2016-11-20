@@ -1,6 +1,6 @@
 var db = require('../models')
 
-const tableName = db.RstGenre.tableName
+const tableName = db.EyeCatchingImage.tableName
 
 module.exports = {
   up: function(queryInterface, Sequelize) {
@@ -12,12 +12,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       rst_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        defaultValue: 0,
       },
-      genre_id: {
+      filename: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      destination: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      path: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      size: {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
@@ -26,10 +38,9 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     })
     .then(() => queryInterface.addIndex(tableName, ['rst_id']))
-    .then(() => queryInterface.addIndex(tableName, ['genre_id']))
   },
   down: function(queryInterface, Sequelize) {
     return queryInterface.dropTable(tableName);

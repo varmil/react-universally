@@ -27,10 +27,6 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: '',
       },
-      genre_id: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
       low_budget: {
         type: Sequelize.INTEGER,
         defaultValue: 0,

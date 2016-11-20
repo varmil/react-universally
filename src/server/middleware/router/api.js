@@ -2,8 +2,8 @@
 import express from 'express'
 import passport from 'passport'
 import _ from 'lodash'
+import uuid from 'uuid'
 import multer from 'multer'
-
 
 // STUB
 import restaurantList from '../../stub/restaurantList'
@@ -13,7 +13,31 @@ import models from '../../models'
 import services from '../../services'
 
 const router = express.Router()
-const upload = multer({ dest: 'uploads/' })
+
+// https://github.com/felixrieseberg/React-Dropzone-Component/blob/master/example/src-server/multerImpl.js
+const storage = multer.diskStorage({
+  filename: function (req, file, cb) {
+    let ext
+    // 適切な拡張子を付与
+    switch (file.mimetype) {
+      case 'image/jpeg':
+        ext = '.jpg'
+        break
+      case 'image/png':
+        ext = '.png'
+        break
+      case 'image/gif':
+        ext = '.gif'
+        break
+      default:
+        console.error('file.mimetype does NOT match any type')
+    }
+    cb(null, uuid() + ext)
+  }
+})
+const upload = multer({ storage })
+
+
 
 
 // middleware that is specific to this router
@@ -81,7 +105,6 @@ router.get('/restaurant/detail/:rstId/review/:rvwId', (req, res) => {
 
 
 
-// TODO: ロジックは別クラスに移動
 router.get(`/autocomplete/rst/`, async (req, res) => {
   const inputValue = req.query.value
   if (! inputValue) return res.json([])
@@ -97,14 +120,28 @@ router.get(`/autocomplete/rst/`, async (req, res) => {
 router.post('/restaurant/edit', upload.array('eyecatch'), async (req, res) => {
     // if (! req.isAuthenticated()) return res.status(403).send('User MUST login first')
 
-    console.log(req.body)
-    console.log(req.files)
+    const body = req.body
+    const files = req.files
 
-    // TODO: save data into mysql
+    console.log(body)
+    console.log(files)
 
-    res.json(true)
+    // 必須入力項目チェック
+    if (! body.rstName || ! body.rstAddress || ! body.rstPhone)
+      return res.status(500).send('requied params are absent')
+
+    // save into mysql
+    try {
+      const result = await services.Rst.Register(body, files)
+      res.json(result)
+    } catch (e) {
+      console.error(e)
+      res.status(500).send(e)
+    }
   }
 )
+
+
 
 router.post('/login',
   passport.authenticate('local'),
