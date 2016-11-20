@@ -3,7 +3,7 @@ import { map } from 'lodash'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
-import { TextField, SelectField, MenuItem, AutoComplete, RaisedButton, CircularProgress } from 'material-ui'
+import { TextField, SelectField, MenuItem, AutoComplete, RaisedButton, CircularProgress, Snackbar } from 'material-ui'
 
 import ContentAddBox from 'material-ui/svg-icons/content/add-box';
 
@@ -15,28 +15,31 @@ import masterArea from '../../master/area'
 import masterGenre from '../../master/genre'
 import masterBudget from '../../master/budget'
 
+const WAIT_MS_AFTER_REGISTER = 3000
 
 const exampleStyle = {
   color: 'grey',
   fontSize: 12,
 }
 
+const initialState = {
+  rstName: '',
+  rstAddress: '',
+  rstPhone: '',
+  area: '',
+  genreId: 1001,
+  budgetId: 1,
+  files: [],
+  // registerボタン押下後、レスポンス帰ってくるまでtrue
+  submitting: false,
+  msg: '',
+}
+
 class RestaurantEdit extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      rstName: '',
-      rstAddress: '',
-      rstPhone: '',
-      area: '',
-      genreId: 1001,
-      budgetId: 1,
-      files: [],
-      // registerボタン押下後、レスポンス帰ってくるまでtrue
-      submitting: false,
-      errMsg: '',
-    }
+    this.state = initialState
   }
 
   createAreaAutoCompleteData() {
@@ -107,13 +110,13 @@ class RestaurantEdit extends Component {
     })
 
     API.postRestaurantEdit(formData)
-      .then(({ data }) => {
-        console.info(data)
-        this.setState({ ...this.state, submitting: false })
+      .then(({ res }) => {
+        this.setState({ ...this.state, msg: 'SUCCESS! Page will be reloaded soon, please wait...', submitting: false })
+        // 入力状態を初期化するためにリロード
+        setTimeout(() => location.reload(), WAIT_MS_AFTER_REGISTER)
       })
       .catch((reason) => {
-        console.error(reason)
-        this.setState({ ...this.state, errMsg: reason.toString(), submitting: false })
+        this.setState({ ...this.state, msg: reason.toString(), submitting: false })
       })
   }
 
@@ -192,7 +195,13 @@ class RestaurantEdit extends Component {
             />
           </div>
 
-          <div>{this.state.errMsg}</div>
+          <Snackbar
+            open={!!this.state.msg}
+            message={this.state.msg}
+            autoHideDuration={WAIT_MS_AFTER_REGISTER}
+            onRequestClose={() => this.setState({ ...this.state, msg: '' })}
+          />
+
         </div>
       </div>
     )
