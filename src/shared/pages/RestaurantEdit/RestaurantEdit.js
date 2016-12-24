@@ -31,6 +31,8 @@ const initialState = {
   genreId: 1001,
   budgetId: 1,
   files: [],
+  // 既存店舗選択時の登録済み画像一覧
+  existingImages: [],
   // registerボタン押下後、レスポンス帰ってくるまでtrue
   submitting: false,
   msg: '',
@@ -95,7 +97,7 @@ class RestaurantEdit extends Component {
       if (budgetFound) this.setState({ ...this.state, budgetId: '' + budgetFound.id })
 
       // 画像は表示だけ
-
+      this.setState({ ...this.state, existingImages: data.images })
     })
     .catch((error) => {})
   }
@@ -235,6 +237,10 @@ class RestaurantEdit extends Component {
           <div style={{ margin: '10px 0' }}>
             <h5>Eye Catching Images</h5>
             <Dropzone files={this.state.files} onDrop={::this.onDrop} onTapImgDelete={::this.onTapImgDelete} />
+
+            {this.state.existingImages.map(image => (
+              <img key={`Images-${image.path}`} src={`/${image.path}`} role='presentation' width={150} />
+            ))}
           </div>
 
           <div>

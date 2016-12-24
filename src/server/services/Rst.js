@@ -6,7 +6,8 @@ import masterBudget from '../../shared/master/budget'
 
 
 // レストランのアイキャッチ画像保存パス
-const EYE_CATCHING_IMAGE_BASEPATH = 'public/img/eye-catching/'
+const EYE_CATCHING_IMAGE_BASEDIRECTORY = 'public/'
+const EYE_CATCHING_IMAGE_BASEPATH = `${EYE_CATCHING_IMAGE_BASEDIRECTORY}img/eye-catching/`
 
 export default class Rst {
   /**
@@ -53,8 +54,9 @@ export default class Rst {
           resolve({
             rst_id: rstId,
             filename: file.filename,
-            destination: destination,
-            path: newPath,
+            // public/ はURLアクセスの際は不要なので消しておく
+            destination: destination.replace(EYE_CATCHING_IMAGE_BASEDIRECTORY, ''),
+            path: newPath.replace(EYE_CATCHING_IMAGE_BASEDIRECTORY, ''),
             size: file.size,
           })
         })
@@ -78,7 +80,13 @@ export default class Rst {
       order: [[ 'id', 'ASC' ]],
       raw: true,
     })
-    return { ...rst, ...genreId }
+    const images = await models.EyeCatchingImage.findAll({
+      attributes: [ 'path' ],
+      where: { rst_id: rst.id },
+      order: [[ 'id', 'ASC' ]],
+      raw: true,
+    })
+    return { ...rst, ...genreId, images }
   }
 
 
