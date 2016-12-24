@@ -13,10 +13,12 @@ module.exports = {
       },
       rst_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         defaultValue: 0,
       },
       genre_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         defaultValue: 0,
       },
       createdAt: {
@@ -30,6 +32,7 @@ module.exports = {
     })
     .then(() => queryInterface.addIndex(tableName, ['rst_id']))
     .then(() => queryInterface.addIndex(tableName, ['genre_id']))
+    .then(() => queryInterface.addIndex(tableName, ['rst_id', 'genre_id'], { indicesType: 'UNIQUE' }))
   },
   down: function(queryInterface, Sequelize) {
     return queryInterface.dropTable(tableName);

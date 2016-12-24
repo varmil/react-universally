@@ -68,6 +68,11 @@ export default {
     return api.post('/restaurant/edit', params)
   },
 
+  getRestaurantInfo: (query, params) => {
+    return api.get(`/restaurant/info/${params.id}`, { params: query })
+  },
+
+
   postLogin: (params) => {
     return api.post('/login', params)
   },

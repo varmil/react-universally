@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { map } from 'lodash'
+import { map, find } from 'lodash'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
@@ -10,7 +10,6 @@ import ContentAddBox from 'material-ui/svg-icons/content/add-box';
 import API from '../../api'
 import AppHeader from '../../containers/AppHeader'
 import Dropzone from '../../components/Dropzone'
-import * as userActions from '../../actions/user'
 import masterArea from '../../master/area'
 import masterGenre from '../../master/genre'
 import masterBudget from '../../master/budget'
@@ -23,7 +22,9 @@ const exampleStyle = {
 }
 
 const initialState = {
+  rstId: 0,
   rstName: '',
+  rstNameDataSource: [],
   rstAddress: '',
   rstPhone: '',
   area: '',
@@ -50,9 +51,53 @@ class RestaurantEdit extends Component {
 
 
 
-  onChangeRstName(e, value) {
+  onUpdateInputRstName(value) {
     console.log(value)
-    this.setState({ ...this.state, rstName: value })
+
+    // いったん、UPDATE用のIDをリセット
+    this.setState({ ...this.state, rstName: value, rstId: 0 })
+
+    // サーバにHITする店名が既に存在しないかチェック
+    API.fetchAutoCompleteRst({ value })
+    .then(({data}) => {
+      const nodes = map(data, (e) => {
+        return {
+          text: e.name,
+          value: (<MenuItem key={`MenuItem-RstName-${e.id}`} value={e.id} primaryText={e.name} />)
+        }})
+      this.setState({ ...this.state, rstNameDataSource: nodes })
+    })
+    .catch((error) => {})
+  }
+
+  onNewRequestRstName(chosenRequest) {
+    console.log(chosenRequest)
+    // AutoComplete以外でEnter押した場合は弾く
+    if (! chosenRequest.value) return
+
+    // サーバから当該店舗の情報をfetchして、stateを上書きする
+    const id = chosenRequest.value.props.value
+    API.getRestaurantInfo({},  { id })
+    .then(({data}) => {
+      console.log('fetched', data)
+      this.setState({
+        ...this.state,
+        rstId: data.id,
+        rstName: data.name,
+        rstAddress: data.address,
+        rstPhone: data.phone_number,
+        area: data.area,
+        genreId: '' + data.genre_id,
+      })
+
+      // 予算はパースしてIDセット
+      const budgetFound = find(masterBudget, { lowerLimit: data.low_budget, upperLimit: data.high_budget })
+      if (budgetFound) this.setState({ ...this.state, budgetId: '' + budgetFound.id })
+
+      // 画像は表示だけ
+
+    })
+    .catch((error) => {})
   }
 
   onChangeRstAddress(e, value) {
@@ -98,6 +143,7 @@ class RestaurantEdit extends Component {
 
     const params =  this.state
     let formData = new FormData()
+    formData.append('rstId', params.rstId)
     formData.append('rstName', params.rstName)
     formData.append('rstAddress', params.rstAddress)
     formData.append('rstPhone', params.rstPhone)
@@ -129,21 +175,26 @@ class RestaurantEdit extends Component {
         <div style={{ margin: 10 }}>
           <h2>Register New Restaurant</h2>
 
-          <TextField id="TextField-RstName"
-            floatingLabelText="Restaurant Name"
-            onChange={::this.onChangeRstName}
+          <AutoComplete id="AutoComplete-TextField-RstName"
+            floatingLabelText="Restaurant Name (autocomplete)"
+            filter={AutoComplete.noFilter}
+            dataSource={this.state.rstNameDataSource}
+            onUpdateInput={::this.onUpdateInputRstName}
+            onNewRequest={::this.onNewRequestRstName}
           />
           <div style={exampleStyle}>ex) Malis Cambodian Restaurant</div>
 
           <TextField id="TextField-RstAddress"
             floatingLabelText="Restaurant Address"
             onChange={::this.onChangeRstAddress}
+            value={this.state.rstAddress}
           />
           <div style={exampleStyle}>ex) 136 Norodom Boulevard, Phnom Penh 12101, Cambodia</div>
 
           <TextField id="TextField-RstPhone"
             floatingLabelText="Restaurant Phone Number"
             onChange={::this.onChangeRstPhone}
+            value={this.state.rstPhone}
           />
           <div style={exampleStyle}>ex) 85515814888</div>
 
@@ -152,6 +203,7 @@ class RestaurantEdit extends Component {
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={this.createAreaAutoCompleteData()}
             onNewRequest={::this.onNewRequestArea}
+            searchText={this.state.area}
           />
           <div style={exampleStyle}>ex) Tonle Basak, Monourom, etc.</div>
 

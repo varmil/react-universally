@@ -16,20 +16,28 @@ export default class Rst {
     // 予算情報のパース
     const { lowerLimit, upperLimit } = masterBudget[body.budgetId]
 
-    // レストラン情報保存
-    const createdRst = await models.Rst.create({
+    // レストラン情報保存（パラメタ文字列なので必要に応じて数値変換する）
+    const values = {
+      id: body.rstId,
       name: body.rstName,
       address: body.rstAddress,
       phone_number: body.rstPhone,
       area: body.area,
-      genre_id: body.genreId,
       low_budget: lowerLimit,
       high_budget: upperLimit,
-    })
+    }
+    let rstId;
+    if (body.rstId * 1) {
+      await models.Rst.update(values, { where: { id: body.rstId } })
+      rstId = body.rstId
+    } else {
+      const createdRst = await models.Rst.create(values)
+      rstId = createdRst.id
+    }
 
     // ジャンル情報の登録
-    await models.RstGenre.create({
-      rst_id: createdRst.id,
+    await models.RstGenre.upsert({
+      rst_id: rstId,
       genre_id: body.genreId,
     })
 
@@ -37,13 +45,13 @@ export default class Rst {
     const filePromises = files.map((file) => {
       return new Promise((resolve, reject) => {
         // 一時置き場から画像ファイルを移動する
-        const destination = `${EYE_CATCHING_IMAGE_BASEPATH}${createdRst.id}`
+        const destination = `${EYE_CATCHING_IMAGE_BASEPATH}${rstId}`
         const newPath = `${destination}/${file.filename}`
         fs.move(file.path, newPath, (err) => {
           if (err) throw err
 
           resolve({
-            rst_id: createdRst.id,
+            rst_id: rstId,
             filename: file.filename,
             destination: destination,
             path: newPath,
@@ -57,4 +65,21 @@ export default class Rst {
 
     return true
   }
+
+
+  /**
+   * レストラン情報取得
+   */
+  static async Fetch(id) {
+    const rst = await models.Rst.findById(id, { raw: true })
+    const genreId = await models.RstGenre.findOne({
+      attributes: [ 'genre_id' ],
+      where: { rst_id: rst.id },
+      order: [[ 'id', 'ASC' ]],
+      raw: true,
+    })
+    return { ...rst, ...genreId }
+  }
+
+
 }

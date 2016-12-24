@@ -117,6 +117,10 @@ router.get(`/autocomplete/rst/`, async (req, res) => {
 
 
 
+
+// ------------------------------------------------------------
+// 編集系
+// ------------------------------------------------------------
 router.post('/restaurant/edit', upload.array('eyecatch'), async (req, res) => {
     // if (! req.isAuthenticated()) return res.status(403).send('User MUST login first')
 
@@ -140,6 +144,13 @@ router.post('/restaurant/edit', upload.array('eyecatch'), async (req, res) => {
     }
   }
 )
+
+// レストラン情報の全部を返す汎用API（データ量多いので注意）
+router.get('/restaurant/info/:id', async (req, res) => {
+  const result = await services.Rst.Fetch(req.params.id)
+  res.json(result)
+})
+
 
 
 
