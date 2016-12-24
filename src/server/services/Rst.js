@@ -19,7 +19,6 @@ export default class Rst {
 
     // レストラン情報保存（パラメタ文字列なので必要に応じて数値変換する）
     const values = {
-      id: body.rstId,
       name: body.rstName,
       address: body.rstAddress,
       phone_number: body.rstPhone,
@@ -29,6 +28,7 @@ export default class Rst {
     }
     let rstId;
     if (body.rstId * 1) {
+      values.id = body.rstId,
       await models.Rst.update(values, { where: { id: body.rstId } })
       rstId = body.rstId
     } else {
