@@ -178,7 +178,7 @@ class RestaurantEdit extends Component {
           <h2>Register New Restaurant</h2>
 
           <AutoComplete id="AutoComplete-TextField-RstName"
-            floatingLabelText="Restaurant Name (autocomplete)"
+            floatingLabelText="Restaurant Name"
             filter={AutoComplete.noFilter}
             dataSource={this.state.rstNameDataSource}
             onUpdateInput={::this.onUpdateInputRstName}
