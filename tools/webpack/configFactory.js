@@ -5,20 +5,13 @@ const webpack = require('webpack');
 const AssetsPlugin = require('assets-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const dotenv = require('dotenv');
 const appRoot = require('app-root-path');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const { removeEmpty, ifElse, merge } = require('../utils');
 
 const appRootPath = appRoot.toString();
 
-// @see https://github.com/motdotla/dotenv
-dotenv.config(process.env.NOW
-  // This is to support deployment to the "now" host.  See the README for more info.
-  ? { path: path.resolve(appRootPath, './.envnow'), silent: true }
-  // Standard .env loading.
-  : { silent: true }
-);
+require('dotenv').config()
 
 function webpackConfigFactory({ target, mode }, { json }) {
   if (!target || !~['client', 'server'].findIndex(valid => target === valid)) {
@@ -104,9 +97,7 @@ function webpackConfigFactory({ target, mode }, { json }) {
       // We also want to be able to link to the source in chrome dev tools
       // whilst we are in development mode. :)
       'eval',
-      // When in production client mode we don't want any source maps to
-      // decrease our payload sizes.
-      // This form has almost no cost.
+      // Produces no source map.
       'hidden-source-map'
     ),
     // Define our entry chunks for our bundle.
@@ -154,10 +145,12 @@ function webpackConfigFactory({ target, mode }, { json }) {
       // When in server mode we will output our bundle as a commonjs2 module.
       libraryTarget: ifServer('commonjs2', 'var'),
     },
+
     resolve: {
       // These extensions are tried when resolving a file.
       extensions: ['.js', '.jsx', '.json'],
     },
+
     plugins: removeEmpty([
       // We use this so that our generated [chunkhash]'s are only different if
       // the content for our respective chunks have changed.  This optimises
@@ -203,19 +196,12 @@ function webpackConfigFactory({ target, mode }, { json }) {
       // We need this plugin to enable hot module reloading for our dev server.
       ifDevClient(new webpack.HotModuleReplacementPlugin()),
 
-      // Ensure only 1 file is output for the server bundles.  This makes it
-      // much easer for us to clear the module cache when reloading the server.
-      ifDevServer(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })),
-
       // Adds options to all of our loaders.
       ifProdClient(
         new webpack.LoaderOptionsPlugin({
           // Indicates to our loaders that they should minify their output
           // if they have the capability to do so.
           minimize: true,
-          // Indicates to our loaders that they should enter into debug mode
-          // should they support it.
-          debug: false,
         })
       ),
 
@@ -229,20 +215,13 @@ function webpackConfigFactory({ target, mode }, { json }) {
         })
       ),
 
-      ifProd(
-        // This is actually only useful when our deps are installed via npm2.
-        // In npm2 its possible to get duplicates of dependencies bundled
-        // given the nested module structure. npm3 is flat, so this doesn't
-        // occur.
-        new webpack.optimize.DedupePlugin()
-      ),
-
       ifProdClient(
         // This is a production client so we will extract our CSS into
         // CSS files.
         new ExtractTextPlugin({ filename: '[name]-[chunkhash].css', allChunks: true })
       ),
     ]),
+
     module: {
       rules: [
         // Javascript
@@ -308,12 +287,6 @@ function webpackConfigFactory({ target, mode }, { json }) {
               ],
             })
           ),
-        },
-
-        // JSON
-        {
-          test: /\.json$/,
-          loader: 'json-loader',
         },
 
         // Images and Fonts
