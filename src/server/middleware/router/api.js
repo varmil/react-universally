@@ -75,9 +75,13 @@ router.get('/', (req, res) => {
 //   return res.json(result)
 // })
 
-router.get('/restaurant/list', (req, res) => {
-  // console.log(req.query)
-  res.json(restaurantList)
+router.get('/restaurant/list', async (req, res) => {
+  console.log(req.query)
+
+  const result = await services.RstList.fetch(req.query)
+  console.log(result)
+
+  res.json(result)
 })
 
 router.get('/restaurant/detail/:id/common', (req, res) => {

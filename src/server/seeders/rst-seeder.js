@@ -27,7 +27,9 @@ function mapCuisineIdsToGenreIds(strCuisines) {
     }).foodbookGenreId
   })
 
-  return genreIds
+  const genreIdsDistincted = _.uniq(genreIds)
+
+  return genreIdsDistincted
 }
 
 function parseAveragePrices(avgPrice) {
