@@ -158,10 +158,6 @@ class Top extends Component {
             </Link>
           </List>
 
-
-          <Paper className={styles.paperHeader}>
-            店舗情報
-          </Paper>
         </Paper>
       </div>
     )
