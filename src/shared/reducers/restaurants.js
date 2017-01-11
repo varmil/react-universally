@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions'
 import { Restaurants, Restaurant } from '../constants/ActionTypes'
 
 const initialListState = {
+  searchQuery: '',
   dict: {},
 };
 
@@ -30,4 +31,9 @@ export default handleActions({
 
     return { ...state, dict }
   },
+
+  [Restaurants.SET_QUERY]: (state, action) => ({
+    ...state,
+    searchQuery: action.payload
+  }),
 }, initialListState)

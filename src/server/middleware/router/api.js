@@ -77,10 +77,7 @@ router.get('/', (req, res) => {
 
 router.get('/restaurant/list', async (req, res) => {
   console.log(req.query)
-
   const result = await services.RstList.fetch(req.query)
-  console.log(result)
-
   res.json(result)
 })
 

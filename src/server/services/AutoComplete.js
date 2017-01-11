@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import models from '../models'
-import csv from '../csv'
+import genreMaster from '../../shared/master/genre'
 
 
 export default class AutoComplete {
@@ -14,8 +14,7 @@ export default class AutoComplete {
     const genres = _(AutoComplete.findAllGenreCandidates(inputValue)).take(3).map(e => Object.assign(e, { isCategorySuggest: true })).value()
 
 
-    // DBからFULLTEXT search
-    // escaping
+    // escaping & DBからFULLTEXT search
     const inputValueArr = inputValue.replace(/\+|\-/g, '').split(/[\s,]+/).filter(e => !!e)
     const queries = inputValueArr.map(name => `\+${name}\*`).join(' ')
     const rows = await models.Rst.findAll({
@@ -35,9 +34,9 @@ export default class AutoComplete {
 
   static findAllGenreCandidates(inputValue) {
     const loweredInputValue = inputValue.toLowerCase()
-    const candidates = _.filter(csv.cuisine, (e) => {
-      return e.name.toLowerCase().indexOf(loweredInputValue) === 0
-    })
+    const candidates = _(genreMaster)
+        .map((name, id) => { return { id: id, name: name } })
+        .filter(e => e.name.toLowerCase().indexOf(loweredInputValue) === 0)
     return candidates
   }
 }

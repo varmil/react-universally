@@ -22,6 +22,7 @@ class RestaurantList extends Component {
   static fetchData(query, params, dispatch) {
     return API.fetchRestaurantList(query, params)
       .then(({ data }) => {
+        dispatch(restaurantsActions.setQuery(query))
         dispatch(restaurantsActions.replaceRestaurants(data))
       })
       .catch((reason) => {
@@ -36,10 +37,10 @@ class RestaurantList extends Component {
 
 
   componentWillMount() {
-    const { dispatch, restaurants } = this.props
+    const { dispatch, restaurants, searchQuery } = this.props
     const { location, params } = this.context
 
-    if (isEmpty(restaurants.dict)) {
+    if (isEmpty(restaurants.dict) || searchQuery !== location.query) {
       RestaurantList.fetchData(location.query, params, dispatch)
     }
   }

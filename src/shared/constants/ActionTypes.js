@@ -27,6 +27,7 @@ export const SearchForm = createTypes('form',
  * RestaurantListコンテナ用Action
  */
 export const Restaurants = createTypes('restaurants',
+  'SET_QUERY',
   'REPLACE_RESTAURANTS',
   'ADD_RESTAURANTS',
 )
