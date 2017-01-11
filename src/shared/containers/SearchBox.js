@@ -8,7 +8,7 @@ import { Paper } from 'material-ui'
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import MapsPlace from 'material-ui/svg-icons/maps/place'
 import MapsRstMenu from 'material-ui/svg-icons/maps/restaurant-menu'
-import NavClose from 'material-ui/svg-icons/navigation/close'
+import NavClose from 'material-ui/svg-icons/navigation/expand-less'
 
 import API from '../api'
 import styles from './SearchBox.css'
@@ -143,6 +143,7 @@ class SearchBoxContainer extends Component {
             innerDivStyle={innerDivStyle}
             onTapItem={::this.onTapItem}
             onTapItemArrow={::this.onTapItemArrow}
+            nodeType={helperNodeType}
           />
         )}
       </Paper>
