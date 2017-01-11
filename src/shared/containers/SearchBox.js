@@ -106,8 +106,8 @@ class SearchBoxContainer extends Component {
     }
   }
 
+  // 現状Helperタップで直接リンク遷移するのでここでは何もしない
   onTapItem(e, data) {
-    // TODO: handle event
     this.props.dispatch(searchFormActions.setGenreText(data.name))
 
     this.timerTouchTapCloseId = setTimeout(() => {
@@ -116,6 +116,7 @@ class SearchBoxContainer extends Component {
     }, this.props.menuCloseDelay || 300)
   }
 
+  // 現状Helperタップで直接リンク遷移するのでここでは何もしない
   onTapItemArrow(e, data) {
     // keep focus to textbox
     e.preventDefault()
