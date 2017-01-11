@@ -6,9 +6,12 @@ export default class RstList {
     static async fetch(reqQuery) {
         let rsts = {}
 
+        // 予算制約
+        const budgetConstraint = RstList.createBudgetConstraint(reqQuery.lowerLimitBudget, reqQuery.upperLimitBudget)
+
         // ジャンル検索の場合
         if (reqQuery.genreId) {
-            rsts = await RstList.fetchWithGenreId(reqQuery.genreId)
+            rsts = await RstList.fetchWithGenreId(reqQuery.genreId, reqQuery.page, budgetConstraint)
         }
 
         // レストランID直接検索
@@ -22,7 +25,7 @@ export default class RstList {
 
         // 条件なし
         else {
-            rsts = await RstList.fetchWithNoConditions(reqQuery.rstId)
+            rsts = await RstList.fetchWithNoConditions(reqQuery.page, budgetConstraint)
         }
 
         // ジャンル情報の取得
@@ -55,10 +58,10 @@ export default class RstList {
     }
 
 
-    static async fetchWithGenreId(id) {
+    static async fetchWithGenreId(id, page, budgetConstraint) {
         const genres = await models.RstGenre.findAll({
             attributes: [ 'rst_id' ],
-            where: { genre_id: id },
+            where: { genre_id: id, ...budgetConstraint },
             order: [[ 'rst_id', 'ASC' ]],
             limit: 10,
             offset: 0,
@@ -66,7 +69,6 @@ export default class RstList {
         })
         const rsts = await models.Rst.findAndCountAll({
             where: { id: _(genres).map('rst_id').value() },
-            order: [[ 'id', 'ASC' ]],
             raw: true,
         })
         return rsts
@@ -82,8 +84,9 @@ export default class RstList {
     }
 
 
-    static async fetchWithNoConditions(id) {
+    static async fetchWithNoConditions(page, budgetConstraint) {
         const rsts = await models.Rst.findAndCountAll({
+            where: { ...budgetConstraint },
             order: [[ 'id', 'ASC' ]],
             limit: 10,
             offset: 0,
@@ -91,5 +94,18 @@ export default class RstList {
         })
         return rsts
     }
+
+
+    // 予算制約。NULLを除外する
+    static createBudgetConstraint(lowerLimitBudget, upperLimitBudget) {
+        let lower = {}
+        let upper = {}
+
+        if (lowerLimitBudget) lower = { low_budget: { gte: lowerLimitBudget } }
+        if (upperLimitBudget) upper = { high_budget: { lte: upperLimitBudget } }
+
+        return { ...lower, ...upper }
+    }
+
 
 }
