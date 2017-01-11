@@ -15,9 +15,9 @@ export default class AutoComplete {
 
 
     // DBからFULLTEXT search
-    const inputValueArr = inputValue.split(/[\s,]+/)
     // escaping
-    const queries = inputValueArr.filter(e => !!e).map(name => `\+${name}\*`).join(' ')
+    const inputValueArr = inputValue.replace(/\+|\-/g, '').split(/[\s,]+/).filter(e => !!e)
+    const queries = inputValueArr.map(name => `\+${name}\*`).join(' ')
     const rows = await models.Rst.findAll({
       attributes: ['id', 'name'],
       where: [`MATCH (name) AGAINST(? IN BOOLEAN MODE)`, queries],
