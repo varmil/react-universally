@@ -40,6 +40,7 @@ class RestaurantList extends Component {
     const { dispatch, restaurants, searchQuery } = this.props
     const { location, params } = this.context
 
+    // クエリストリングが変化した場合も再度FETCH
     if (isEmpty(restaurants.dict) || searchQuery !== location.query) {
       RestaurantList.fetchData(location.query, params, dispatch)
     }
