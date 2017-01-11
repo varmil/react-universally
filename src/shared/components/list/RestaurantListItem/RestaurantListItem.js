@@ -40,7 +40,7 @@ class RestaurantListItem extends Component {
         <div className={`${styles.infoBottom}`}>
           <div className={`${styles.infoBottomLine}`}>
             <Avatar size={20} icon={<EditorAttachMoney />} />
-            <span className={`${styles.iconRightText}`}>￥{data.lowerLimitBudget} ~ ￥{data.upperLimitBudget}</span>
+            <span className={`${styles.iconRightText}`}>US${data.lowerLimitBudget} - US${data.upperLimitBudget}</span>
           </div>
           <div className={`${styles.infoBottomLine}`}>
             <Avatar size={20} icon={<MapsPinDrop />} />
