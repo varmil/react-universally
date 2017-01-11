@@ -24,25 +24,28 @@ class Pager extends Component {
   componentWillReceiveProps(nextProps) {
     // fetch when query.page is changed ブラウザbackした際もここを通ってfetchする
     const nextPageNum = nextProps.location.query.page || FIRST_PAGE_NUMBER
-    if (nextPageNum !== this.props.location.query.page) {
-      this.setState({ ...this.state, nowLoading: true })
+    if (nextPageNum !== this.state.currentPage) {
+      // fetch中は二重ローディングを防ぐ
+      if (this.state.nowLoading) return
 
       // props.fetch return Promise
       this.props.fetch(nextPageNum).then((hideNext) => {
-        this.setState({
-          ...this.state,
-          currentPage: nextPageNum,
-          nowLoading: false,
-          hideNext: !!hideNext,
-        })
+          this.setState({
+              ...this.state,
+              currentPage: nextPageNum,
+              nowLoading: false,
+              hideNext: !!hideNext,
+          })
       })
+
+      this.setState({ ...this.state, nowLoading: true })
     }
   }
 
   onTapPage(e, nextNum) {
     this.props.router.push({
       pathname: this.props.location.pathname,
-      query: { page: nextNum },
+      query: { ...this.props.location.query, page: nextNum },
     })
   }
 

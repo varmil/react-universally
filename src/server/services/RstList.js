@@ -2,16 +2,20 @@ import _ from 'lodash'
 import models from '../models'
 import genreMaster from '../../shared/master/genre'
 
+const PER_PAGE_CONTENTS = 10
+const FIRST_PAGE_NUMBER = 1
+
 export default class RstList {
     static async fetch(reqQuery) {
         let rsts = {}
 
-        // 予算制約
+        // 制約
         const budgetConstraint = RstList.createBudgetConstraint(reqQuery.lowerLimitBudget, reqQuery.upperLimitBudget)
+        const page = reqQuery.page || FIRST_PAGE_NUMBER
 
         // ジャンル検索の場合
         if (reqQuery.genreId) {
-            rsts = await RstList.fetchWithGenreId(reqQuery.genreId, reqQuery.page, budgetConstraint)
+            rsts = await RstList.fetchWithGenreId(reqQuery.genreId, page, budgetConstraint)
         }
 
         // レストランID直接検索
@@ -25,7 +29,7 @@ export default class RstList {
 
         // 条件なし
         else {
-            rsts = await RstList.fetchWithNoConditions(reqQuery.page, budgetConstraint)
+            rsts = await RstList.fetchWithNoConditions(page, budgetConstraint)
         }
 
         // ジャンル情報の取得
@@ -63,8 +67,8 @@ export default class RstList {
             attributes: [ 'rst_id' ],
             where: { genre_id: id, ...budgetConstraint },
             order: [[ 'rst_id', 'ASC' ]],
-            limit: 10,
-            offset: 0,
+            limit: PER_PAGE_CONTENTS,
+            offset: PER_PAGE_CONTENTS * (page - 1),
             raw: true,
         })
         const rsts = await models.Rst.findAndCountAll({
@@ -88,8 +92,8 @@ export default class RstList {
         const rsts = await models.Rst.findAndCountAll({
             where: { ...budgetConstraint },
             order: [[ 'id', 'ASC' ]],
-            limit: 10,
-            offset: 0,
+            limit: PER_PAGE_CONTENTS,
+            offset: PER_PAGE_CONTENTS * (page - 1),
             raw: true,
         })
         return rsts

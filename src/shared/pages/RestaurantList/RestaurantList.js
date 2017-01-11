@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Helmet from 'react-helmet'
@@ -20,9 +20,10 @@ import * as errorsActions from '../../actions/errors'
 
 class RestaurantList extends Component {
   static fetchData(query, params, dispatch) {
+    dispatch(restaurantsActions.setQuery(query))
+
     return API.fetchRestaurantList(query, params)
       .then(({ data }) => {
-        dispatch(restaurantsActions.setQuery(query))
         dispatch(restaurantsActions.replaceRestaurants(data))
       })
       .catch((reason) => {
@@ -37,11 +38,11 @@ class RestaurantList extends Component {
 
 
   componentWillMount() {
-    const { dispatch, restaurants, searchQuery } = this.props
+    const { dispatch, restaurants } = this.props
     const { location, params } = this.context
 
     // クエリストリングが変化した場合も再度FETCH
-    if (isEmpty(restaurants.dict) || searchQuery !== location.query) {
+    if (isEmpty(restaurants.dict) || ! isEqual(restaurants.searchQuery, location.query)) {
       RestaurantList.fetchData(location.query, params, dispatch)
     }
   }
@@ -50,12 +51,9 @@ class RestaurantList extends Component {
 
 
   fetchPage(number) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        console.log('FETCH END')
-        resolve(false)
-      }, 500)
-    })
+    const { dispatch } = this.props
+    const { location, params } = this.context
+    return RestaurantList.fetchData(location.query, params, dispatch)
   }
 
 
