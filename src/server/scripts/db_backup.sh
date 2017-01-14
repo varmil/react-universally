@@ -7,7 +7,7 @@ DB_NAME="foodbook_production"
 PASS="urpasswd"
 DUMPCMD="docker exec -i docker_mariadb_1 mysqldump -uroot"
 
-OUTPUT_DIR=~/dbbackup2/
+OUTPUT_DIR=~/dbbackup/
 
 mkdir -p $OUTPUT_DIR
 
