@@ -1,4 +1,4 @@
-import { createTypes, async } from 'redux-action-types'
+import  { createTypes, async } from './redux-action-types'
 
 export const User = createTypes('user',
   'SET',
@@ -70,16 +70,16 @@ export const Crud = createTypes('crud',
 
 /*
   types = {
-    LOAD: 'my-app/module/LOAD',
+    LOAD_REQUEST: 'my-app/module/LOAD_REQUEST',
     LOAD_SUCCESS: 'my-app/module/LOAD_SUCCESS',
     LOAD_FAIL: 'my-app/module/LOAD_FAIL',
-    SAVE: 'my-app/module/SAVE',
+    SAVE_REQUEST: 'my-app/module/SAVE_REQUEST',
     SAVE_SUCCESS: 'my-app/module/SAVE_SUCCESS',
     SAVE_FAIL: 'my-app/module/SAVE_FAIL',
-    UPDATE: 'my-app/module/UPDATE',
+    UPDATE_REQUEST: 'my-app/module/UPDATE_REQUEST',
     UPDATE_SUCCESS: 'my-app/module/UPDATE_SUCCESS',
     UPDATE_FAIL: 'my-app/module/UPDATE_FAIL',
-    REMOVE: 'my-app/module/REMOVE',
+    REMOVE_REQUEST: 'my-app/module/REMOVE_REQUEST',
     REMOVE_SUCCESS: 'my-app/module/REMOVE_SUCCESS',
     REMOVE_FAIL: 'my-app/module/REMOVE_FAIL'
   }
