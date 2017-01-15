@@ -26,19 +26,18 @@ class Pager extends Component {
     const nextPageNum = nextProps.location.query.page || FIRST_PAGE_NUMBER
     if (nextPageNum !== this.state.currentPage) {
       // fetch中は二重ローディングを防ぐ
-      if (this.state.nowLoading) return
+      //   if (this.state.nowLoading) return
 
-      // props.fetch return Promise
-      this.props.fetch(nextPageNum).then((hideNext) => {
-          this.setState({
-              ...this.state,
-              currentPage: nextPageNum,
-              nowLoading: false,
-              hideNext: !!hideNext,
-          })
-      })
+      this.props.fetch(nextPageNum)
 
-      this.setState({ ...this.state, nowLoading: true })
+      // 完了を待たずにsetState
+      this.setState({
+        ...this.state,
+        currentPage: nextPageNum,
+        // この辺のパラメタはpropsとして渡してもらうのが良い気がする
+        // nowLoading: false,
+        // hideNext: false,
+       })
     }
   }
 

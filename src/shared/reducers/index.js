@@ -5,6 +5,7 @@ import searchForm from './searchForm';
 import restaurants from './restaurants';
 import restaurantDetail from './restaurantDetail';
 import errors from './errors';
+import loading from './loading';
 
 const rootReducer = combineReducers({
   user,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   restaurants,
   restaurantDetail,
   errors,
+  loading,
 });
 
 export default rootReducer;

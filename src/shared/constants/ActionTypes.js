@@ -61,6 +61,16 @@ export const Errors = createTypes('errors',
 )
 
 
+/**
+ * 汎用Loading用Action
+ */
+export const Loading = createTypes('loading',
+  'SET_NOW_LOADING',
+  'SUCCESS',
+  'FAILED',
+)
+
+
 export const Crud = createTypes('crud',
   async('LOAD'),
   async('SAVE'),
