@@ -13,12 +13,13 @@ function* fetchBase(apiFn, onSuccess, onFailed, query, params) {
     try {
         const { data } = yield call(apiFn, query, params)
         yield put(loadingAction.success())
-        yield call(onSuccess, data)
+        if (onSuccess) yield call(onSuccess, data)
     }
 
     catch (e) {
         yield put(loadingAction.failed())
-        yield call(onFailed, e)
+        yield put(errorsAction.push(e))
+        if (onFailed) yield call(onFailed, e)
     }
 
     finally {
@@ -31,15 +32,12 @@ function* fetchRstList(query, params) {
     const onSuccess = function*(data) {
         yield put(rstsAction.replaceRestaurants(data))
     }
-    const onFailed = function*(e) {
-        yield put(errorsAction.push(e))
-    }
 
     yield call(
         fetchBase,
         API.fetchRestaurantList,
         onSuccess,
-        onFailed,
+        null,
         query,
         params)
 }

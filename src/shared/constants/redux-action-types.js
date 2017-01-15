@@ -6,7 +6,7 @@ function createTypes(prefix, ...args) {
 }
 
 function async(type) {
-  return [`${type}_REQUEST`, `${type}_SUCCESS`, `${type}_FAIL`]
+  return [`${type}_REQUEST`, `${type}_SUCCESS`, `${type}_FAILED`]
 }
 
 export { createTypes, async }

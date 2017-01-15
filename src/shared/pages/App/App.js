@@ -61,7 +61,7 @@ class App extends Component {
   render() {
     const { children } = this.props
 
-    return /*this.props.auth.isPrepared*/ true ?
+    return (true) ?
     (
       <div>
         {/*
@@ -80,19 +80,8 @@ class App extends Component {
           ]}
         />
 
+        {(this.props.loading.nowLoading) ? (<div>LOADING API...</div>) : null }
 
-
-        {/* <ReactCSSTransitionGroup
-          component="div"
-          className="animated-list"
-          transitionName="example"
-          transitionEnterTimeout={1000}
-          transitionLeaveTimeout={1000}
-        >
-          {React.cloneElement(children, {
-            key: location.pathname
-          })}
-        </ReactCSSTransitionGroup> */}
         {children}
       </div>
     )
@@ -118,6 +107,7 @@ class App extends Component {
 
 const AppContainer = connect(
   (state) => ({
+    loading: state.loading,
     // auth: state.auth,
     // errors: state.errors,
 })

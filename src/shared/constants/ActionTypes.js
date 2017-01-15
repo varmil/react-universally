@@ -82,15 +82,15 @@ export const Crud = createTypes('crud',
   types = {
     LOAD_REQUEST: 'my-app/module/LOAD_REQUEST',
     LOAD_SUCCESS: 'my-app/module/LOAD_SUCCESS',
-    LOAD_FAIL: 'my-app/module/LOAD_FAIL',
+    LOAD_FAILED: 'my-app/module/LOAD_FAILED',
     SAVE_REQUEST: 'my-app/module/SAVE_REQUEST',
     SAVE_SUCCESS: 'my-app/module/SAVE_SUCCESS',
-    SAVE_FAIL: 'my-app/module/SAVE_FAIL',
+    SAVE_FAILED: 'my-app/module/SAVE_FAILED',
     UPDATE_REQUEST: 'my-app/module/UPDATE_REQUEST',
     UPDATE_SUCCESS: 'my-app/module/UPDATE_SUCCESS',
-    UPDATE_FAIL: 'my-app/module/UPDATE_FAIL',
+    UPDATE_FAILED: 'my-app/module/UPDATE_FAILED',
     REMOVE_REQUEST: 'my-app/module/REMOVE_REQUEST',
     REMOVE_SUCCESS: 'my-app/module/REMOVE_SUCCESS',
-    REMOVE_FAIL: 'my-app/module/REMOVE_FAIL'
+    REMOVE_FAILED: 'my-app/module/REMOVE_FAILED'
   }
 */
