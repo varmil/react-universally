@@ -13,22 +13,13 @@ import RstSortMenu from '../../components/header/RstSortMenu'
 import Pager from '../../containers/Pager'
 
 import styles from './index.css'
-import API from '../../api'
-import * as restaurantsActions from '../../actions/restaurants'
-import * as errorsActions from '../../actions/errors'
+import * as rstsAction from '../../actions/restaurants'
 
 
 class RestaurantList extends Component {
   static fetchData(query, params, dispatch) {
-    dispatch(restaurantsActions.setQuery(query))
-
-    return API.fetchRestaurantList(query, params)
-      .then(({ data }) => {
-        dispatch(restaurantsActions.replaceRestaurants(data))
-      })
-      .catch((reason) => {
-        dispatch(errorsActions.push(reason))
-      })
+    dispatch(rstsAction.setQuery(query))
+    dispatch(rstsAction.fetchRequest(query, params))
   }
 
   static contextTypes = {

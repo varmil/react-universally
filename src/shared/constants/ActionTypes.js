@@ -27,6 +27,7 @@ export const SearchForm = createTypes('form',
  * RestaurantListコンテナ用Action
  */
 export const Restaurants = createTypes('restaurants',
+  async('FETCH'),
   'SET_QUERY',
   'REPLACE_RESTAURANTS',
   'ADD_RESTAURANTS',
@@ -41,7 +42,6 @@ export const Restaurant = createTypes('restaurant',
  * Webなので、ここが入り口になりうるためListとは別のStoreで管理する
  */
 export const RestaurantDetail = createTypes('restaurantDetail',
-  // データフェッチ用
   async('FETCH'),
   'SET_TABS_VALUE',
   'SET_COMMON',
