@@ -5,6 +5,7 @@ import match from 'react-router/lib/match';
 import routes from '../shared/pages/routes';
 import { createClientApp } from '../shared/utils/createApp';
 import configureStore from '../shared/store/configureStore';
+import rootSaga from '../shared/sagas';
 
 // Get the DOM Element that will host our React application.
 const container = document.querySelector('#app');
@@ -31,6 +32,7 @@ function renderApp() {
     } else if (renderProps) {
       const initialState = window.APP_STATE;
       const store = configureStore(initialState);
+      store.runSaga(rootSaga)
       render(
         createClientApp(store, renderProps),
         container

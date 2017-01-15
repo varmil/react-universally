@@ -5,6 +5,7 @@ import match from 'react-router/lib/match'
 import render from '../htmlPage/render'
 import { DISABLE_SSR } from '../config'
 import services from '../services'
+import rootSaga from '../../shared/sagas'
 import routes from '../../shared/pages/routes'
 import { createServerApp } from '../../shared/utils/createApp'
 import { IS_DEVELOPMENT } from '../../shared/config'
@@ -16,33 +17,42 @@ function renderComponents(req, res, renderProps) {
   const user = services.User.pickInitialState(req.user)
   const store = configureStore({ user })
 
-  // fetch all data for initial rendering
-  const query = renderProps.location.query
-  const params = renderProps.params
-  const dispatch = store.dispatch
-  const promises = renderProps.components
-    // ignore undefined the component which has no 'component' property
-    .filter(c => c)
-    // NOTE: Route Componentに実装されたfetchData()しか拾ってこないので注意。
-    // Child ComponentsにfetchData()が実装されていてもSSRでは無意味になります
-    .map(c => {
-      return c.fetchData ? c.fetchData(query, params, dispatch) : Promise.resolve('not found fetchData method')
-    })
 
-  // now all data is ready ! (store is updated)
-  Promise.all(promises)
+
+  store.runSaga(rootSaga).done
+    // fetch all data for initial rendering
+    // TODO: when using redux-saga, fetchData NOT return promise
+    // https://github.com/xkawi/react-universal-saga/blob/d13e2617873893d69879571aa7da99b9fd9b09ec/src/containers/UserPage/UserPage.js
+    .then(() => {
+      const query = renderProps.location.query
+      const params = renderProps.params
+      const dispatch = store.dispatch
+      const promises = renderProps.components
+          // ignore undefined the component which has no 'component' property
+          .filter(c => c)
+          // NOTE: Route Componentに実装されたfetchData()しか拾ってこないので注意。
+          // Child ComponentsにfetchData()が実装されていてもSSRでは無意味になります
+          .map(c => {
+            return c.fetchData ? c.fetchData(query, params, dispatch) : Promise.resolve('not found fetchData method')
+          })
+      return Promise.all(promises)
+    })
+    // now all data is ready ! (store is updated)
     .then(() => {
       // The UserAgent is needed for material-ui server rendering
       // https://github.com/callemall/material-ui/pull/2172#issuecomment-157404901
       const app = createServerApp(store, renderProps, req.headers['user-agent'])
       const initialState = store.getState()
       const html = render(app, initialState)
+      console.log('sagas complete', initialState)
       res.status(200).send(html)
     })
     .catch((reason) => {
       console.error(reason)
       res.status(500).json(reason)
     })
+
+    store.close()
 }
 
 /**

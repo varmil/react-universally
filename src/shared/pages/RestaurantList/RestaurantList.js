@@ -18,6 +18,7 @@ import * as rstsAction from '../../actions/restaurants'
 
 class RestaurantList extends Component {
   static fetchData(query, params, dispatch) {
+    console.log("TOOOOOOOO FFFFFFFFFFFFFFFFFFFFFF", query, params)
     dispatch(rstsAction.setQuery(query))
     dispatch(rstsAction.fetchRequest(query, params))
   }
@@ -34,6 +35,7 @@ class RestaurantList extends Component {
 
     // クエリストリングが変化した場合も再度FETCH
     if (isEmpty(restaurants.dict) || ! isEqual(restaurants.searchQuery, location.query)) {
+      console.log("TOOOOOOOO", restaurants.searchQuery)
       RestaurantList.fetchData(location.query, params, dispatch)
     }
   }
@@ -44,6 +46,7 @@ class RestaurantList extends Component {
   fetchPage(number) {
     const { dispatch } = this.props
     const { location, params } = this.context
+    console.log("TOOOOOOOO PPPPPPPPPPPPPPPP")
     return RestaurantList.fetchData(location.query, params, dispatch)
   }
 
